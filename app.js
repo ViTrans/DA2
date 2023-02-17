@@ -16,7 +16,7 @@ app.set("view engine", "ejs");
 
 // Navigation
 app.get("", (req, res) => {
-  res.render("index");
+  res.render("index", { title: "Trang Chủ" });
 });
 
 app.listen(port, () => console.info(`App listening on port ${port}`));

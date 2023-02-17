@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title><%= title %></title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -30,7 +30,7 @@
     <header><%- include('./partials/header'); %></header>
     <main class="container mt-2">
       <form
-        class="row bg-yellow rounded-3 p-3 justify-content-center w-100"
+        class="row bg-yellow rounded-3 p-3 justify-content-center"
         style="gap: 10px"
       >
         <div class="col-md-2 col-12">
@@ -84,7 +84,7 @@
           </button>
         </div>
       </form>
-      <div class="row container text-center">
+      <div class="row container text-center d-none d-md-flex">
         <div class="col-4">
           <div class="card m-3 bg-white rounded-4 overflow-hidden">
             <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
@@ -115,7 +115,9 @@
         <div class="col-md-4 col-12"><%- include("./partials/sidebar"); %></div>
       </section>
     </main>
-    <footer><%- include('./partials/footer'); %></footer>
+    <footer class="bg-blue text-white text-center text-lg-start">
+      <%- include('./partials/footer'); %>
+    </footer>
     <!-- Bootstrap JavaScript Libraries -->
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"

@@ -1,19 +1,22 @@
+// Imports
 const express = require("express");
 const app = express();
+const port = 5000;
 
-app.set("views", "./views");
-app.set("view engine", "ejs");
-// static files
+// Static Files
 app.use(express.static("public"));
-app.use("/css", express.static(__dirname + "public/css"));
-app.use("/js", express.static(__dirname + "public/js"));
-app.use("/img", express.static(__dirname + "public/img"));
-app.use("views", express.static(__dirname + "views"));
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// Specific folder example
+// app.use("/css", express.static(__dirname + "public/css"));
+// app.use("/js", express.static(__dirname + "public/js"));
+// app.use("/img", express.static(__dirname + "public/img"));
 
-app.get("/", (req, res) => {
+// Set View's
+app.set("views", "./src/views");
+app.set("view engine", "ejs");
+
+// Navigation
+app.get("", (req, res) => {
   res.render("index");
 });
+
+app.listen(port, () => console.info(`App listening on port ${port}`));

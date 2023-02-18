@@ -18,5 +18,8 @@ app.set("view engine", "ejs");
 app.get("", (req, res) => {
   res.render("index", { title: "Trang Chủ" });
 });
+app.get("/details", (req, res) => {
+  res.render("postDetails", { title: "Chi Tiết" });
+});
 
 app.listen(port, () => console.info(`App listening on port ${port}`));

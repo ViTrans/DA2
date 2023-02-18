@@ -43,3 +43,7 @@ body {
 .pagination li.disabled a:hover {
   color: #205295;
 }
+.carousel-item img {
+  height: 300px;
+  object-fit: cover;
+}

@@ -5,7 +5,8 @@ const port = 5000;
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Post = require('./src/models/posts');
-
+// doan2
+// ugfKheQaKRTaKRzA;
 // conect DB
 // Connection URL. This is where your mongodb server is running.
 mongoose.set('strictQuery', true);
@@ -41,10 +42,16 @@ app.get('', (req, res) => {
 });
 
 app.get('/details', async (req, res) => {
-  const post = new Post({
-    title: ' NHÀ TRỌ SẠCH SẼ - CHO THUÊ PHÒNG TRỌ GẦN BẾN XE MIỀN ĐÔNG CŨ',
-    description: '82/12 Nguyễn Xí, Phường 26, Quận Bình Thạnh, Hồ Chí Minh',
+  let post = new Post({
+    title: ' NHÀ aa TRỌ SẠCH SẼ 9999- CHO THUÊ PHÒNG TRỌ GẦN BẾN XE MIỀN ĐÔNG CŨ',
+    address: '82/12 Nguyễn Xí 3, Phường 26, Quận Bình Thạnh, Hà Nội',
   });
+
+  try {
+    await post.save();
+  } catch (error) {
+    console.log(error);
+  }
 
   res.render('postDetails', { title: 'Chi Tiết', post });
 });

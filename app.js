@@ -43,7 +43,7 @@ app.set("views", "./src/views");
 app.set("view engine", "ejs");
 
 app.use("/", homePageRouter);
-app.use("/details/:id", homePageRouter);
+app.use("/", homePageRouter);
 app.use("/", signupRouter);
 app.use("/", signinRouter);
 

@@ -47,3 +47,10 @@ body {
   height: 300px;
   object-fit: cover;
 }
+.avatar {
+  object-fit: cover;
+}
+.carousel-item img {
+  object-fit: contain;
+  background-color: black;
+}

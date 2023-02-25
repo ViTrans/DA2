@@ -1,10 +1,12 @@
 <% posts.forEach(function(post) { %>
 <div class="row bg-white rounded-3 p-3 mt-2">
   <div class="col-md-4">
-    <img src="../../../img/thanhpho.jpeg" class="card-img-top" alt="" />
+    <img src="<%= post.images[0] %>" class="card-img-top rounded-3" alt="..." />
   </div>
   <div class="col-md-8">
-    <a href="/details/<%= post.id %>" class="card-title fs-5 text-primary mt-2"
+    <a
+      href="/details/<%= post.id %>"
+      class="card-title text-capitalize text-decoration-none fs-5 text-primary mt-2"
       ><%= post.title %></a
     >
     <div class="card-rate text-warning">
@@ -15,11 +17,14 @@
       <i class="fa fas fa-star"></i>
     </div>
     <p class="text-muted"><%= post.address%></p>
-    <p class="card-price text-success"><%= post.price %><span>/Tháng</span></p>
+    <p class="card-price text-success">
+      <%= post.price.toLocaleString('vi-VN', { style: 'currency', currency:
+      'VND' }) %><span>/Tháng</span>
+    </p>
     <p class="card-text text-muted">
       <?= post.description ?>
     </p>
-    <a href="#" class="btn btn-success">0912312312</a>
+    <a href="#" class="btn btn-success"><%= post.phone %></a>
     <a href="#" class="btn btn-primary">Zalo</a>
   </div>
 </div>

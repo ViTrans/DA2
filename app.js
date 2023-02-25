@@ -5,6 +5,8 @@ const port = 5000;
 require("dotenv").config();
 const mongoose = require("mongoose");
 const homePageRouter = require("./src/routes/homePage");
+const signupRouter = require("./src/routes/signupRouter");
+const signinRouter = require("./src/routes/signinRouter");
 
 // conect DB
 // Connection URL. This is where your mongodb server is running.
@@ -25,6 +27,10 @@ mongoose.connection.once("open", () => {
   console.log("connection open");
 });
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Static Files
 app.use(express.static("public"));
 // Specific folder example
@@ -38,5 +44,7 @@ app.set("view engine", "ejs");
 
 app.use("/", homePageRouter);
 app.use("/details/:id", homePageRouter);
+app.use("/", signupRouter);
+app.use("/", signinRouter);
 
 app.listen(port, () => console.info(`App listening on port ${port}`));

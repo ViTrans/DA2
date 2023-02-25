@@ -4,7 +4,6 @@ const app = express();
 const port = 5000;
 require("dotenv").config();
 const mongoose = require("mongoose");
-const Post = require("./src/models/posts");
 const homePageRouter = require("./src/routes/homePage");
 
 // conect DB
@@ -15,6 +14,7 @@ const conectDB = async () => {
     await mongoose.connect(process.env.DB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      dbName: "doan2",
     });
   } catch (error) {
     console.log(error);

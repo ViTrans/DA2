@@ -36,13 +36,6 @@ const userSchema = new Schema({
     trim: true,
     minlength: 3,
   },
-  //   role: {
-  //     type: String,
-  //     required: true,
-  //     unique: true,
-  //     trim: true,
-  //     minlength: 3,
-  //   },
   posts: {
     type: Array,
     required: false,

@@ -4,7 +4,14 @@ const app = express();
 const port = 5000;
 require("dotenv").config();
 const mongoose = require("mongoose");
+
+const homePageRouter = require("./src/routes/homePage");
+const signupRouter = require("./src/routes/signupRouter");
+const signinRouter = require("./src/routes/signinRouter");
+const session = require("express-session");
+const flash = require("connect-flash");
 const Post = require("./src/models/posts");
+
 
 // conect DB
 // Connection URL. This is where your mongodb server is running.
@@ -27,6 +34,14 @@ mongoose.connection.once('open', () => {
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "secret key",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(flash());
 
 // Static Files
 app.use(express.static('public'));

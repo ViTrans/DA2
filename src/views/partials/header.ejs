@@ -33,8 +33,13 @@
         <a href="#" class="btn btn-danger"
           >Đăng Bài <i class="fa fa-plus"></i
         ></a>
+        <% if (user) { %>
+        <a href="/profile" class="btn btn-success">Tài Khoản</a>
+        <a href="/logout" class="btn btn-success">Đăng Xuất</a>
+        <% } else { %>
         <a href="/signin" class="btn btn-success">Đăng Nhập</a>
         <a href="/signup" class="btn btn-success">Đăng Ký</a>
+        <% } %>
       </div>
     </div>
   </div>

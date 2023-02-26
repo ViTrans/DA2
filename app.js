@@ -38,10 +38,16 @@ app.use(
   session({
     secret: "secret key",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
   })
 );
 app.use(flash());
+
+const getUser = (req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+};
+app.use(getUser);
 
 // Static Files
 app.use(express.static('public'));

@@ -6,7 +6,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
+    unique: false,
     trim: true,
     minlength: 3,
   },
@@ -32,14 +32,14 @@ const userSchema = new Schema({
   avatar: {
     type: String,
     required: false,
-    unique: true,
+    unique: false,
     trim: true,
     minlength: 3,
   },
   posts: {
     type: Array,
     required: false,
-    unique: true,
+    unique: false,
     trim: true,
     minlength: 3,
   },

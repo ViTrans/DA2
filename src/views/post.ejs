@@ -1,0 +1,147 @@
+<%- include('./partials/head'); %>
+<!-- header -->
+<header><%- include('./partials/header'); %></header>
+<!-- header -->
+
+<div id="dashboard" class="container-fluid">
+  <div class="row">
+    <!-- sidebar -->
+    <%- include('./partials/sidebarPanel'); %>
+    <!-- sidebar -->
+
+    <!-- main -->
+    <main id="main" class="ms-sm-auto col-lg-10">
+      <nav aria-label="breadcrumb" class="bg-gray p-3 rounded mb-2">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="#">Phongtro123.com </a></li>
+          <li class="breadcrumb-item"><a href="#">Quản lí</a></li>
+          <li class="breadcrumb-item active">Danh sách tin đăng</li>
+        </ol>
+      </nav>
+
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"
+      >
+        <h3 class="h3">Quản lý tin đăng</h3>
+
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="dropdown me-1">
+            <button
+              class="btn btn-outline-secondary dropdown-toggle btn-sm"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Lọc theo loại VIP
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">Tin Hot</a>
+              <a class="dropdown-item">Tin VIP 30</a>
+              <a class="dropdown-item">Tin VIP 20</a>
+              <a class="dropdown-item">Tin VIP 10</a>
+              <a class="dropdown-item">Tin thường</a>
+            </div>
+          </div>
+          <div class="dropdown me-1">
+            <button
+              class="btn btn-outline-secondary dropdown-toggle btn-sm"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Lọc theo trạng thái
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">Tin đang hiển thị</a>
+              <a class="dropdown-item">Tin hết hạn</a>
+              <a class="dropdown-item">Tin đang ẩn</a>
+            </div>
+          </div>
+          <a href="posts/create" class="btn btn-danger btn-sm">Đăng tin mới</a>
+          <!-- <div class="d-lg-none w-100">
+                <a class="btn btn-danger btn-block mt-3">Đăng tin mới</a>
+              </div> -->
+        </div>
+      </div>
+
+      <!--  -->
+      <div class="d-md-block">
+        <div class="table-responsive overflow-auto">
+          <table class="table table_post_listing table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Mã tin</th>
+                <th style="text-align: center; white-space: nowrap">Ảnh đại diện</th>
+                <th>Tiêu đề</th>
+                <th>Giá</th>
+                <th style="white-space: nowrap">Ngày bắt đầu</th>
+                <th style="white-space: nowrap">Ngày hết hạn</th>
+                <th style="white-space: nowrap">Trạng thái</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#128163</td>
+                <td>Căn hộ Vinhomes Grand Park Quận 9</td>
+                <td>Tiêu đề</td>
+                <td>199999</td>
+                <td>22/12/2023</td>
+                <td>30/01/2024</td>
+                <td>Hoạt động</td>
+              </tr>
+              <tr>
+                <td>#128163</td>
+                <td>Căn hộ Vinhomes Grand Park Quận 9</td>
+                <td>Tiêu đề</td>
+                <td>199999</td>
+                <td>22/12/2023</td>
+                <td>30/01/2024</td>
+                <td>Hoạt động</td>
+              </tr>
+              <tr>
+                <td>#128163</td>
+                <td>Căn hộ Vinhomes Grand Park Quận 9</td>
+                <td>Tiêu đề</td>
+                <td>199999</td>
+                <td>22/12/2023</td>
+                <td>30/01/2024</td>
+                <td>Hoạt động</td>
+              </tr>
+              <tr>
+                <td>#128163</td>
+                <td>Căn hộ Vinhomes Grand Park Quận 9</td>
+                <td>Tiêu đề</td>
+                <td>199999</td>
+                <td>22/12/2023</td>
+                <td>30/01/2024</td>
+                <td>Hoạt động</td>
+              </tr>
+              <tr>
+                <td>#128163</td>
+                <td>Căn hộ Vinhomes Grand Park Quận 9</td>
+                <td>Tiêu đề</td>
+                <td>199999</td>
+                <td>22/12/2023</td>
+                <td>30/01/2024</td>
+                <td>Hoạt động</td>
+              </tr>
+              <tr>
+                <td colspan="7">
+                  Bạn chưa có tin đăng nào. Bấm
+                  <a href="#">vào đây</a> để bắt đầu đăng tin
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- end pagination -->
+      </div>
+    </main>
+  </div>
+</div>
+<%- include('./partials/footerPanel'); %>

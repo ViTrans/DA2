@@ -1,4 +1,4 @@
-GET http://localhost:5000/a
+GET http://localhost:5000/
 
 ###
 GET http://localhost:5000/quan-ly/posts/create

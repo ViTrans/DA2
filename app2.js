@@ -4,43 +4,19 @@ const app = express();
 const port = 5000;
 require('dotenv').config();
 const createError = require('http-errors');
-
-const mongoose = require('mongoose');
 const homePageRouter = require('./src/routes/homePage');
 const signupRouter = require('./src/routes/signupRouter');
 const signinRouter = require('./src/routes/signinRouter');
 const session = require('express-session');
 const flash = require('connect-flash');
-const moment = require('moment');
+
+// router
 
 const postRouter = require('./src/routes/post');
-// const categoryRouter = require('./src/routes/category');
 
-// conect DB
-// Connection URL. This is where your mongodb server is running.
-mongoose.set('strictQuery', true);
-const conectDB = async () => {
-  try {
-    await mongoose.connect(process.env.DB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      dbName: 'doan2',
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-conectDB();
-
-mongoose.connection.once('open', () => {
-  console.log('connection open');
-});
+// connect DB
 
 // Middleware
-app.use((req, res, next) => {
-  res.locals.moment = moment;
-  next();
-});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -51,6 +27,8 @@ app.use(
   })
 );
 app.use(flash());
+
+require('./src/helpers/connectDB');
 
 const getUser = (req, res, next) => {
   res.locals.user = req.session.user;
@@ -65,12 +43,12 @@ app.use(express.static('public'));
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 
-app.use('/', homePageRouter);
+// routers
+
 app.use('/', homePageRouter);
 app.use('/', signupRouter);
 app.use('/', signinRouter);
 app.use('/quan-ly/posts', postRouter);
-// app.use('/quan-ly/categories', categoryRouter);
 
 // Middleware handle errors
 app.use((req, res, next) => {

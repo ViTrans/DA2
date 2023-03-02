@@ -1,18 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.render('post', { title: ' Post' });
-});
-router.get('/create', (req, res, next) => {
-  res.render('create-post', { title: 'Create Post' });
-
-
-});
+const contronllers = require('../controller/post');
+const fileUploader = require('../middlewares/cloudinary');
+// fileUploader.array('file')
+router.get('/', contronllers.list);
+router.get('/create', contronllers.newForm);
 // new post
-router.post('/', (req, res) => {
-  
-  console.log(req.body);
-});
+router.post('/', fileUploader.array('file'), contronllers.createPost);
 
 module.exports = router;

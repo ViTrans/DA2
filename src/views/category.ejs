@@ -15,14 +15,14 @@
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item"><a href="#">Phongtro123.com </a></li>
           <li class="breadcrumb-item"><a href="#">Quản lí</a></li>
-          <li class="breadcrumb-item active">Danh sách tin đăng</li>
+          <li class="breadcrumb-item active">Danh sách Chuyên mục</li>
         </ol>
       </nav>
 
       <div
         class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"
       >
-        <h3 class="h3">Quản lý tin đăng</h3>
+        <h3 class="h3">Quản lý chuyên muc5</h3>
 
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="dropdown me-1">
@@ -75,30 +75,19 @@
             <thead>
               <tr>
                 <th>Mã tin</th>
-                <th style="text-align: center; white-space: nowrap">Ảnh đại diện</th>
                 <th>Tiêu đề</th>
-                <th>Giá</th>
-                <th style="white-space: nowrap">Ngày bắt đầu</th>
-                <th style="white-space: nowrap">Ngày hết hạn</th>
-                <th style="white-space: nowrap">Trạng thái</th>
+                <th style="white-space: nowrap">Ngày tạo</th>
+                <th style="white-space: nowrap">Ngày cập nhật</th>
               </tr>
             </thead>
             <tbody>
-              <% posts.map((element,index) => { index++; %>
+              <% categories.map((element,index) => { index = index + 1%>
               <tr>
                 <td><%= index %></td>
-                <td>
-                  <img
-                    style="width: 70px; height: 70px; object-fit: cover"
-                    src="<%= element?.images[0]%>"
-                    class="img-thumbnail"
-                  />
-                </td>
-                <td><%= element?.title %></td>
-                <td><%= element?.price %></td>
-                <td><%= moment(element?.createdAt).format('DD/MM/YYYY') %></td>
-                <td><%= moment(element?.updatedAt).format('DD/MM/YYYY') %></td>
+                <td><%=element?.title%></td>
+                <td><%=element?.createdAt%></td>
               </tr>
+
               <% }) %>
 
               <tr>

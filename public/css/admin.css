@@ -1,7 +1,12 @@
 :root {
   --gray: #e9ecef;
 }
-
+.error {
+  margin-top: 5px;
+  color: red;
+  padding: 4px;
+  font-weight: 600;
+}
 #main {
   padding-top: 20px;
   padding-left: 3rem;

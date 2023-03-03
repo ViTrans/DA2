@@ -1,5 +1,5 @@
 // Imports
-const express = require("express");
+const express = require('express');
 const app = express();
 const port = 5000;
 require('dotenv').config();
@@ -14,7 +14,7 @@ const flash = require('connect-flash');
 const moment = require('moment');
 
 const postRouter = require('./src/routes/post');
-// const categoryRouter = require('./src/routes/category');
+const categoryRouter = require('./src/routes/category');
 
 // conect DB
 // Connection URL. This is where your mongodb server is running.
@@ -45,7 +45,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "secret key",
+    secret: 'secret key',
     resave: false,
     saveUninitialized: true,
   })
@@ -59,7 +59,7 @@ const getUser = (req, res, next) => {
 app.use(getUser);
 
 // Static Files
-app.use(express.static("public"));
+app.use(express.static('public'));
 
 // Set View's
 app.set('views', './src/views');
@@ -70,7 +70,8 @@ app.use('/', homePageRouter);
 app.use('/', signupRouter);
 app.use('/', signinRouter);
 app.use('/quan-ly/posts', postRouter);
-// app.use('/quan-ly/categories', categoryRouter);
+app.use('/quan-ly/categories', categoryRouter);
+
 
 // Middleware handle errors
 app.use((req, res, next) => {

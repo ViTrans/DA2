@@ -36,13 +36,7 @@ const userSchema = new Schema({
     trim: true,
     minlength: 3,
   },
-  posts: {
-    type: Array,
-    required: false,
-    unique: false,
-    trim: true,
-    minlength: 3,
-  },
+  posts: [{ type: Schema.Types.ObjectId, ref: "Posts" }],
   createAt: {
     type: Date,
     default: Date.now,

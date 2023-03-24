@@ -14,6 +14,8 @@ const flash = require("connect-flash");
 const moment = require("moment");
 const postRouter = require("./src/routes/post");
 const categoryRouter = require("./src/routes/category");
+const category = require("./src/models/category");
+const postDetails = require("./src/routes/postDetails");
 
 // conect DB
 // Connection URL. This is where your mongodb server is running.
@@ -42,8 +44,7 @@ app.use((req, res, next) => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(expressLayouts);
-app.set("layout", "./layouts/layout");
+
 app.use(
   session({
     secret: "secret key",
@@ -59,19 +60,27 @@ const getUser = (req, res, next) => {
 };
 app.use(getUser);
 
+const getCategories = async (req, res, next) => {
+  const categories = await category.find();
+  res.locals.categories = categories;
+  next();
+};
+app.use(getCategories);
+
 // Static Files
 app.use(express.static("public"));
 
 // Set View's
 app.set("views", "./src/views");
 app.set("view engine", "ejs");
-
-app.use("/", homePageRouter);
-app.use("/", homePageRouter);
-app.use("/", signupRouter);
-app.use("/", signinRouter);
 app.use("/quan-ly/posts", postRouter);
 app.use("/quan-ly/categories", categoryRouter);
+app.use(expressLayouts);
+app.set("layout", "./layouts/layout");
+app.use("/", homePageRouter);
+app.use("/", postDetails);
+app.use("/", signupRouter);
+app.use("/", signinRouter);
 
 // Middleware handle errors
 app.use((req, res, next) => {

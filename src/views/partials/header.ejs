@@ -25,15 +25,13 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Trang Chủ</a>
         </li>
+        <% if (locals.categories) { %> <% categories.forEach((category) => { %>
         <li class="nav-item">
-          <a class="nav-link" href="#">Cho Thuê Phòng Trọ</a>
+          <a class="nav-link" href="/category/<%= category._id %>">
+            <%= category.title %>
+          </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Nhà Nguyên Căn</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Tìm Người Ở Ghép</a>
-        </li>
+        <% }) %> <% } %>
       </ul>
       <div class="d-flex align-items-center" style="gap: 10px">
         <% if (locals.user){ %>

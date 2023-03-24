@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const postSchema = new mongoose.Schema(
   {
@@ -21,15 +21,18 @@ const postSchema = new mongoose.Schema(
     phone: {
       type: String,
     },
-    rate: {
+    isvip: {
       type: Number,
     },
-    category_id: [{ type: Schema.Types.ObjectId, ref: 'Categories' }],
-    user_id: [{ type: Schema.Types.ObjectId, ref: 'Users' }],
+    acreage: {
+      type: Number,
+    },
+    category_id: [{ type: Schema.Types.ObjectId, ref: "Categories" }],
+    user_id: { type: Schema.Types.ObjectId, ref: "Users" },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model('Posts', postSchema);
+module.exports = mongoose.model("Posts", postSchema);

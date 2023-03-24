@@ -28,12 +28,13 @@
   </ol>
 </div>
 <h3 class="fs-4 mt-5">Bài Đăng Mới</h3>
+<% posts.forEach(element => { %>
 <div class="row border-bottom mb-2">
   <div class="col-md-4">
-    <img src="../../../img/thanhpho.jpeg" class="card-img-top" alt="" />
+    <img src="<%- element.images[0]  %>" class="card-img-top" alt="" />
   </div>
   <div class="col-md-8">
-    <h5 class="card-title text-primary">Thành phố Hồ Chí Minh</h5>
+    <h5 class="card-title text-primary"><%- element.title %></h5>
     <div class="card-rate text-warning">
       <i class="fa fas fa-star"></i>
       <i class="fa fas fa-star"></i>
@@ -41,22 +42,11 @@
       <i class="fa fas fa-star"></i>
       <i class="fa fas fa-star"></i>
     </div>
-    <p class="card-price text-success">50.000.000 <span>/tháng</span></p>
+    <p class="card-price text-success">
+      <%= element.price.toLocaleString('vi-VN', { style: 'currency', currency:
+      'VND' }) %><span>/Tháng</span>
+    </p>
   </div>
 </div>
-<div class="row border-bottom mb-2">
-  <div class="col-md-4">
-    <img src="../../../img/thanhpho.jpeg" class="card-img-top" alt="" />
-  </div>
-  <div class="col-md-8">
-    <h5 class="card-title text-primary">Thành phố Hồ Chí Minh</h5>
-    <div class="card-rate text-warning">
-      <i class="fa fas fa-star"></i>
-      <i class="fa fas fa-star"></i>
-      <i class="fa fas fa-star"></i>
-      <i class="fa fas fa-star"></i>
-      <i class="fa fas fa-star"></i>
-    </div>
-    <p class="card-price text-success">500.000.000 <span>/tháng</span></p>
-  </div>
-</div>
+
+<% }) %>

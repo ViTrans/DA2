@@ -1,252 +1,171 @@
-import postApi from './api/postApi.js';
-import categoryApi from './api/categoryApi.js';
-import { toast } from './toast.js';
+// province;
+// district;
+// ward;
+const postForm = document.getElementById("create-post-form");
+const address = document.querySelector('input[name="address"]');
+const houseNumber = document.querySelector('input[name="houseNumber"]');
+const province = postForm.querySelector("#province");
+const district = postForm.querySelector("#district");
+const ward = postForm.querySelector("#ward");
+const street = postForm.querySelector("#street");
+const axiosClient = axios.create({
+  baseURL: "http://localhost:5000",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
-// END UP API
-function createPostElement(post) {
-  const postTemplate = document.getElementById('postTemplate').cloneNode(true).content;
-  const trElement = postTemplate.firstElementChild;
+// https://provinces.open-api.vn/api/
 
-  if (!trElement || !post) return;
-  const title = trElement.querySelector('[data-id="title"]');
-  if (!title) return;
-  title.textContent = post?.title;
+const baseURLProvinces = "https://provinces.open-api.vn/api/";
+const getAPi = async () => {
+  try {
+    const response = await axiosClient.get("/", {
+      baseURL: baseURLProvinces,
+    });
 
-  const category = trElement.querySelector('[data-id="category"]');
-  if (!category) return;
-  category.textContent = post?.categoryName;
+    renderOptions(response.data, province);
+  } catch (error) {}
+};
 
-  const image = trElement.querySelector('[data-id="image"]').firstElementChild;
-  if (!image) return;
-  image.src = post?.image;
-
-  const editButton = trElement.querySelector('.edit-btn');
-  const removeButton = trElement.querySelector('.delete-btn');
-
-  editButton.addEventListener('click', () => {
-    window.location.assign(`http://localhost:5001/admin/posts/add-edit?id=${post._id}`);
+(async () => {
+  await getAPi();
+  province.addEventListener("change", (e) => {
+    address.value = `${province?.options[province.selectedIndex].text} ${
+      district?.options[district.selectedIndex].text
+    } ${ward?.options[ward.selectedIndex].text} ${houseNumber.value}`;
   });
-  removeButton.addEventListener('click', () => {
-    console.log('remove button clicked', post._id);
-    const trElement = removeButton.closest('tr');
-    if (!trElement) return;
-    let event = new CustomEvent('removePost', {
-      bubbles: true,
-      detail: { elemntId: trElement, id: post._id },
-    }); // (2)
-    removeButton.dispatchEvent(event);
+  district.addEventListener("change", (e) => {
+    address.value = `${province?.options[province.selectedIndex].text} ${
+      district?.options[district.selectedIndex].text
+    } ${ward?.options[ward.selectedIndex].text} ${houseNumber.value}`;
   });
-  return trElement;
-}
-
-function renderPostList({ elemntId, data }) {
-  const postList = document.getElementById(elemntId);
-  if (!postList) return;
-  postList.textContent = '';
-  data.forEach((post) => {
-    const trElement = createPostElement(post);
-    postList.appendChild(trElement);
+  ward.addEventListener("change", (e) => {
+    address.value = `${province?.options[province.selectedIndex].text} ${
+      district?.options[district.selectedIndex].text
+    } ${ward?.options[ward.selectedIndex].text} ${houseNumber.value}`;
   });
-}
-
-function debounce(fn, delay) {
-  let timer;
-  return (() => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(), delay);
-  })();
-}
-function initSearchInput({ formId, name, onChange }) {
-  const postForm = document.getElementById(formId);
-  if (!postForm) return;
-
-  const searchInput = postForm.querySelector(`[name="${name}"]`);
-  if (!searchInput) return;
-
-  searchInput.addEventListener('input', (event) => {
-    debounce(() => onChange?.(event.target.value), 2000);
+  houseNumber.addEventListener("input", (e) => {
+    address.value = `${province?.options[province.selectedIndex].text} ${
+      district?.options[district.selectedIndex].text
+    } ${ward?.options[ward.selectedIndex].text} ${houseNumber.value}`;
   });
-}
 
-function initOnchageSelectBox({ formId, inputId, onChange }) {
-  const postForm = document.getElementById(formId);
-  if (!postForm) return;
-
-  const selectInputElement = postForm.querySelector(`#${inputId}`);
-  if (!selectInputElement) return;
-
-  selectInputElement.addEventListener('change', (event) => {
-    const element = event.target;
-    const categoryId = element.options[element.selectedIndex].value;
-    debounce(() => onChange?.(categoryId), 2000);
-  });
-}
-
-function createOptionInput(category) {
-  const inputElement = document.createElement('option');
-  if (!inputElement || !category) return;
-
-  inputElement.value = category._id;
-  inputElement.textContent = category.name;
-  return inputElement;
-}
-async function renderSelectBox({ elemntId }) {
-  const selectBox = document.getElementById(elemntId);
-  const { categories } = await categoryApi.getAll();
-  //
-  categories.forEach((category) => {
-    const optionInput = createOptionInput(category);
-    selectBox.appendChild(optionInput);
-  });
-}
-async function handelFilterChange(filterName, filterValue) {
-  const url = new URL(window.location);
-  if (filterName) url.searchParams.set(filterName, filterValue);
-
-  if (filterName === 'title' || filterName === 'category') url.searchParams.delete('page');
-  if (filterName === 'title' && filterValue == '') url.searchParams.delete('title');
-  if (filterName === 'category' && filterValue == '') url.searchParams.delete('category');
-  history.pushState({}, '', url);
-
-  // render post
-  const { data, pagination } = await postApi.getAll(url.searchParams);
-  renderPostList({
-    elemntId: 'postList',
-    data,
-  });
-  const { pageActive, paginationElement, prevPage, nextPage } = renderPagination({
-    elemntId: 'pagination',
-    pagination,
-  });
-  handelClickPage({
-    pageActive,
-    paginationElement,
-    prevPage,
-    nextPage,
-    onChange: (page) => {
-      handelFilterChange('page', page);
+  jQuery.validator.setDefaults({
+    focusCleanup: true,
+    errorElement: "div",
+    highlight: function (element, errorClass, validClass) {},
+    errorPlacement: function (error, element) {
+      console.log(element.parent());
+      $(element).parent().append(error);
     },
   });
-}
-function handelClickPage({ pageActive, paginationElement, prevPage, nextPage, onChange }) {
-  const totalPages = paginationElement.dataset.totalPages;
-  const page = paginationElement.dataset.page;
-  if (page < 2) prevPage.classList.add('disabled');
-  if (page >= totalPages) nextPage.classList.add('disabled');
-
-  prevPage.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    // prevPage.classList.remove('disabled');
-    const pageIndex = +page - 1;
-    onChange?.(pageIndex);
+  jQuery("#create-post-form").validate({
+    rules: {
+      province: {
+        required: true,
+      },
+      district: {
+        required: true,
+      },
+      category: {
+        required: true,
+      },
+      acreage: {
+        required: true,
+        minlength: 2,
+        digits: true,
+      },
+      houseNumber: {
+        minlength: 4,
+        required: true,
+        digits: true,
+      },
+      price: {
+        minlength: 5,
+        required: true,
+        digits: true,
+      },
+      address: {
+        required: true,
+      },
+      ward: {
+        required: true,
+      },
+      title: "required",
+      email: {
+        required: true,
+        email: true,
+      },
+      description: {
+        required: true,
+        minlength: 5,
+      },
+    },
+    messages: {
+      province: "vui lòng nhập tỉnh",
+      category: "vui lòng nhập danh mục",
+      title: "Please enter your title",
+      address: "Please enter your address",
+      district: "Please enter your district",
+      ward: "Please enter your ward",
+      email: {
+        required: "Please enter email",
+        email: "Please enter valid email",
+      },
+      description: {
+        required: "Please enter your description",
+        minlength: "description must be 5 char long",
+      },
+      price: {
+        required: "vui lòng nhập giá",
+        minlength: "Gía phải từ 100000 đồng",
+      },
+    },
   });
-  nextPage.addEventListener('click', (e) => {
-    e.preventDefault();
 
-    // nextPage.classList.remove('disabled');
-    const pageIndex = +page + 1;
-    onChange?.(pageIndex);
-  });
-
-  const pageNumbers = paginationElement.querySelectorAll('a.page-number');
-  pageNumbers.forEach((pageNumber, index) => {
-    pageNumber.addEventListener('click', ({ target }) => {
-      pageActive.classList.remove('active');
-      const pageIndex = +target.textContent;
-      pageNumber.classList.add('active');
-      onChange?.(pageIndex);
-    });
-  });
-}
-
-function renderPagination({ elemntId, pagination }) {
-  const paginationElement = document.getElementById(elemntId);
-  if (!paginationElement) return;
-
-  paginationElement.textContent = '';
-  const prevPage = document.createElement('a');
-  prevPage.innerHTML = '&laquo';
-  prevPage.classList.add('prevButton');
-  const nextPage = document.createElement('a');
-  nextPage.innerHTML = '&raquo';
-  nextPage.classList.add('nextButton');
-
-  if (!prevPage || !nextPage) return;
-  paginationElement.appendChild(prevPage);
-  paginationElement.appendChild(nextPage);
-  paginationElement.dataset.totalPages = pagination.totalPages;
-  paginationElement.dataset.page = pagination.page;
-
-  const currentPage = pagination.page;
-  let pageActive = null;
-  for (let page = 1; page <= pagination.totalPages; page++) {
-    const pageNumber = document.createElement('a');
-    pageNumber.classList.add('page-number');
-    pageNumber.textContent = page;
-    // active page
-    if (currentPage == page) {
-      pageActive = pageNumber;
-      pageNumber.classList.add('active');
-    }
-    paginationElement.insertBefore(pageNumber, paginationElement.children[page]);
-  }
-  return {
-    pageActive,
-    paginationElement,
-    prevPage,
-    nextPage,
-  };
-}
-function initRemovePost() {
-  document.addEventListener('removePost', async (e) => {
-    try {
-      const trElement = e.detail.elemntId;
-      Swal.fire({
-        title: 'Bạn có chắc là xóa?',
-        text: 'Nếu xóa thì bài viết sẽ biến mất hoàn toàn trong database!',
-        icon: 'warning',
-        showCancelButton: true,
-        width: 600,
-        height: 800,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-          await postApi.removeById(e.detail.id);
-          trElement.remove();
-          // await toast.fire({
-          //   icon: 'success',
-          //   title: 'delete post successfully',
-          // });
-          // await handelFilterChange();
-        }
-      });
-    } catch (error) {
-      console.log(error);
-      await toast.fire({
-        icon: 'error',
-        title: 'delete post failed',
-      });
-    }
-  });
-}
-(async () => {
-  renderSelectBox({
-    elemntId: 'category',
-  });
-  initOnchageSelectBox({
-    formId: 'searchPostForm',
-    inputId: 'category',
-    onChange: async (value) => await handelFilterChange('category', value),
-  });
-  initSearchInput({
-    formId: 'searchPostForm',
-    name: 'title',
-    onChange: async (value) => await handelFilterChange('title', value),
-  });
-  
-  initRemovePost();
-  handelFilterChange();
+  // =======================
 })();
+
+const renderOptions = (data, selector) => {
+  const options = data.map((element) => {
+    return `<option value="${element.code}">${element.name}</option>`;
+  });
+  selector.innerHTML += options.join("");
+};
+
+province.addEventListener("change", () => {
+  getDistrict();
+});
+
+district.addEventListener("change", () => {
+  getWard();
+});
+
+async function getWard() {
+  try {
+    const districtValue = district.value;
+    const resource = `d/${districtValue}?depth=2`;
+
+    const response = await axiosClient.get(resource, {
+      baseURL: baseURLProvinces,
+    });
+
+    console.log(response.data.wards);
+    renderOptions(response.data.wards, ward);
+  } catch (error) {}
+}
+
+async function getDistrict() {
+  try {
+    const provinceValue = province.value;
+    const resource = `p/${provinceValue}?depth=2`;
+
+    const response = await axiosClient.get(resource, {
+      baseURL: baseURLProvinces,
+    });
+
+    console.log(response.data.districts);
+    renderOptions(response.data.districts, district);
+  } catch (error) {}
+}

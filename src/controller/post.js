@@ -6,18 +6,19 @@ const User = require('../models/user');
 //   try {
 //     const path = req.files.map((link) => link.path);
 
-//     const data = {
-//       title: req.body.title,
-//       address: req.body.address,
-//       description: req.body.description,
-//       price: req.body.price,
-//       images: path,
-//       phone: req.body.phone,
-//       category_id: req.body.category,
-//       acreage: req.body.acreage,
-//       user_id: req.session.user._id,
-//       isvip: '0',
-//     };
+
+    const data = {
+      title: req.body.title,
+      address: req.body.address,
+      description: req.body.description,
+      price: req.body.price,
+      images: path,
+      phone: req.body.phone,
+      category_id: req.body.category,
+      acreage: req.body.acreage,
+      user_id: req.session.user._id,
+    };
+
 
 //     const post = await Post.create(data);
 //     // add post to user

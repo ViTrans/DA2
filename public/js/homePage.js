@@ -7,7 +7,7 @@ $(document).ready(function () {
             <div class="row bg-white rounded-3 p-3 mt-2">
               <div class="col-md-4">
                 <img
-                  src="${post.images}"
+                  src="${post.images[0]}"
                   class="card-img-top rounded-3"
                   alt="..."
                 />
@@ -19,11 +19,27 @@ $(document).ready(function () {
                   >${post.title}</a
                 >
                 <div class="card-rate text-warning">
-                  <i class="fa fas fa-star"></i>
-                  <i class="fa fas fa-star"></i>
-                  <i class="fa fas fa-star"></i>
-                  <i class="fa fas fa-star"></i>
-                  <i class="fa fas fa-star"></i>
+                
+                  ${
+                    // nếu vip3 thì hiển thị 5 sao đỏ
+                    // nếu vip2 thì hiển thị 4 sao cam
+                    // nếu vip1 thì hiển thị 3 sao vàng
+
+                    post.isvip === "vip3"
+                      ? `
+                        <i class="fa fas fa-star"></i>
+                        `
+                      : post.isvip === "vip2"
+                      ? `<i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>`
+                      : post.isvip === "vip1"
+                      ? `<i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>`
+                      : ""
+                  }
                 </div>
                 <p class="text-muted">${post.address}</p>
                 <p class="card-price text-success">

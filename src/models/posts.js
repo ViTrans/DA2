@@ -22,8 +22,9 @@ const postSchema = new mongoose.Schema(
       type: String,
     },
     isvip: {
-      default: 0,
-      type: Number,
+      type: String,
+      default: "vip1",
+      enum: ["vip1", "vip2", "vip3"],
     },
     acreage: {
       type: Number,

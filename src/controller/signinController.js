@@ -7,14 +7,17 @@ const checkUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
+      console.log("Tài khoản không tồn tại");
       req.flash("message", "Tài khoản không tồn tại");
       res.redirect("/signin");
     } else if (!(await user.isValidPassword(password))) {
+      console.log("Sai mật khẩu");
       req.flash("message", "Sai mật khẩu");
       res.redirect("/signin");
     } else {
       req.session.user = user;
       req.flash("message", "Đăng nhập thành công");
+      console.log("Đăng nhập thành công");
       res.redirect("/");
     }
   } catch (error) {

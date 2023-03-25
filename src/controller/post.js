@@ -16,7 +16,6 @@ const createPost = async (req, res, next) => {
       category_id: req.body.category,
       acreage: req.body.acreage,
       user_id: req.session.user._id,
-      isvip: "0",
     };
 
     const post = await Post.create(data);

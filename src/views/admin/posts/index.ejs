@@ -1,12 +1,12 @@
-<%- include('./partials/head'); %>
+<%- include('../../partials/head'); %>
 <!-- header -->
-<header><%- include('./partials/header'); %></header>
+<header><%- include('../../partials/header'); %></header>
 <!-- header -->
 
 <div id="dashboard" class="container-fluid">
   <div class="row">
     <!-- sidebar -->
-    <%- include('./partials/sidebarPanel'); %>
+    <%- include('../../partials/sidebarPanel'); %>
     <!-- sidebar -->
 
     <!-- main -->
@@ -75,9 +75,7 @@
             <thead>
               <tr>
                 <th>Mã tin</th>
-                <th style="text-align: center; white-space: nowrap">
-                  Ảnh đại diện
-                </th>
+                <th style="text-align: center; white-space: nowrap">Ảnh đại diện</th>
                 <th>Tiêu đề</th>
                 <th>Giá</th>
                 <th style="white-space: nowrap">Ngày bắt đầu</th>
@@ -86,22 +84,20 @@
               </tr>
             </thead>
             <tbody>
-              <% posts.map((element,index) => { index++; %>
               <tr>
-                <td><%= index %></td>
+                <td>aaaa></td>
                 <td>
                   <img
                     style="width: 70px; height: 70px; object-fit: cover"
-                    src="<%= element?.images[0]%>"
+                    src=""
                     class="img-thumbnail"
                   />
                 </td>
-                <td><%= element?.title %></td>
-                <td><%= element?.price %></td>
-                <td><%= moment(element?.createdAt).format('DD/MM/YYYY') %></td>
-                <td><%= moment(element?.updatedAt).format('DD/MM/YYYY') %></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
               </tr>
-              <% }) %>
 
               <tr>
                 <td colspan="7">
@@ -118,4 +114,4 @@
     </main>
   </div>
 </div>
-<%- include('./partials/footerPanel'); %>
+<%- include('../../partials/footerPanel'); %>

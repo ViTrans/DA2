@@ -1,12 +1,12 @@
-<%- include('./partials/head'); %>
+<%- include('../../partials/head'); %>
 <!-- header -->
-<header><%- include('./partials/header'); %></header>
+<header><%- include('../../partials/header'); %></header>
 <!-- header -->
 
 <div id="dashboard" class="container-fluid">
   <div class="row">
     <!-- sidebar -->
-    <%- include('./partials/sidebarPanel'); %>
+    <%- include('../../partials/sidebarPanel'); %>
     <!-- sidebar -->
 
     <!-- main -->
@@ -26,10 +26,9 @@
         <h1 class="h2">Đăng tin mới</h1>
       </div>
       <p class="alert alert-danger mb-5" role="alert">
-        Nếu bạn đã từng đăng tin trên Phongtro123.com, hãy sử dụng chức năng ĐẨY
-        TIN / GIA HẠN / NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy
-        tin lên cao thay vì đăng tin mới. Tin đăng trùng nhau sẽ không được
-        duyệt.
+        Nếu bạn đã từng đăng tin trên Phongtro123.com, hãy sử dụng chức năng ĐẨY TIN / GIA HẠN /
+        NÂNG CẤP VIP trong mục QUẢN LÝ TIN ĐĂNG để làm mới, đẩy tin lên cao thay vì đăng tin mới.
+        Tin đăng trùng nhau sẽ không được duyệt.
       </p>
 
       <!--  -->
@@ -56,6 +55,7 @@
                   <select id="province" name="province" class="form-control">
                     <option value="">chọn tỉnh thành phố</option>
                   </select>
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
               <div class="col-md-6">
@@ -64,6 +64,7 @@
                   <select name="district" id="district" class="form-control">
                     <option value="">chọn quận huyện</option>
                   </select>
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
               <div class="col-md-6">
@@ -72,6 +73,7 @@
                   <select name="ward" id="ward" class="form-control">
                     <option value="">chọn phường xã</option>
                   </select>
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
             </div>
@@ -80,6 +82,7 @@
                 <div class="form-group">
                   <label class="col-form-label">Số nhà</label>
                   <input name="houseNumber" type="text" class="form-control" />
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
             </div>
@@ -88,6 +91,7 @@
                 <div class="form-group">
                   <label class="col-form-label">Địa chỉ chính xác</label>
                   <input name="address" type="text" class="form-control" />
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
             </div>
@@ -102,11 +106,10 @@
                 <select name="category" class="form-control">
                   <option value="">-- Chọn loại chuyên mục --</option>
                   <% categories.forEach(element => { %>
-                  <option value="<%= element._id %>">
-                    <%= element.title %>
-                  </option>
+                  <option value="<%= element._id %>"><%= element.title %></option>
                   <% }) %>
                 </select>
+                <div class="invalid-feedback">demo</div>
               </div>
             </div>
             <div class="form-group row">
@@ -118,32 +121,21 @@
             <div class="form-group row">
               <label class="col-md-12 col-form-label">Nội dung mô tả</label>
               <div class="col-md-12">
-                <textarea
-                  name="description"
-                  class="form-control"
-                  rows="10"
-                ></textarea>
+                <textarea name="description" class="form-control" rows="10"></textarea>
+                <div class="invalid-feedback">demo</div>
               </div>
             </div>
             <div class="form-group row">
-              <label for="phone" class="col-md-12 col-form-label"
-                >Thông tin liên hệ</label
-              >
+              <label for="phone" class="col-md-12 col-form-label">Thông tin liên hệ</label>
               <div class="col-md-6">
                 <div class="input-group mb-3">
-                  <input
-                    type="text"
-                    class="form-control"
-                    readonly
-                    value="<%= user?.username %>"
-                  />
+                  <input type="text" class="form-control" readonly value="<%= user?.username %>" />
+                  <div class="invalid-feedback">demo</div>
                 </div>
               </div>
             </div>
             <div class="form-group row">
-              <label for="phone" class="col-md-12 col-form-label"
-                >Điện thoại</label
-              >
+              <label for="phone" class="col-md-12 col-form-label">Điện thoại</label>
               <div class="col-md-6">
                 <div class="input-group mb-3">
                   <input
@@ -153,6 +145,7 @@
                     readonly="readonly"
                     value="<%= user?.phone %>"
                   />
+                  <div class="invalid-feedback">demo</div>
                 </div>
               </div>
             </div>
@@ -164,6 +157,7 @@
                   <div class="input-group-append">
                     <span class="input-group-text">đồng</span>
                   </div>
+                  <div class="invalid-feedback">demo</div>
                 </div>
                 <small class="form-text text-muted"
                   >Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000</small
@@ -172,12 +166,12 @@
               <label class="col-sm-12 control-label"></label>
             </div>
             <div class="form-group row">
-              <label for="acreage" class="col-md-12 col-form-label"
-                >Diện tích</label
-              >
+              <label for="acreage" class="col-md-12 col-form-label">Diện tích</label>
               <div class="col-md-6">
                 <div class="input-group mb-3">
                   <input name="acreage" type="number" class="form-control" />
+                  <div class="invalid-feedback">demo</div>
+
                   <div class="input-group-append">
                     <span class="input-group-text">m<sup>2</sup></span>
                   </div>
@@ -197,14 +191,13 @@
                   type="file"
                   class="form-control"
                 />
+                <div class="invalid-feedback">demo</div>
               </div>
             </div>
 
             <div class="form-group row mt-5">
               <div class="col-md-12">
-                <button type="submit" class="btn btn-success mb-5 btn-lg w-100">
-                  Tiếp tục
-                </button>
+                <button type="submit" class="btn btn-success mb-5 btn-lg w-100">Tiếp tục</button>
               </div>
             </div>
           </div>
@@ -225,11 +218,7 @@
             <!-- note -->
             <div
               class="card"
-              style="
-                color: #856404;
-                background-color: #fff3cd;
-                border-color: #ffeeba;
-              "
+              style="color: #856404; background-color: #fff3cd; border-color: #ffeeba"
             >
               <div class="card-body">
                 <h4 class="card-title">Lưu ý khi đăng tin</h4>
@@ -241,18 +230,15 @@
                     Tiêu đề tin không dài quá 100 kí tự
                   </li>
                   <li style="list-style-type: square; margin-left: 15px">
-                    Các bạn nên điền đầy đủ thông tin vào các mục để tin đăng có
-                    hiệu quả hơn.
+                    Các bạn nên điền đầy đủ thông tin vào các mục để tin đăng có hiệu quả hơn.
                   </li>
                   <li style="list-style-type: square; margin-left: 15px">
-                    Để tăng độ tin cậy và tin rao được nhiều người quan tâm hơn,
-                    hãy sửa vị trí tin rao của bạn trên bản đồ bằng cách kéo
-                    icon tới đúng vị trí của tin rao.
+                    Để tăng độ tin cậy và tin rao được nhiều người quan tâm hơn, hãy sửa vị trí tin
+                    rao của bạn trên bản đồ bằng cách kéo icon tới đúng vị trí của tin rao.
                   </li>
                   <li style="list-style-type: square; margin-left: 15px">
-                    Tin đăng có hình ảnh rõ ràng sẽ được xem và gọi gấp nhiều
-                    lần so với tin rao không có ảnh. Hãy đăng ảnh để được giao
-                    dịch nhanh chóng!
+                    Tin đăng có hình ảnh rõ ràng sẽ được xem và gọi gấp nhiều lần so với tin rao
+                    không có ảnh. Hãy đăng ảnh để được giao dịch nhanh chóng!
                   </li>
                 </ul>
               </div>
@@ -266,4 +252,4 @@
     <!-- main -->
   </div>
 </div>
-<%- include('./partials/footerPanel'); %>
+<%- include('../../partials/footerPanel'); %>

@@ -22,6 +22,7 @@ const postSchema = new mongoose.Schema(
       type: String,
     },
     isvip: {
+      default: 0,
       type: Number,
     },
     acreage: {

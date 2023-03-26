@@ -76,24 +76,23 @@
             Địa chỉ: <%= post.address %>
           </p>
           <div class="row align-items-center">
-            <div class="col-md-6 text-success fw-bold fs-5">
+            <div class="col-md-7 text-success fw-bold fs-5">
               <%= post.price.toLocaleString('vi-VN', { style: 'currency',
               currency: 'VND' }) %><span>/Tháng</span>
             </div>
             <div class="col-md-2 text-muted">
               <%= post.acreage %><span>m2</span>
             </div>
-            <div class="col-md-2 text-muted">
-              <%= moment(post.createdAt).format("Do MMMM, YYYY"); %>
+            <div class="col-md-3 text-muted time">
+              <%= moment(post.createdAt).fromNow() %>
             </div>
-            <div class="col-md-2 text-muted">#213123</div>
           </div>
           <h4 class="fw-bold fs-4 mt-2">Thông tin mô tả</h4>
           <p><%= post.description %></p>
         </div>
       </div>
       <div class="col-md-4 mt-2 mt-md-0">
-        <div class="card text-center p-2 bg-yellow" style="height: auto">
+        <div class="card text-center p-2 bg-yellow">
           <img
             src="<%= post.user_id.avatar %>"
             class="card-img-top rounded-circle d-block mx-auto avatar"
@@ -106,13 +105,33 @@
           />
           <div class="card-body d-flex flex-column justify-content-between">
             <h5 class="card-title fw-bold"><%= post.user_id.username %></h5>
-            <div class="mt-auto">
+            <div class="">
               <a href="#" class="btn btn-success"><%= post.user_id.phone %></a>
               <a href="#" class="btn btn-primary">Zalo</a>
             </div>
           </div>
         </div>
+        <div class="mt-5"><%- include('./partials/sidebar'); %></div>
       </div>
     </div>
   </main>
+  <script>
+    var time = document.querySelectorAll(".time");
+    time.forEach(function (item) {
+      item.innerHTML = item.innerHTML.replace(
+        "a few seconds ago",
+        "vài giây trước"
+      );
+      item.innerHTML = item.innerHTML.replace("a minute ago", "một phút trước");
+      item.innerHTML = item.innerHTML.replace("minutes ago", "phút trước");
+      item.innerHTML = item.innerHTML.replace("an hour ago", "một giờ trước");
+      item.innerHTML = item.innerHTML.replace("hours ago", "giờ trước");
+      item.innerHTML = item.innerHTML.replace("a day ago", "một ngày trước");
+      item.innerHTML = item.innerHTML.replace("days ago", "ngày trước");
+      item.innerHTML = item.innerHTML.replace("a month ago", "một tháng trước");
+      item.innerHTML = item.innerHTML.replace("months ago", "tháng trước");
+      item.innerHTML = item.innerHTML.replace("a year ago", "một năm trước");
+      item.innerHTML = item.innerHTML.replace("years ago", "năm trước");
+    });
+  </script>
 </body>

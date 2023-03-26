@@ -1,7 +1,7 @@
 const Post = require("../models/posts");
 const showHomePage = async (req, res) => {
-  const posts = await Post.find();
-  res.render("index", { title: "Trang Chủ", posts });
+  const postsNew = await Post.find().sort({ createdAt: 1 }).limit(5);
+  res.render("index", { title: "Trang Chủ", postsNew });
 };
 
 const getPosts = async (req, res) => {

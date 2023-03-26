@@ -9,6 +9,7 @@ $(document).ready(function () {
                 <img
                   src="${post.images[0]}"
                   class="card-img-top rounded-3"
+                  style="height: 200px; object-fit: cover;"
                   alt="..."
                 />
               </div>
@@ -18,7 +19,7 @@ $(document).ready(function () {
                   class="card-title text-capitalize text-decoration-none fs-5 text-primary mt-2"
                   >${post.title}</a
                 >
-                <div class="card-rate text-warning">
+                <div class="card-rate">
                 
                   ${
                     // nếu vip3 thì hiển thị 5 sao đỏ
@@ -27,17 +28,29 @@ $(document).ready(function () {
 
                     post.isvip === "vip3"
                       ? `
+                      <div class="text-danger">
                         <i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>
+                        <i class="fa fas fa-star"></i>
+                      </div>
                         `
                       : post.isvip === "vip2"
-                      ? `<i class="fa fas fa-star"></i>
+                      ? `
+                      <div style="color: #FF8B13;">
+                      <i class="fa fas fa-star"></i>
                         <i class="fa fas fa-star"></i>
                         <i class="fa fas fa-star"></i>
-                        <i class="fa fas fa-star"></i>`
+                        <i class="fa fas fa-star"></i>
+                        </div>`
                       : post.isvip === "vip1"
-                      ? `<i class="fa fas fa-star"></i>
+                      ? `
+                      <div class="text-warning">
+                      <i class="fa fas fa-star"></i>
                         <i class="fa fas fa-star"></i>
-                        <i class="fa fas fa-star"></i>`
+                        <i class="fa fas fa-star"></i>
+                        </div>`
                       : ""
                   }
                 </div>
@@ -83,13 +96,13 @@ $(document).ready(function () {
       if (i === currentPage) {
         htmlPage += `
               <li class="page-item active" aria-current="page">
-                <a class="page-link" href="/?page=${i}&limit=${limit}">${i}</a>
+                <a class="page-link" href="getPosts/?page=${i}&limit=${limit}">${i}</a>
               </li>
             `;
       } else {
         htmlPage += `
               <li class="page-item">
-                <a class="page-link" href="/?page=${i}&limit=${limit}">${i}</a>
+                <a class="page-link" href="getPosts/?page=${i}&limit=${limit}">${i}</a>
               </li>
             `;
       }
@@ -98,7 +111,7 @@ $(document).ready(function () {
     if (hasNextPage) {
       htmlPage += `
           <li class="page-item">
-            <a class="page-link" href="/?page=${nextPage}&limit=${limit}">Next</a>
+            <a class="page-link" href="getPosts/?page=${nextPage}&limit=${limit}">Next</a>
           </li>
         `;
     }
@@ -118,13 +131,24 @@ $(document).ready(function () {
       },
     });
   }
+  // lấy page từ url
+  const urlParams = new URLSearchParams(window.location.search);
 
-  getPosts(1, 4);
+  const page = urlParams.get("page");
+  const limit = urlParams.get("limit");
 
-  $(".pagination").on("click", ".page-link", function (e) {
+  if (!page || !limit) {
+    getPosts(1, 4);
+  } else {
+    getPosts(page, limit);
+  }
+
+  // pagination
+  $(document).on("click", ".pagination a", function (e) {
     e.preventDefault();
-    const page = $(this).attr("href").split("=")[1];
+    const page = $(this).attr("href").split("=")[1].split("&")[0];
     const limit = $(this).attr("href").split("=")[2];
     getPosts(page, limit);
+    history.pushState(null, null, `/?page=${page}&limit=${limit}`);
   });
 });

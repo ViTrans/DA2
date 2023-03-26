@@ -29,7 +29,7 @@ const postSchema = new mongoose.Schema(
     acreage: {
       type: Number,
     },
-    category_id: [{ type: Schema.Types.ObjectId, ref: "Categories" }],
+    category_id: { type: Schema.Types.ObjectId, ref: "Categories" },
     user_id: { type: Schema.Types.ObjectId, ref: "Users" },
   },
   {

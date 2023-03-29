@@ -13,20 +13,22 @@ $(document).ready(function () {
         password,
       },
       success: function (result) {
-        console.log(result);
         if (result) {
-          // localStorage.setItem("token", result.token);
-          // localStorage.setItem("user", JSON.stringify(result.others));
           // tôi sẽ lưu token và user vào session storage
           sessionStorage.setItem("token", result.token);
           sessionStorage.setItem("user", JSON.stringify(result.others));
           window.location.href = "/";
-        } else {
-          alert(result.message);
+          $(".toast-body").text(result.message);
+          $(".toast").addClass("bg-success");
+          $(".toast").toast("show");
         }
       },
       error: function (err) {
         console.log(err);
+        // hiển thị thông báo toast
+        $(".toast-body").text(err.responseJSON.message);
+        $(".toast").addClass("bg-danger");
+        $(".toast").toast("show");
       },
     });
   });

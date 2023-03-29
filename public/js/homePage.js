@@ -61,7 +61,7 @@ $(document).ready(function () {
                     currency: "VND",
                   })}<span>/Tháng</span>
                 </p>
-                <p class="card-text text-muted">
+                <p class="card-text text-muted text-truncate">
                   ${post.description}
                 </p>
                 <a href="#" class="btn btn-success">${post.phone}</a>

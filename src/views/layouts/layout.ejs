@@ -25,8 +25,25 @@
     />
     <link rel="stylesheet" href="../../css/style.css" />
   </head>
-
   <body class="bg-light">
+    <div class="position-absolute top-0 p-2 end-0" style="z-index: 1">
+      <div
+        class="toast align-items-center text-white border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body"></div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+    </div>
     <header><%- include('../partials/header'); %></header>
     <main class="container mt-2"><%-body%></main>
     <footer><%- include('../partials/footer'); %></footer>
@@ -50,5 +67,6 @@
     ></script>
     <script src="../../../js/homePage.js"></script>
     <script src="../../../js/login.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
   </body>
 </html>

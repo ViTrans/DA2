@@ -22,23 +22,19 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      console.log("Tài khoản không tồn tại");
-      req.flash("message", "Tài khoản không tồn tại");
-      res.redirect("/signin");
+      res.status(400).json({ message: "Không tìm thấy tài khoản" });
     } else if (!(await user.isValidPassword(password))) {
       console.log("Sai mật khẩu");
-      req.flash("message", "Sai mật khẩu");
-      res.redirect("/signin");
+      res.status(400).json({ message: "Sai mật khẩu" });
     } else {
       // Create a JWT token for the user
       const token = generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
       // Set the JWT token as a cookie and redirect to a protected page
       res.cookie("refreshToken", refreshToken, { httpOnly: true });
-      req.flash("message", "Đăng nhập thành công");
       console.log("Đăng nhập thành công");
       const { password, ...others } = user._doc;
-      res.status(200).json({ others, token });
+      res.status(200).json({ others, token, message: "Đăng nhập thành công" });
     }
   } catch (error) {
     console.log(error);

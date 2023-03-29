@@ -53,9 +53,11 @@ app.use(
   })
 );
 app.use(flash());
-
+// middleawre for flash message
 app.use((req, res, next) => {
-  res.locals.message = req.flash("message");
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
   next();
 });
 

@@ -37,6 +37,12 @@ const userSchema = new Schema({
     minlength: 3,
   },
   posts: [{ type: Schema.Types.ObjectId, ref: "Posts" }],
+  role: {
+    type: String,
+    enum: ["admin", "user", "mod"],
+    default: "user",
+  },
+
   createAt: {
     type: Date,
     default: Date.now,

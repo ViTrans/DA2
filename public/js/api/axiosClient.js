@@ -6,9 +6,15 @@ const axiosClient = axios.create({
 });
 
 // Add a request interceptor
+
 axiosClient.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
+    const token = sessionStorage.getItem('token');
+
+    if (token) {
+      config.headers['token'] = `Bearer ${token}`;
+    }
+    
     return config;
   },
   function (error) {

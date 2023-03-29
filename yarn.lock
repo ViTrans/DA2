@@ -1903,6 +1903,11 @@ raw-body@^2.2.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+read-vietnamese-number@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/read-vietnamese-number/-/read-vietnamese-number-1.9.0.tgz#986b316d9ccbb6d2f97e5d05423747d1d8e7ad01"
+  integrity sha512-nCK/iQqxtwIRyXSNCvoMb/2gnA/PXMsPXnMaYh9x7uzYLcU2/Nhx5pZ0rSyiiLbtJL7Uf9dqF/N32ZKHKVyYZw==
+
 readable-stream@1.1.x:
   version "1.1.14"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"

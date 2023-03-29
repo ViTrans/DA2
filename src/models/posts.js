@@ -18,19 +18,22 @@ const postSchema = new mongoose.Schema(
     images: {
       type: Array,
     },
+    filenameList: {
+      type: Array,
+    },
     phone: {
       type: String,
     },
     isvip: {
       type: String,
-      default: "vip1",
-      enum: ["vip1", "vip2", "vip3"],
+      default: 'vip1',
+      enum: ['vip1', 'vip2', 'vip3'],
     },
     acreage: {
       type: Number,
     },
-    category_id: { type: Schema.Types.ObjectId, ref: "Categories" },
-    user_id: { type: Schema.Types.ObjectId, ref: "Users" },
+    category_id: { type: Schema.Types.ObjectId, ref: 'Categories' },
+    user_id: { type: Schema.Types.ObjectId, ref: 'Users' },
   },
   {
     timestamps: true,

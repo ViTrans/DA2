@@ -55,31 +55,35 @@
         </button>
       </div>
     </form>
-    <% if(locals.user) { %>
-    <div
-      class="row bg-primary d-md-none mt-3 rounded-3 py-3 px-2 container mx-auto"
-    >
-      <div class="col-12">
-        <div class="d-flex gap-3 align-items-start">
-          <!-- avatar -->
-          <img
-            src="../../img/thanhpho.jpeg"
-            class="rounded-circle"
-            alt="..."
-            style="width: 50px; height: 50px"
-          />
-          <div class="d-flex flex-column">
-            <p class="text-white">
-              Xin chào <strong class="fs-4"><%= user.username%> !</strong>
-            </p>
-            <p class="text-white">
-              Đi đến trang đăng tin hoặc quản lý tin đăng của bạn
-            </p>
+    <script>
+      if (user) {
+        document.write(`
+        <div
+          class="row bg-primary d-md-none mt-3 rounded-3 py-3 px-2 container mx-auto"
+        >
+          <div class="col-12">
+            <div class="d-flex gap-3 align-items-start">
+              <!-- avatar -->
+              <img
+                src="${user.avatar}"
+                class="rounded-circle"
+                alt="..."
+                style="width: 50px; height: 50px"
+              />
+              <div class="d-flex flex-column">
+                <p class="text-white">
+                  Xin chào <strong class="fs-4">${user.username} !</strong>
+                </p>
+                <p class="text-white">
+                  Đi đến trang đăng tin hoặc quản lý tin đăng của bạn
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <% } %>
+        `);
+      }
+    </script>
     <div
       class="row container text-center d-md-flex justify-content-center d-none"
     >

@@ -1,8 +1,23 @@
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+
 const signIn = async (req, res) => {
   res.render("signIn", { title: "Đăng Nhập" });
 };
-const checkUser = async (req, res) => {
+
+generateAccessToken = (user) => {
+  return jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "1h",
+  });
+};
+
+generateRefreshToken = (user) => {
+  return jwt.sign({ userId: user._id }, process.env.REFRESH_TOKEN_SECRET, {
+    expiresIn: "7d",
+  });
+};
+
+const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -15,30 +30,29 @@ const checkUser = async (req, res) => {
       req.flash("message", "Sai mật khẩu");
       res.redirect("/signin");
     } else {
-      req.session.user = user;
+      // Create a JWT token for the user
+      const token = generateAccessToken(user);
+      const refreshToken = generateRefreshToken(user);
+      // Set the JWT token as a cookie and redirect to a protected page
+      res.cookie("refreshToken", refreshToken, { httpOnly: true });
       req.flash("message", "Đăng nhập thành công");
       console.log("Đăng nhập thành công");
-      res.redirect("/");
+      const { password, ...others } = user._doc;
+      res.status(200).json({ others, token });
     }
   } catch (error) {
     console.log(error);
   }
 };
+
+// viết api logout để client gọi đến
 const logout = async (req, res) => {
-  req.session.destroy();
-  res.redirect("/signin");
+  res.clearCookie("refreshToken");
+  res.status(200).json({ message: "Đăng xuất thành công" });
 };
-const checkUserLogin = async (req, res, next) => {
-  console.log(req.session.user);
-  if (req.session.user) {
-    next();
-  } else {
-    res.redirect("/signin");
-  }
-};
+
 module.exports = {
   signIn,
-  checkUser,
+  loginUser,
   logout,
-  checkUserLogin,
 };

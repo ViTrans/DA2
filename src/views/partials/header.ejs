@@ -34,21 +34,34 @@
         <% }) %> <% } %>
       </ul>
       <div class="d-flex align-items-center" style="gap: 10px">
-        <% if (locals.user){ %>
-        <a
-          href="/quan-ly/posts"
+        <script>
+          // get user from local storage
+          const user = JSON.parse(sessionStorage.getItem("user"));
+          if (user) {
+            document.write(
+              `<a
+          href="/posts"
           class="p-2 rounded-3 text-white text-capitalize text-decoration-none d-none d-md-block"
-          >Xin Chào, <%= user.username %></a
-        >
-        <a href="/logout" class="btn btn-success">Đăng Xuất</a>
-        <a href="#" class="btn btn-danger"
+          >Xin Chào, ${user.username}</a
+        >`
+            );
+            document.write(
+              `<a id="logout" href="/logout" class="btn btn-success">Đăng Xuất</a>`
+            );
+            document.write(
+              ` <a href="/posts" class="btn btn-danger"
           >Đăng Bài <i class="fa fa-plus"></i
-        ></a>
-        <% } else { %>
-        <a href="/signin" class="btn btn-success">Đăng Nhập</a>
-        <a href="/signup" class="btn btn-success">Đăng Ký</a>
-
-        <% } %>
+        ></a>`
+            );
+          } else {
+            document.write(
+              `<a href="/signin" class="btn btn-success">Đăng Nhập</a>`
+            );
+            document.write(
+              `<a href="/signup" class="btn btn-success">Đăng Ký</a>`
+            );
+          }
+        </script>
       </div>
     </div>
   </div>

@@ -40,4 +40,4 @@ const addEdit = async (req, res, next) => {
   res.render("./admin/posts/add-edit", { title: "Add-edit Page" });
 };
 
-module.exports = { addEdit, list };
+module.exports = { addEdit, list, createPost };

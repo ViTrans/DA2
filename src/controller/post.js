@@ -22,7 +22,6 @@ const createPost = async (req, res, next) => {
     const post = await Post.create(data);
     const user = await User.findById(req.session.user._id);
     user.posts.push(post._id);
-    console.log('gooooooo')
     await user.save();
     res.status(201).json({
       code: 201,

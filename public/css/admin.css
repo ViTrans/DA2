@@ -42,3 +42,14 @@
   overflow-y: auto;
   max-height: 700px;
 }
+#image-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+#image-list > img {
+  width: 100px;
+  height: 100%;
+  object-fit: cover;
+}

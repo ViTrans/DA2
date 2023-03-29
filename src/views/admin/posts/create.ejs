@@ -36,10 +36,11 @@
       <!-- .form new post -->
 
       <form
-        id="create-post-form"
+        id="postForm"
         method="post"
         action="/quan-ly/posts"
         enctype="multipart/form-data"
+        novalidate
       >
         <div class="row">
           <div class="col-md-8">
@@ -105,9 +106,6 @@
               <div class="col-md-6">
                 <select name="category" class="form-control">
                   <option value="">-- Chọn loại chuyên mục --</option>
-                  <% categories.forEach(element => { %>
-                  <option value="<%= element._id %>"><%= element.title %></option>
-                  <% }) %>
                 </select>
                 <div class="invalid-feedback">demo</div>
               </div>
@@ -139,7 +137,6 @@
               <div class="col-md-6">
                 <div class="input-group mb-3">
                   <input
-                    name="phone"
                     type="number"
                     class="form-control"
                     readonly="readonly"
@@ -169,7 +166,7 @@
               <label for="acreage" class="col-md-12 col-form-label">Diện tích</label>
               <div class="col-md-6">
                 <div class="input-group mb-3">
-                  <input name="acreage" type="number" class="form-control" />
+                  <input name="acreage" type="text" class="form-control" />
                   <div class="invalid-feedback">demo</div>
 
                   <div class="input-group-append">
@@ -179,10 +176,8 @@
               </div>
             </div>
 
-            <div class="form-group row mt-5">
-              <div class="col-md-12">
-                <h3>Hình ảnh</h3>
-              </div>
+            <div class="form-group row mt-1">
+              <h3>Hình ảnh</h3>
               <div class="col-md-6">
                 <input
                   name="file"
@@ -191,8 +186,9 @@
                   type="file"
                   class="form-control"
                 />
-                <div class="invalid-feedback">demo</div>
+                <div class="invalid-feedback"></div>
               </div>
+              <div id="image-list" class="col-md-6 d-flex"></div>
             </div>
 
             <div class="form-group row mt-5">
@@ -252,4 +248,5 @@
     <!-- main -->
   </div>
 </div>
+<script defer type="module" src="../../../js/create-post.js"></script>
 <%- include('../../partials/footerPanel'); %>

@@ -1,8 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 const Category = require('../../models/category');
+const middlewaresController = require('../../middlewares/middlewaresController');
 // get all categories
-router.get('/', async (req, res) => {
+router.get('/', middlewaresController.verifyToken, async (req, res) => {
   try {
     const categories = await Category.find();
 

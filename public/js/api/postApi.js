@@ -6,6 +6,12 @@ const postApi = {
       params: searchParams,
     });
   },
+  getAllByUserId(searchParams) {
+    const url = `/posts/currentUser`;
+    return axiosClient.get(url, {
+      params: searchParams,
+    });
+  },
   getById(id) {
     const url = `/posts/${id}`;
     return axiosClient.get(url);
@@ -16,7 +22,7 @@ const postApi = {
     return axiosClient.delete(url);
   },
   updatedFormData(data) {
-    const url = `/posts/${data.get('_id')}`;
+    const url = `/posts/${data.get('id')}`;
     return axiosClient.put(url, data, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });

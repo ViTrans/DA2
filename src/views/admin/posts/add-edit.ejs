@@ -120,15 +120,15 @@
               <label class="col-md-12 col-form-label">Nội dung mô tả</label>
               <div class="col-md-12">
                 <textarea name="description" class="form-control" rows="10"></textarea>
-                <div class="invalid-feedback">demo</div>
+                <div class="invalid-feedback"></div>
               </div>
             </div>
             <div class="form-group row">
               <label for="phone" class="col-md-12 col-form-label">Thông tin liên hệ</label>
               <div class="col-md-6">
                 <div class="input-group mb-3">
-                  <input type="text" class="form-control" readonly value="" />
-                  <div class="invalid-feedback">demo</div>
+                  <input name="username" disabled type="text" class="form-control disabled" />
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
             </div>
@@ -136,8 +136,8 @@
               <label for="phone" class="col-md-12 col-form-label">Điện thoại</label>
               <div class="col-md-6">
                 <div class="input-group mb-3">
-                  <input type="number" class="form-control" readonly="readonly" value="" />
-                  <div class="invalid-feedback">demo</div>
+                  <input name="phone" type="number" class="form-control disabled" disabled />
+                  <div class="invalid-feedback"></div>
                 </div>
               </div>
             </div>
@@ -183,12 +183,14 @@
                 />
                 <div class="invalid-feedback"></div>
               </div>
-              <div id="image-list" class="col-md-6 d-flex"></div>
+              <div id="image-list" class="col-md-6"></div>
             </div>
 
             <div class="form-group row mt-5">
               <div class="col-md-12">
-                <button type="submit" class="btn btn-success mb-5 btn-lg w-100">Tiếp tục</button>
+                <button type="submit" class="btn btn-primary mb-5 btn-lg w-100">
+                  <i class="fas fa-save me-2"></i>Save
+                </button>
               </div>
             </div>
           </div>
@@ -243,5 +245,6 @@
     <!-- main -->
   </div>
 </div>
-<script defer type="module" src="../../../js/create-post.js"></script>
+<script defer type="module" src="../../../js/add-edit-post.js"></script>
+
 <%- include('../../partials/footerPanel'); %>

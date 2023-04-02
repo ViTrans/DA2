@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 const Category = require('../models/category');
 const Post = require('../models/posts');
 const User = require('../models/user');
@@ -22,7 +23,6 @@ const createPost = async (req, res, next) => {
     const post = await Post.create(data);
     const user = await User.findById(req.session.user._id);
     user.posts.push(post._id);
-    console.log('gooooooo')
     await user.save();
     res.status(201).json({
       code: 201,
@@ -33,13 +33,15 @@ const createPost = async (req, res, next) => {
   }
 };
 
+=======
+>>>>>>> Stashed changes
 // list
 const list = async (req, res, next) => {
   res.render('./admin/posts/index', { title: 'Post' });
 };
 
-const create = async (req, res, next) => {
-  res.render('./admin/posts/create', { title: 'Create Post' });
+const addEdit = async (req, res, next) => {
+  res.render('./admin/posts/add-edit', { title: 'Add-edit Post' });
 };
 
-module.exports = { create, list, createPost };
+module.exports = { addEdit, list };

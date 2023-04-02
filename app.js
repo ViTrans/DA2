@@ -74,9 +74,11 @@ app.use(express.static('public'));
 
 // api
 
+
 app.use('/api/v1/users', require('./src/routes/api/user'));
 app.use('/api/v1/posts', require('./src/routes/api/post'));
 app.use('/api/v1/categories', require('./src/routes/api/category'));
+
 
 // Set View's
 app.set('views', './src/views');

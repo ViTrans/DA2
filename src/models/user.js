@@ -42,6 +42,23 @@ const userSchema = new Schema({
     enum: ["admin", "user", "mod"],
     default: "user",
   },
+  balance: {
+    type: Number,
+    default: 0,
+  },
+  packages: {
+    type: [
+      {
+        package_id: { type: Schema.Types.ObjectId, ref: "Package" },
+      },
+    ],
+    default: [],
+  },
+  vip_package: {
+    type: String,
+    enum: ["vip1", "vip2", "vip3"],
+    default: "vip0",
+  },
 
   createAt: {
     type: Date,

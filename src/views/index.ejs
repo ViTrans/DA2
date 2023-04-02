@@ -114,7 +114,9 @@
     </div>
     <section class="row justify-content-center gap-4">
       <div class="col-md-8 col-12"><%- include("./partials/post"); %></div>
-      <div class="col-md-3 col-12"><%- include("./partials/sidebar"); %></div>
+      <div class="col-md-3 col-12 d-none d-md-block">
+        <%- include("./partials/sidebar"); %>
+      </div>
     </section>
   </main>
 </body>

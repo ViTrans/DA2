@@ -3,6 +3,7 @@ import { initPostForm, toast, convertObjectToFormData } from './utils/index.js';
 
 async function handlePostFormSubmit(formValues) {
   try {
+    console.log('form values', formValues);
     const payLoad = convertObjectToFormData(formValues);
     const id = formValues?.id;
     console.log(id);
@@ -14,9 +15,9 @@ async function handlePostFormSubmit(formValues) {
       icon: 'success',
       title: 'save post successfully',
     });
-    setTimeout(() => {
-      window.location.assign('http://localhost:5000/posts');
-    }, undefined);
+    // setTimeout(() => {
+    //   window.location.assign('http://localhost:5000/posts');
+    // }, undefined);
   } catch (error) {
     await toast.fire({
       icon: 'error',

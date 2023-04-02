@@ -52,7 +52,7 @@ export function getPostSchema() {
       province: joi.string().min(1),
       ward: joi.string().min(1),
       district: joi.string().min(1),
-      acreage: joi.string().min(3),
+      acreage: joi.string().min(2).max(3),
       price: joi.string().min(4),
       houseNumber: joi.string().min(4),
       category: joi.string().min(10),
@@ -358,7 +358,7 @@ export async function initPostForm({ formId, defaultFormValues, onSubmit }) {
   const province = await locationApi.getProvince();
   renderOptions(province, 'province', form);
   setFormValues(form, defaultFormValues);
-  getUserInfo(form);
+  const user =await getUserInfo(form);
   initUploadImage(form);
   initFieldOnchange(form);
   form.addEventListener('submit', async (e) => {
@@ -371,9 +371,9 @@ export async function initPostForm({ formId, defaultFormValues, onSubmit }) {
     if (defaultFormValues?._id) formValues.id = defaultFormValues?._id;
 
     formValues.images = defaultFormValues?.images;
-    console.log(formValues);
     const isVaild = await validationPostForm(form, formValues);
     if (isVaild) {
+      formValues.phone = user.phone;
       await onSubmit?.(formValues);
     }
     setTimeout(() => {
@@ -392,6 +392,7 @@ export async function getUserInfo(form) {
     const { user } = await userApi.getCurentUser();
     userName.value = user.username;
     phone.value = user.phone;
+    return user;
   } catch (error) {
     console.log(error);
   }

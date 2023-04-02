@@ -90,9 +90,9 @@ router.post(
         user_id: req?.user?.id,
       };
       const post = await Post.create(data);
-      // const user = await User.findById(req.session.user._id);
-      // user.posts.push(post._id);
-      // await user.save();
+      const user = await User.findById(req?.user?.id);
+      user.posts.push(post._id);
+      await user.save();
       res.status(201).json({
         code: 201,
         data: post,

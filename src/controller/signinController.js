@@ -23,12 +23,6 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     console.log('user infor ', user);
     if (!user) {
-<<<<<<< Updated upstream
-      res.status(400).json({ message: "Không tìm thấy tài khoản" });
-    } else if (!(await user.isValidPassword(password))) {
-      console.log("Sai mật khẩu");
-      res.status(400).json({ message: "Sai mật khẩu" });
-=======
       console.log('Tài khoản không tồn tại');
       req.flash('message', 'Tài khoản không tồn tại');
       res.redirect('/signin');
@@ -36,7 +30,6 @@ const loginUser = async (req, res) => {
       console.log('Sai mật khẩu');
       req.flash('message', 'Sai mật khẩu');
       res.redirect('/signin');
->>>>>>> Stashed changes
     } else {
       // Create a JWT token for the user
      
@@ -46,14 +39,9 @@ const loginUser = async (req, res) => {
       });
       const refreshToken = generateRefreshToken(user);
       // Set the JWT token as a cookie and redirect to a protected page
-<<<<<<< Updated upstream
-      res.cookie("refreshToken", refreshToken, { httpOnly: true });
-      console.log("Đăng nhập thành công");
-=======
       res.cookie('refreshToken', refreshToken, { httpOnly: true });
       req.flash('message', 'Đăng nhập thành công');
       console.log('Đăng nhập thành công');
->>>>>>> Stashed changes
       const { password, ...others } = user._doc;
       res.status(200).json({ others, token, message: "Đăng nhập thành công" });
     }

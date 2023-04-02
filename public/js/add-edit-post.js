@@ -15,9 +15,9 @@ async function handlePostFormSubmit(formValues) {
       icon: 'success',
       title: 'save post successfully',
     });
-    // setTimeout(() => {
-    //   window.location.assign('http://localhost:5000/posts');
-    // }, undefined);
+    setTimeout(() => {
+      window.location.assign('http://localhost:5000/posts');
+    }, undefined);
   } catch (error) {
     await toast.fire({
       icon: 'error',

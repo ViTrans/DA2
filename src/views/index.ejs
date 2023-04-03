@@ -3,54 +3,79 @@
     <form
       class="row bg-yellow rounded-3 p-3 justify-content-center container mx-auto"
       style="gap: 10px"
+      action="/search"
     >
       <div class="col-md-2 col-12">
         <select
           class="form-select form-select-lg fs-6 w-100"
           aria-label=".form-select-lg example"
+          name="category"
         >
-          <option selected>Phòng Trọ</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <!-- sử dụng ejs loop locals.categories -->
+          <option selected value="">Chọn Danh Mục</option>
+          <% categories.forEach(element => { %>
+          <option value="<%= element._id %>"><%= element.title %></option>
+          <% }) %>
         </select>
       </div>
       <div class="col-md-2 col-12">
         <select
           class="form-select form-select-lg fs-6 w-100"
           aria-label=".form-select-lg example"
+          id="select-province"
+          name="province"
         >
-          <option selected>Toàn Quốc</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <script>
+            const selectProvince = document.getElementById("select-province");
+            const defaultOption = document.createElement("option");
+            defaultOption.text = "Toàn Quốc";
+            defaultOption.value = "";
+            selectProvince.add(defaultOption);
+
+            let api = "https://provinces.open-api.vn/api/";
+            fetch(api)
+              .then((response) => response.json())
+              .then((data) => {
+                data.forEach((element) => {
+                  let option = document.createElement("option");
+                  option.text = element.name;
+                  option.value = element.name;
+                  selectProvince.add(option);
+                });
+              })
+              .catch((err) => console.log(err));
+          </script>
         </select>
       </div>
       <div class="col-md-2 col-12">
         <select
           class="form-select form-select-lg fs-6 w-100"
           aria-label=".form-select-lg example"
+          name="price"
         >
-          <option selected>Chọn Giá</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option selected value="">Chọn Giá</option>
+          <option value="1">Dưới 1 triệu</option>
+          <option value="2">1 - 5 triệu</option>
+          <option value="3">5 - 10 triệu</option>
+          <option value="4">Hơn 10 triệu</option>
         </select>
       </div>
       <div class="col-md-2 col-12">
         <select
           class="form-select form-select-lg fs-6 w-100"
           aria-label=".form-select-lg example"
+          name="acreage"
         >
           <option selected>Chọn Diện Tích</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option value="1">Dưới 20m2</option>
+          <option value="2">Từ 20 - 50m2</option>
+          <option value="3">Từ 50 - 100m2</option>
+          <option value="3">Trên 100m2</option>
         </select>
       </div>
       <!-- button search -->
       <div class="col-md-2">
-        <button type="button" class="btn btn-primary btn-lg btn-block fs-6">
+        <button type="submit" class="btn btn-primary btn-lg btn-block fs-6">
           Tìm Kiếm
         </button>
       </div>

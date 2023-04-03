@@ -26,14 +26,14 @@ const postSchema = new mongoose.Schema(
     },
     isvip: {
       type: String,
-      default: 'vip1',
-      enum: ['vip1', 'vip2', 'vip3'],
+      default: "vip0",
+      enum: ["vip0", "vip1", "vip2", "vip3"],
     },
     acreage: {
       type: Number,
     },
-    category_id: { type: Schema.Types.ObjectId, ref: 'Categories' },
-    user_id: { type: Schema.Types.ObjectId, ref: 'Users' },
+    category_id: { type: Schema.Types.ObjectId, ref: "Categories" },
+    user_id: { type: Schema.Types.ObjectId, ref: "Users" },
   },
   {
     timestamps: true,

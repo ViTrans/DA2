@@ -1,9 +1,9 @@
-import postApi from './api/postApi.js';
-import { initPostForm, toast, convertObjectToFormData } from './utils/index.js';
+import postApi from "./api/postApi.js";
+import { initPostForm, toast, convertObjectToFormData } from "./utils/index.js";
 
 async function handlePostFormSubmit(formValues) {
   try {
-    console.log('form values', formValues);
+    console.log("form values", formValues);
     const payLoad = convertObjectToFormData(formValues);
     const id = formValues?.id;
     console.log(id);
@@ -12,39 +12,39 @@ async function handlePostFormSubmit(formValues) {
       : await postApi.addFormData(payLoad);
     console.log(response);
     await toast.fire({
-      icon: 'success',
-      title: 'save post successfully',
+      icon: "success",
+      title: "save post successfully",
     });
-    // setTimeout(() => {
-    //   window.location.assign('http://localhost:5000/posts');
-    // }, undefined);
+    setTimeout(() => {
+      window.location.assign("http://localhost:5000/posts");
+    }, undefined);
   } catch (error) {
     await toast.fire({
-      icon: 'error',
-      title: 'save post failed',
+      icon: "error",
+      title: "save post failed",
     });
-    console.error('error ::: ', error);
+    console.error("error ::: ", error);
   }
 }
 (async () => {
   const searchParams = new URLSearchParams(window.location.search);
-  const id = searchParams.get('id');
+  const id = searchParams.get("id");
   const defaultFormValues = id
     ? await postApi.getById(id)
     : {
-        acreage: '',
-        title: '',
-        address: '',
-        category: '',
-        description: '',
-        district: '',
-        images: '',
-        price: '',
+        acreage: "",
+        title: "",
+        address: "",
+        category: "",
+        description: "",
+        district: "",
+        images: "",
+        price: "",
       };
 
-  console.log('post : ', defaultFormValues);
+  console.log("post : ", defaultFormValues);
   initPostForm({
-    formId: 'postForm',
+    formId: "postForm",
     defaultFormValues,
     onSubmit: async (value) => await handlePostFormSubmit(value),
   });

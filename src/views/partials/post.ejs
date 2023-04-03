@@ -1,6 +1,6 @@
 <div class="post-list">
   <% posts.forEach(function(post) { %>
-  <div class="row bg-white rounded-3 p-3 mt-2">
+  <div class="row bg-white rounded-3 p-3 mt-2 align-items-start">
     <div class="col-md-4">
       <img
         src="<%= post.images[0] %>"
@@ -46,19 +46,19 @@
         <% } %>
         <!-- nếu post.isvip === "vip0" thì không có sao -->
         <% if (post.isvip === "vip0") { %>
-        <i class="fas fa fa-star text-warning"></i>
+        <div></div>
         <% } %>
       </div>
-      <p class="text-muted"><%= post.address%></p>
-      <p class="card-price text-success">
+      <p class="text-muted m-0"><%= post.address%></p>
+      <p class="card-price text-success m-0">
         <%= post.price.toLocaleString('vi-VN', { style: 'currency', currency:
         'VND' }) %><span>/Tháng</span>
       </p>
-      <p class="card-text text-muted text-truncate">
-        <?= post.description ?>
-      </p>
-      <a href="#" class="btn btn-success"><%= post.phone %></a>
-      <a href="#" class="btn btn-primary">Zalo</a>
+      <p class="card-text text-muted text-truncate"><%= post.description %></p>
+      <div>
+        <a href="#" class="btn btn-success"><%= post.phone %></a>
+        <a href="#" class="btn btn-primary">Zalo</a>
+      </div>
     </div>
   </div>
   <% }); %>
@@ -66,40 +66,60 @@
 <!-- pagi -->
 <nav aria-label="Page navigation example">
   <ul class="pagination mt-5">
-    <% if (category_id) { %> <% if (page > 1) { %>
-    <li class="page-item">
+    <!-- nếu có category_id thì phân trang cho category_id nếu có search thì phân trang cho search nếu không có gì hết thì phân trang post -->
+    <% if (category_id) { %>
+    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
       <a
         class="page-link"
-        href="/category/<%= category_id %>/?page=<%= page - 1 %>"
+        href="/category/<%= category_id %>?page=<%= page - 1 %>"
         >Previous</a
       >
     </li>
-    <% } %> <% for (let i = 1; i <= totalPage; i++) { %>
-    <li class="page-item <%= i === page ? 'active' : '' %>">
-      <a class="page-link" href="/category/<%= category_id %>/?page=<%= i %>"
+    <% } else if (search) { %>
+    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+      <a class="page-link" href="/search?<%= search %>&page=<%= page - 1 %>"
+        >Previous</a
+      >
+    </li>
+    <% } else { %>
+    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
+      <a class="page-link" href="/?page=<%= page - 1 %>">Previous</a>
+    </li>
+    <% } %> <% for (let i = 1; i <= totalPage; i++) { %> <% if (category_id) {
+    %>
+    <li class="page-item <%= page === i ? 'active' : '' %>">
+      <a class="page-link" href="/category/<%= category_id %>?page=<%= i %>"
         ><%= i %></a
       >
     </li>
-    <% } %> <% if (page < totalPage) { %>
-    <li class="page-item">
+    <% } else if (search) { %>
+    <li class="page-item <%= page === i ? 'active' : '' %>">
+      <a class="page-link" href="/search?<%= search %>&page=<%= i %>"
+        ><%= i %></a
+      >
+    </li>
+    <% } else { %>
+    <li class="page-item <%= page === i ? 'active' : '' %>">
+      <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
+    </li>
+    <% } %> <% } %> <% if (category_id) { %>
+    <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
       <a
         class="page-link"
-        href="/category/<%= category_id %>/?page=<%= page + 1 %>"
+        href="/category/<%= category_id %>?page=<%= page + 1 %>"
         >Next</a
       >
     </li>
-    <% } %> <% } else { %> <% if (page > 1) { %>
-    <li class="page-item">
-      <a class="page-link" href="/?page=<%= page - 1 %>">Previous</a>
+    <% } else if (search) { %>
+    <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
+      <a class="page-link" href="/search?<%= search %>&page=<%= page + 1 %>"
+        >Next</a
+      >
     </li>
-    <% } %> <% for (let i = 1; i <= totalPage; i++) { %>
-    <li class="page-item <%= i === page ? 'active' : '' %>">
-      <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
-    </li>
-    <% } %> <% if (page < totalPage) { %>
-    <li class="page-item">
+    <% } else { %>
+    <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
       <a class="page-link" href="/?page=<%= page + 1 %>">Next</a>
     </li>
-    <% } %> <% } %>
+    <% } %>
   </ul>
 </nav>

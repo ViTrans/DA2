@@ -56,7 +56,7 @@ const userSchema = new Schema({
   },
   vip_package: {
     type: String,
-    enum: ["vip1", "vip2", "vip3"],
+    enum: ["vip0", "vip1", "vip2", "vip3"],
     default: "vip0",
   },
 

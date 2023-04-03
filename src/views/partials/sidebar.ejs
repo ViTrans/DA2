@@ -1,5 +1,5 @@
 <h3 class="fs-4">Bài Đăng Mới</h3>
-<% postsNew.forEach(element => { %>
+<% if (locals.postsNew) { %> <% postsNew.forEach(element => { %>
 <div class="row mb-2 p-2 bg-white rounded-3 justify-content-center">
   <div class="col-md-4 card-top">
     <img
@@ -47,4 +47,4 @@
   </div>
 </div>
 
-<% }) %>
+<% }) %> <% } %>

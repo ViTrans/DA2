@@ -117,3 +117,82 @@
 .colored-toast .swal2-html-container {
   color: #ef5350;
 }
+
+/* ss */
+
+/* Styles for the slider */
+.noUi-target,
+.noUi-target * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -ms-touch-action: none;
+  touch-action: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.noUi-target {
+  position: relative;
+  direction: ltr;
+  background-color: #ddd;
+  border-radius: 4px;
+  touch-action: none;
+}
+
+.noUi-base {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.noUi-connect {
+  position: absolute;
+  left: 0;
+  right: 100%;
+  top: 0;
+  bottom: 0;
+  box-shadow: none;
+  background-color: #0074d9;
+}
+
+.noUi-origin {
+  position: absolute;
+  height: 100%;
+  width: 20px;
+  left: -10px;
+  top: 0;
+  transform: translate3d(0, 0, 0);
+}
+
+.noUi-handle {
+  position: absolute;
+  transform: translate3d(-50%, -50%, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  z-index: 1;
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  display: block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #0074d9;
+}
+
+.noUi-handle:after {
+  width: 14px;
+  height: 14px;
+  margin: 3px;
+  background-color: #fff;
+}

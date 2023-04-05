@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 const User = require('../../models/user');
-const middlewaresController = require('../../middlewares/middlewaresController');
+const { verifyToken } = require('../../middlewares/middlewaresController');
 // get all users
-router.get('/', middlewaresController.verifyToken, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     const categories = await Category.find();
 
@@ -30,7 +30,7 @@ router.get('/', middlewaresController.verifyToken, async (req, res) => {
 //   }
 // });
 
-router.get('/curent', middlewaresController.verifyToken, async (req, res) => {
+router.get('/curent', verifyToken, async (req, res) => {
   try {
     const id = req?.user?.id;
     const user = await User.findById(id).select('username phone role');

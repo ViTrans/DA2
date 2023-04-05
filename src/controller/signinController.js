@@ -21,9 +21,7 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    console.log('user infor ', user);
     if (!user) {
-      console.log('Tài khoản không tồn tại');
       req.flash('message', 'Tài khoản không tồn tại');
       res.redirect('/signin');
     } else if (!(await user.isValidPassword(password))) {

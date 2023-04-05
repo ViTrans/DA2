@@ -234,6 +234,8 @@ function renderPostList({ elemntId, data }) {
   try {
     initRemovePost();
     handelFilterChange();
+
+    //
   } catch (error) {
     console.log(error);
   }

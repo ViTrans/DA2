@@ -66,3 +66,12 @@
     </div>
   </div>
 </nav>
+<script>
+  // active menu khi click
+  const menu = document.querySelectorAll(".nav-link");
+  menu.forEach((item) => {
+    if (item.href === window.location.href) {
+      item.classList.add("active");
+    }
+  });
+</script>

@@ -81,7 +81,6 @@ export function getPostSchema() {
     .options({ abortEarly: false, allowUnknown: true });
   return postSchema;
 }
-
 export function setFieldError(form, name, error) {
   const filed = form.querySelector(`[name="${name}"]`);
   if (!filed) return;
@@ -94,7 +93,7 @@ export function setFieldError(form, name, error) {
   errorElement.textContent = error;
 }
 
-function getFormValues(form) {
+export function getFormValues(form) {
   let defaultFormValues = {};
   // defaultFormValues['file'] = file.files;
   defaultFormValues['file'] = [];
@@ -261,13 +260,13 @@ export async function renderCategories(form, seletedId) {
   });
 }
 
-function showLoading(form) {
+export function showLoading(form) {
   const button = form.querySelector('button[type="submit"]');
   button.disabled = true;
   button.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...`;
 }
-function hideLoading(form) {
+export function hideLoading(form) {
   const button = form.querySelector('button[type="submit"]');
   button.disabled = false;
   button.innerHTML = `<i class="fas fa-save me-2"></i>Save`;
@@ -358,7 +357,7 @@ export async function initPostForm({ formId, defaultFormValues, onSubmit }) {
   const province = await locationApi.getProvince();
   renderOptions(province, 'province', form);
   setFormValues(form, defaultFormValues);
-  const user =await getUserInfo(form);
+  const user = await getUserInfo(form);
   initUploadImage(form);
   initFieldOnchange(form);
   form.addEventListener('submit', async (e) => {

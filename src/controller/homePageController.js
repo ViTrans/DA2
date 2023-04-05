@@ -1,5 +1,5 @@
-const Post = require("../models/posts");
-const querystring = require("querystring");
+const Post = require('../models/posts');
+const querystring = require('querystring');
 
 const ITEMS_PER_PAGE = 4;
 
@@ -13,7 +13,7 @@ const getPaginatedPosts = async (query, currentPage = 1) => {
     .sort({ isvip: -1, createdAt: -1 })
     .skip(skip)
     .limit(ITEMS_PER_PAGE)
-    .populate("category_id");
+    .populate('category_id');
 
   return {
     posts,
@@ -35,8 +35,8 @@ const showHomePage = async (req, res) => {
 
   const { posts, ...pagination } = await getPaginatedPosts(query, page);
 
-  res.render("index", {
-    title: "Trang Chủ",
+  res.render('index', {
+    title: 'Trang Chủ',
     posts,
     ...pagination,
   });
@@ -49,8 +49,8 @@ const getPostsByCategory = async (req, res) => {
 
   const { posts, ...pagination } = await getPaginatedPosts(query, page);
 
-  res.render("index", {
-    title: "Trang Chủ",
+  res.render('index', {
+    title: 'Trang Chủ',
     posts,
     ...pagination,
   });
@@ -68,7 +68,7 @@ const searchPost = async (req, res) => {
     query.category_id = category;
   }
   if (province) {
-    query.address = { $regex: province, $options: "i" };
+    query.address = { $regex: province, $options: 'i' };
   }
   if (price == 1) {
     query.price = { $gte: 0, $lte: 1000000 };
@@ -95,30 +95,30 @@ const searchPost = async (req, res) => {
     query.acreage = { $gte: 100 };
   }
 
-  if (category == "") {
+  if (category == '') {
     delete query.category_id;
   }
-  if (province == "") {
+  if (province == '') {
     delete query.address;
   }
-  if (price == "") {
+  if (price == '') {
     delete query.price;
   }
-  if (acreage == "") {
+  if (acreage == '') {
     delete query.acreage;
   }
 
   const queryString = querystring.stringify(req.query);
   const decodedQueryString = decodeURIComponent(queryString);
   const search = decodedQueryString;
-  searchParams = search.replace(/&page=\d+/, "");
+  searchParams = search.replace(/&page=\d+/, '');
   if (searchParams) {
     query.search = searchParams;
   }
   const { posts, ...pagination } = await getPaginatedPosts(query, page);
 
-  res.render("index", {
-    title: "Trang Chủ",
+  res.render('index', {
+    title: 'Trang Chủ',
     posts,
     ...pagination,
   });

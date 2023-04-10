@@ -30,7 +30,10 @@ const forgotPassword = async (req, res, next) => {
     await user.save();
 
     const mailOptions = {
-      from: 'phongtro123', // sender address
+      from: {
+        name: 'phongtro123',
+        address: 'phongtro123@gmail.com',
+      }, // sender address
       to: user.email, // list of receivers
       subject: 'Khôi phục mật khẩu', // Subject line
       html: `Bạn có thể đặt lại mật khẩu bằng liên kết sau:

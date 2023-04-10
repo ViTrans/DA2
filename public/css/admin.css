@@ -196,3 +196,66 @@
   margin: 3px;
   background-color: #fff;
 }
+
+/* checked input radio */
+
+input[type='radio']:checked + label {
+  color: #0074d9;
+}
+
+/* checked input radio */
+
+/* filter filter-posts */
+
+#filter-posts ul li {
+  border-bottom: 1px solid #ddd;
+}
+
+#filter-posts ul li:hover label {
+  color: #0074d9;
+}
+/* filter filter-posts */
+
+/* modal h1 */
+
+.modal-content .modal-header > h1 {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* sider */
+
+#slider-round {
+  height: 10px;
+}
+
+#slider-round .noUi-connect {
+  background: #c0392b;
+}
+
+#slider-round .noUi-handle {
+  height: 18px;
+  width: 18px;
+  top: -5px;
+  right: -9px; /* half the width */
+  border-radius: 9px;
+}
+/* sider */
+
+#price-buttons button.active {
+  background-color: #0074d9;
+}
+#acreage-buttons button.active {
+  background-color: #0074d9;
+}
+
+/* input ranger */
+
+/* .noUi-horizontal .noUi-handle {
+  width: 34px;
+  height: 28px;
+  right: -37px;
+  top: 7px;
+} */

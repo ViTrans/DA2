@@ -43,10 +43,6 @@ const userSchema = new Schema({
     enum: ['admin', 'user', 'mod'],
     default: 'user',
   },
-  balance: {
-    type: Number,
-    default: 0,
-  },
   packages: {
     type: [
       {

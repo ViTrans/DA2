@@ -15,6 +15,7 @@ const moment = require('moment');
 const postRouter = require('./src/routes/post');
 const categoryRouter = require('./src/routes/category');
 const packageRouter = require('./src/routes/package');
+const paymentRouter = require('./src/routes/payment');
 const category = require('./src/models/category');
 const postDetails = require('./src/routes/postDetails');
 const getPostNew = require('./src/middlewares/getPostNew');
@@ -82,6 +83,7 @@ app.use('/api/v1/users', require('./src/routes/api/user'));
 app.use('/api/v1/packages', require('./src/routes/api/package'));
 app.use('/api/v1/posts', require('./src/routes/api/post'));
 app.use('/api/v1/categories', require('./src/routes/api/category'));
+app.use('/api/v1/payment', require('./src/routes/api/payment'));
 
 // Set View's
 app.set('views', './src/views');
@@ -89,6 +91,7 @@ app.set('view engine', 'ejs');
 app.use('/posts', postRouter);
 app.use('/categories', categoryRouter);
 app.use('/packages', packageRouter);
+app.use('/payment', paymentRouter);
 app.use(expressLayouts);
 app.set('layout', './layouts/layout');
 app.use('/', homePageRouter);

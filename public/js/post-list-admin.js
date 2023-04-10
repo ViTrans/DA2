@@ -1,16 +1,22 @@
 import postApi from './api/postApi.js';
 
-async function handelFilterChange(filterName, filterValue) {
+async function handelFilterChange(filterObjectValues) {
+  // code
+
+  // asdasdasd
   const queryPamrams = new URL(window.location);
-  if (filterName) queryPamrams.searchParams.set(filterName, filterValue);
+  for (const [filterName, filterValue] of Object.entries(filterObjectValues)) {
+    if (filterName) queryPamrams.searchParams.set(filterName, filterValue);
+    if (filterName === 'title' || filterName === 'category')
+      queryPamrams.searchParams.delete('page');
+    if (filterName === 'title' && filterValue == '') queryPamrams.searchParams.delete('title');
+    if (filterName === 'category' && filterValue == '')
+      queryPamrams.searchParams.delete('category');
+  }
 
-  if (filterName === 'title' || filterName === 'category') queryPamrams.searchParams.delete('page');
-  if (filterName === 'title' && filterValue == '') queryPamrams.searchParams.delete('title');
-  if (filterName === 'category' && filterValue == '') queryPamrams.searchParams.delete('category');
   history.pushState({}, '', queryPamrams);
-
-  // call api
-  const { data, pagination } = await postApi.getAllByUserId(queryPamrams.searchParams);
+  const { data, pagination } = await postApi.getAllUserPosts(queryPamrams.searchParams);
+  console.log(data);
 
   renderPostList({
     elemntId: 'postList',
@@ -28,7 +34,7 @@ async function handelFilterChange(filterName, filterValue) {
     prevLiPagination,
     nextLiPagination,
     onChange: (page) => {
-      handelFilterChange('page', page);
+      handelFilterChange({ ['page']: page });
     },
   });
 }
@@ -135,30 +141,53 @@ function renderPagination({ elemntId, pagination }) {
     nextLiPagination,
   };
 }
+
+//  <td data-id="title"></td>
+//     <td data-id="category"></td>
+//     <td data-id="user"></td>
+//     <td data-id="status"></td>
+//     <td data-id="package"></td>
+//     <td data-id="price"></td>
+//     <td data-id="date"></td>
+//     <td data-id="action"></td>
+
 function createPostElement(post, index) {
   const postTemplate = document.getElementById('postTemplate').cloneNode(true).content;
   const trElement = postTemplate.firstElementChild;
   let ordinalNumber = index + 1;
   if (!trElement || !post) return;
+
   const title = trElement.querySelector('[data-id="title"]');
   if (!title) return;
   title.textContent = post?.title;
+
+  const pack = trElement.querySelector('[data-id="pack"]');
+  if (!pack) return;
+  pack.textContent = post?.pack;
+
+  const user = trElement.querySelector('[data-id="user"]');
+  if (!user) return;
+  user.textContent = post?.username;
+
+  const category = trElement.querySelector('[data-id="category"]');
+  if (!category) return;
+  category.textContent = post?.categoryName;
+
+  const vip = trElement.querySelector('[data-id="vip"]');
+  if (!vip) return;
+  vip.textContent = post?.isvip;
+
+  const status = trElement.querySelector('[data-id="status"]');
+  if (!status) return;
+  status.textContent = post?.status;
 
   const price = trElement.querySelector('[data-id="price"]');
   if (!price) return;
   price.textContent = post?.price;
 
-  // đẩy tin
-  const push = trElement.querySelector('[data-id="push"]');
-  if (!push) return;
-
   const number = trElement.querySelector('[data-id="number"]');
   if (!number) return;
   number.textContent = ordinalNumber;
-
-  const category = trElement.querySelector('[data-id="category"]');
-  if (!category) return;
-  category.textContent = post?.categoryName;
 
   const date = trElement.querySelector('[data-id="date"]');
   if (!date) return;
@@ -171,22 +200,12 @@ function createPostElement(post, index) {
   if (!image) return;
   image.src = post?.images[0];
 
-  const editButton = trElement.querySelector('#edit-btn');
-  const removeButton = trElement.querySelector('#remove-btn');
+  const removeButton = buttons.querySelector('#remove-btn');
 
-  push.addEventListener('click', (e) => {
-    console.log('push tin click', e);
-    window.location.assign(`http://localhost:5000/payment/package?postId=${post._id}`);
-  });
-
-  editButton.addEventListener('click', (e) => {
-    window.location.assign(`http://localhost:5000/posts/add-edit?id=${post._id}`);
-  });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');
 
     if (!trElement) return;
-    console.log('okkk');
     let event = new CustomEvent('removePost', {
       bubbles: true,
       detail: { elemntId: trElement, id: post._id },
@@ -243,14 +262,138 @@ function renderPostList({ elemntId, data }) {
   });
 }
 
-// Main
+// // ==================
+function initPriceChange({ onChange }) {
+  const slider = document.querySelector('#price #smooth-steps');
+  const smoothStepsValues = document.querySelector('#price #smooth-steps-values');
+
+  noUiSlider.create(slider, {
+    start: [0, 15],
+    // behaviour: 'smooth-steps',
+    step: 0.5,
+    connect: true,
+    range: {
+      min: 0,
+      max: 15,
+    },
+  });
+
+  slider.noUiSlider.on('update', function (values) {
+    const number1 = parseFloat(values[0]);
+    const number2 = parseFloat(values[1]);
+    smoothStepsValues.textContent = `Từ ${number1} - ${number2} triệu đồng`;
+  });
+
+  const priceButtonWrapper = document.getElementById('price-buttons');
+  const buttons = priceButtonWrapper.querySelectorAll('button');
+  // set value and get value
+  priceButtonWrapper.addEventListener(
+    'click',
+    function (e) {
+      if (e.target.tagName === 'BUTTON') {
+        console.log(e.target.tagName);
+        const value = e.target.value.split('-');
+        slider.noUiSlider.set(value);
+        onChange?.(slider.noUiSlider.get());
+        for (const button of buttons) button.classList.toggle('active', e.target === button);
+      }
+    },
+    {
+      capture: true,
+    }
+  );
+}
+function initAcreageChange({ onChange }) {
+  const slider = document.querySelector('#acreage #smooth-steps');
+  const smoothStepsValues = document.querySelector('#acreage #smooth-steps-values');
+
+  noUiSlider.create(slider, {
+    start: [0, 90],
+    // behaviour: 'smooth-steps',
+    step: 5,
+    connect: true,
+    range: {
+      min: 0,
+      max: 90,
+    },
+  });
+
+  slider.noUiSlider.on('update', function (values) {
+    const number1 = parseFloat(values[0]);
+    const number2 = parseFloat(values[1]);
+    smoothStepsValues.textContent = `Từ ${number1} - ${number2} m2`;
+  });
+
+  const acreageButtonWrapper = document.getElementById('acreage-buttons');
+  const buttons = acreageButtonWrapper.querySelectorAll('button');
+
+  // set value and get value
+  acreageButtonWrapper.addEventListener(
+    'click',
+    function (e) {
+      if (e.target.tagName === 'BUTTON') {
+        console.log(e.target.tagName);
+        const value = e.target.value.split('-');
+        slider.noUiSlider.set(value);
+        // get value change
+        onChange?.(slider.noUiSlider.get());
+        for (const button of buttons) button.classList.toggle('active', e.target === button);
+
+        // change thì gọi lại
+      }
+    },
+    {
+      capture: true,
+    }
+  );
+}
+
+// set lại values
+function handelChangeAcreage(defaultValues, values) {
+  defaultValues.minAcreage = values[0].split('.')[0];
+  defaultValues.maxAcreage = values[1].split('.')[0];
+}
+function handelChangePrice(defaultValues, values) {
+  defaultValues.minPrice = values[0].split('.')[0] + '00000';
+  defaultValues.maxPrice = values[1].split('.')[0] + '00000';
+  if (defaultValues.minPrice === defaultValues.maxPrice) defaultValues.minPrice = '0';
+}
+function handelChangeAddress(defaultValues, values) {}
+
+function initAddressChange({ onChange }) {
+  // handel click categoryButton
+
+  const provinceWrapper = document.getElementById('province-wrapper');
+  provinceWrapper.addEventListener('click', (e) => {
+    const liElement = e.target.closest('li');
+    // liElement.data
+    console.log('click me li', liElement);
+  });
+}
+// // Main
 (async () => {
   try {
+    // code mói
+    const defaultValues = {
+      address: '',
+      minPrice: '',
+      maxPrice: '',
+      minAcreage: '',
+      maxAcreage: '',
+    };
+    initAddressChange({
+      onChange: (value) => handelChangeAddress(defaultValues, value),
+    });
+    initAcreageChange({
+      onChange: (value) => handelChangeAcreage(defaultValues, value),
+    });
+    initPriceChange({ onChange: (value) => handelChangePrice(defaultValues, value) });
     initRemovePost();
-    handelFilterChange();
+    handelFilterChange({});
 
     // input ranger
   } catch (error) {
     console.log(error);
   }
 })();
+// console.log('admin');

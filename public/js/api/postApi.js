@@ -6,6 +6,12 @@ const postApi = {
       params: searchParams,
     });
   },
+  getAllUserPosts(searchParams) {
+    const url = `/posts/getAll`;
+    return axiosClient.get(url, {
+      params: searchParams,
+    });
+  },
   getAllByUserId(searchParams) {
     const url = `/posts/currentUser`;
     return axiosClient.get(url, {

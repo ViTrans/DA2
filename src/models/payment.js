@@ -1,33 +1,32 @@
-const mongoose = require("mongoose");
-
+const mongoose = require('mongoose');
+const Post = require('./posts');
 const paymentSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   package_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Package",
+    ref: 'Package',
     required: true,
   },
   amount: {
     type: Number,
     required: true,
   },
-  payment_method: {
+  transaction_id: {
     type: String,
-    enum: ["momo", "visa", "mastercard"],
     required: true,
   },
-  transaction_id: {
+  payment_info: {
     type: String,
     required: true,
   },
   status: {
     type: String,
-    enum: ["pending", "success", "failed"],
-    default: "pending",
+    enum: ['pending', 'success', 'failed'],
+    default: 'pending',
   },
   created_at: {
     type: Date,
@@ -35,4 +34,8 @@ const paymentSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Payment", paymentSchema);
+// paymentSchema.post('save', async function (payment) {
+
+// });
+
+module.exports = mongoose.model('Payment', paymentSchema);

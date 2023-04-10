@@ -68,12 +68,12 @@ function renderPermisison({ sidebar, user }) {
   // admin có thêm sửa xóa gói tin
   // ...
 }
+
 // /api/v1/auth
 (async () => {
   try {
     console.log('xác thực user with token');
     const token = sessionStorage.getItem('token');
-    // const accessToken = jwt_decode(token);
     if (!token) window.location.assign('http://localhost:5000/404');
 
     // check role
@@ -91,6 +91,7 @@ function renderPermisison({ sidebar, user }) {
       sidebar,
       user,
     });
+
     // renderPermisison();
   } catch (error) {
     console.log('ko có token');

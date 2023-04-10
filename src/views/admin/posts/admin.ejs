@@ -1,0 +1,657 @@
+<%- include('../../partials/head'); %>
+<!-- header -->
+<header><%- include('../../partials/header'); %></header>
+<!-- header -->
+
+<div id="dashboard" class="container-fluid">
+  <div class="row">
+    <!-- sidebar -->
+    <%- include('../../partials/sidebarPanel'); %>
+    <!-- sidebar -->
+
+    <!-- main -->
+    <main id="main" class="ms-sm-auto col-lg-10">
+      <nav aria-label="breadcrumb" class="bg-gray p-3 rounded mb-2">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a href="#">Phongtro123.com </a></li>
+          <li class="breadcrumb-item"><a href="#">Quản lí</a></li>
+          <li class="breadcrumb-item active">Danh sách tin đăng</li>
+        </ol>
+      </nav>
+
+      <div
+      id="filter-posts"
+        style="background-color: #febb02"
+        class="p-3 rounded d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"
+      >
+      
+      <!-- category -->
+
+        <div
+          class="modal fade "
+          id="category"
+          aria-hidden="true"
+          aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="btn-close m-0"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Chọn chuyên mục</h1>
+              </div>
+              <div class="modal-body">
+                <ul class="list-unstyled">
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Phòng trọ, nhà trọ</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Nhà thuê nguyên căn</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                 
+                       data-bs-target="#"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cho thuê căn hộ</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                       data-bs-target="#"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Tìm người ở ghép</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      data-bs-target="#"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cho thuê mặt bằng</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#"
+                      data-bs-toggle="modal"
+                    />
+                    <label for="check">Ang Giang</label for="check">
+                  </li>
+                </ul>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+   <a 
+
+        id="categoryButton"
+          class="btn btn-md btn-light "
+          data-bs-toggle="modal"
+          href="#category"
+          role="button"
+          >Phòng trọ Nhà trọ</a
+        >
+
+      <!-- category -->
+
+
+
+        <!-- 
+          province
+         -->
+
+         <!-- modal 1 -->
+        <div
+          class="modal fade "
+          id="exampleModalToggle"
+          aria-hidden="true"
+          aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="btn-close m-0"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Chọn tỉnh thành phố</h1>
+              </div>
+              <div class="modal-body">
+                <ul class="list-unstyled" id="province-wrapper">
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Toàn quốc</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Hà Nội</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                 
+                       data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Vĩnh Long</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                       data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cà mau</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cao Bằng</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle2"
+                      data-bs-toggle="modal"
+                    />
+                    <label for="check">Ang Giang</label for="check">
+                  </li>
+                </ul>
+              </div>
+    
+            </div>
+          </div>
+        </div>
+        <!-- modal 1 -->
+
+        <!-- modal 2 -->
+        <div
+          class="modal fade"
+          id="exampleModalToggle2"
+          aria-hidden="true"
+          aria-labelledby="exampleModalToggleLabel2"
+          tabindex="-1">      
+             <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Chọn Quận huyện</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              
+                <div class="modal-body">
+                <ul class="list-unstyled">
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Toàn quốc 2</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Hà Nội</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                 
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Vĩnh Long</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cà mau</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cao Bằng</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle3"
+                      data-bs-toggle="modal"
+                    />
+                    <label for="check">Ang Giang</label for="check">
+                  </li>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn btn-light"
+                  data-bs-target="#exampleModalToggle"
+                  data-bs-toggle="modal"
+                >
+                  Back to first
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- modal 2 -->
+
+         <!-- modal 3 -->
+        <div
+          class="modal fade"
+          id="exampleModalToggle3"
+          aria-hidden="true"
+          aria-labelledby="exampleModalToggleLabel2"
+          tabindex="-1">      
+             <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel3">Chọn Phường xã</h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              
+                <div class="modal-body">
+                <ul class="list-unstyled">
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Toàn quốc 2</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Hà Nội</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                 
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Vĩnh Long</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                       data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cà mau</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      data-bs-target="#exampleModalToggle3"
+                  data-bs-toggle="modal"
+                    />
+                    <label for="check">Cao Bằng</label for="check">
+                  </li>
+                  <li class="p-2">
+                    <input
+                      class="form-check-input me-3"
+                      type="radio"
+                      name="check"
+                      id=""
+                       data-bs-target="#exampleModalToggle3"
+                      data-bs-toggle="modal"
+                    />
+                    <label for="check">Ang Giang</label for="check">
+                  </li>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button
+                  class="btn btn-light"
+                  data-bs-target="#exampleModalToggle2"
+                  data-bs-toggle="modal"
+                >
+                  Back to first
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- modal 2 -->
+        <a
+          class="btn btn-md btn-light"
+          data-bs-toggle="modal"
+          href="#exampleModalToggle"
+          role="button"
+          >Toàn quốc</a
+        >
+        <!-- 
+          province
+         -->
+         <!-- filter price -->
+
+        <div
+          class="modal fade modal-lg "
+          id="price"
+          aria-hidden="true"
+          aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="btn-close m-0"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Chọn Gía</h1>
+              </div>
+              <div class="modal-body">
+              <div class="mt-5">
+                  <div id="smooth-steps"></div>
+                <span id="smooth-steps-values"></span>
+              </div>
+              
+              <h5 class="text-center mt-3">Chọn Gía</h5>
+              <div  class="row" id="price-buttons">
+                <button value="0-1" class="btn btn-secondary btn-md col-4">Dưới 1 triệu đồng</button>
+                <button value="1-2" class="btn btn-secondary btn-md col-4">Từ 1 - 2 triệu đồng</button>
+                <button  value="2-3" class="btn btn-secondary btn-md col-4">Từ 2 - 3 triệu đồng</button>
+                <button value="3-5"  class="btn btn-secondary btn-md col-4">Từ 3 - 5 triệu đồng</button>
+                <button value="5-7" class="btn btn-secondary btn-md col-4">Từ 5 - 7 triệu đồng</button>
+                <button value="7-10" class="btn btn-secondary btn-md col-4">Từ 7 - 10 triệu đồng</button>
+                <button value="10-15" class="btn btn-secondary btn-md col-4">Từ 10 - 15 triệu đồng</button>
+                <button value="15" class="btn btn-secondary btn-md col-4">Trên 15 triệu đồng</button>
+              </div>
+            </div>
+    
+            </div>
+          </div>
+        </div>
+   <a
+          class="btn btn-md btn-light"
+          data-bs-toggle="modal"
+          href="#price"
+          role="button"
+          >Chọn giá</a
+        >
+         <!-- filter price -->
+
+         <!-- filter price -->
+
+
+         <!-- filter acreage -->
+
+        <div
+
+          class="modal fade 	modal-lg  "
+          id="acreage"
+          aria-hidden="true"
+          aria-labelledby="exampleModalToggleLabel"
+          tabindex="-1"
+        >
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" style="height: 700px;">
+              <div class="modal-header">
+                <button
+                  type="button"
+                  class="btn-close m-0"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Chọn Diện tích</h1>
+              </div>
+              <div class="modal-body">
+              <div class="mt-5">
+                  <div id="smooth-steps"></div>
+                <span id="smooth-steps-values"></span>
+              </div>
+              
+              <h5 class="text-center mt-3">Chọn nhanh</h5>
+              <div class="row" id="acreage-buttons">
+                <button value="0-20" class="btn btn-secondary col-4">Dưới 20m2</button>
+                <button value="20-30" class="btn btn-secondary col-4">Từ 20m2 - 30m2</button>
+                <button  value="30-50" class="btn btn-secondary col-4">Từ 30m2 - 50m2</button>
+                <button value="50-70"  class="btn btn-secondary col-4">Từ 50m2 - 70m2</button>
+                <button value="70-90" class="btn btn-secondary col-4">Từ 70m2 - 90m2</button>
+                <button value="90" class="btn btn-secondary col-4">Trên 90m2</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+   <a
+          class="btn btn-md btn-light"
+          data-bs-toggle="modal"
+          href="#acreage"
+          role="button"
+          >Chọn diện tích</a
+        >
+
+         <!-- filter acreage -->
+
+
+
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="dropdown me-1">
+            <button
+              class="btn btn-outline-secondary dropdown-toggle btn-sm"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Lọc theo loại VIP
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">Tin Hot</a>
+              <a class="dropdown-item">Tin VIP 30</a>
+              <a class="dropdown-item">Tin VIP 20</a>
+              <a class="dropdown-item">Tin VIP 10</a>
+              <a class="dropdown-item">Tin thường</a>
+            </div>
+          </div>
+          <div class="dropdown me-1">
+            <button
+              class="btn btn-outline-secondary dropdown-toggle btn-sm"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Lọc theo trạng thái
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item">Tin đang hiển thị</a>
+              <a class="dropdown-item">Tin hết hạn</a>
+              <a class="dropdown-item">Tin đang ẩn</a>
+            </div>
+          </div>
+          <button class="btn btn-primary">Tìm kiếm</button>
+          <!-- <div class="d-lg-none w-100">
+                <a class="btn btn-danger btn-block mt-3">Đăng tin mới</a>
+              </div> -->
+        </div>
+
+      </div>
+      <!--  -->
+      <div class="d-md-block">
+        <div class="table-responsive overflow-auto">
+          <table class="table table_post_listing table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Mã tin</th>
+                <th >Ảnh đại diện</th>
+                <th>Tiêu đề</th>
+                <th>Tên thành viên</th>
+                <th>Chuyên mục</th>
+                <th>Giá</th>
+                <th style="white-space: nowrap">Ngày đăng</th>
+                <th>Loại tin</th>
+                <th >Trạng thái</th>
+                <th >Chức năng</th>
+              </tr>
+            </thead>
+            <tbody id="postList">
+              
+            </tbody>
+          </table>
+        </div>
+
+        <!-- end pagination -->
+      </div>
+      <nav>
+        <ul id="pagination" class="pagination justify-content-center"></ul>
+      </nav>
+    </main>
+  </div>
+</div>
+<template id="postTemplate">
+  <tr id="postItem">
+    <td data-id="number">Mã tin</td>
+    <td data-id="image">
+      <img style="width: 70px; height: 70px; object-fit: cover" src="" class="img-thumbnail" />
+    </td>
+    <td data-id="title"></td>
+    <td data-id="user"></td>
+    <td data-id="category"></td>
+    <td data-id="price"></td>
+    <td data-id="date"></td>
+    <td data-id="vip"></td>
+    <td data-id="status"></td>
+    <td data-id="action">
+      <button id="remove-btn" type="button" class="btn btn-sm btn-danger">Remove</button>
+    </td>
+    <td data-id="pack"></td>
+  </tr>
+</template>
+ <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.css"
+      integrity="sha512-MKxcSu/LDtbIYHBNAWUQwfB3iVoG9xeMCm32QV5hZ/9lFaQZJVaXfz9aFa0IZExWzCpm7OWvp9zq9gVip/nLMg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"
+  integrity="sha512-UOJe4paV6hYWBnS0c9GnIRH8PLm2nFK22uhfAvsTIqd3uwnWsVri1OPn5fJYdLtGY3wB11LGHJ4yPU1WFJeBYQ=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script type="module" src="../../../js/post-list-admin.js"></script>
+<%- include('../../partials/footerPanel'); %>

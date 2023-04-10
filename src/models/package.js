@@ -21,4 +21,5 @@ const packageSchema = new mongoose.Schema({
     default: true,
   },
 });
+
 module.exports = mongoose.model("Package", packageSchema);

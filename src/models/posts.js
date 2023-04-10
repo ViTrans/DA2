@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const postSchema = new mongoose.Schema(
   {
@@ -26,18 +26,24 @@ const postSchema = new mongoose.Schema(
     },
     isvip: {
       type: String,
-      default: "vip0",
-      enum: ["vip0", "vip1", "vip2", "vip3"],
+      default: 'vip0',
+      enum: ['vip0', 'vip1', 'vip2', 'vip3'],
     },
+    package_id: { type: Schema.Types.ObjectId, ref: 'Package' },
     acreage: {
       type: Number,
     },
-    category_id: { type: Schema.Types.ObjectId, ref: "Categories" },
-    user_id: { type: Schema.Types.ObjectId, ref: "Users" },
+    expired_at: {
+      type: Date,
+      default: null,
+    },
+    category_id: { type: Schema.Types.ObjectId, ref: 'Categories' },
+    user_id: { type: Schema.Types.ObjectId, ref: 'Users' },
   },
+
   {
     timestamps: true,
   }
 );
 
-module.exports = mongoose.model("Posts", postSchema);
+module.exports = mongoose.model('Posts', postSchema);

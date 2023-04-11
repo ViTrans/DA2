@@ -370,6 +370,12 @@ function initAddressChange({ onChange }) {
     console.log('click me li', liElement);
   });
 }
+
+
+
+function renderPronvinceList() {
+    
+}
 // // Main
 (async () => {
   try {

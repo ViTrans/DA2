@@ -2,7 +2,7 @@ const Payment = require('../models/payment');
 const Post = require('../models/posts');
 const Package = require('../models/package');
 const { sortObject } = require('../helpers/sortObject');
-const updateExpiredPost = require('../helpers/updatedExpriedPost');
+// const updateExpiredPost = require('../helpers/updatedExpriedPost');
 
 const list = async (req, res, next) => {
   res.render('./admin/payment/index', { title: 'Payment' });
@@ -45,7 +45,7 @@ const vnpay_return = async (req, res, next) => {
       switch (pack.name) {
         case 'vip1':
           // xét 1 phút
-          expiredDate = new Date(currentDate.getTime() + 1 * 1000);
+          expiredDate = new Date(currentDate.getTime() + 1 * 800);
           break;
         case 'vip2':
           expiredDate = new Date(currentDate.getTime() + pack.duration * 24 * 60 * 60 * 1000);
@@ -74,13 +74,14 @@ const vnpay_return = async (req, res, next) => {
       await payment.save();
 
       // xử lí thời hạn post sau khi mua vip
-      await updateExpiredPost();
+      // await updateExpiredPost();
 
       res.render('./admin/payment/vnpay-return', {
         title: 'VNPAY RETURN',
         code: vnp_Params['vnp_ResponseCode'],
       });
     } catch (error) {
+      console.log('error', error);
       res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: 97 });
     }
   } else {

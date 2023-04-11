@@ -2,7 +2,6 @@ import userApi from './api/userApi.js';
 
 function renderUserInfo({ sidebar, user }) {
   const userInfo = sidebar.querySelector('.user_info');
-  console.log(userInfo);
   const avatar = userInfo.querySelector('.user_avatar > img');
   const phone = userInfo.querySelector('.phone');
   const username = userInfo.querySelector('.username > b');
@@ -80,8 +79,6 @@ function renderPermisison({ sidebar, user }) {
     // render sidebar menu theo Role
     const { user } = await userApi.getCurentUser();
 
-    console.log('Trang web đã tải hoàn tất!');
-    console.log('render ui sidebar');
     const sidebar = document.querySelector('#sidebar');
     renderUserInfo({
       sidebar,

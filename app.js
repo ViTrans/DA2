@@ -21,6 +21,23 @@ const postDetails = require('./src/routes/postDetails');
 const getPostNew = require('./src/middlewares/getPostNew');
 const { show, forgotPassword } = require('./src/controller/forgot-password');
 
+const cron = require('node-cron');
+cron.schedule('* * * * *', async () => {
+  console.log('running a task every minute');
+  await updateExpiredPosts();
+  console.log('chay cron');
+});
+// 24 tiếng
+// cron.schedule('0 0 */1 * * *', async () => {
+//   await updateExpiredPosts();
+//   console.log('chay cron');
+// });
+// 5 p
+// cron.schedule('*/5 * * * *', async () => {
+//   await updateExpiredPosts();
+//   console.log('chay cron');
+// });
+
 // conect DB
 // Connection URL. This is where your mongodb server is running.
 mongoose.set('strictQuery', true);
@@ -40,6 +57,21 @@ conectDB();
 mongoose.connection.once('open', () => {
   console.log('connection open');
 });
+
+// demo
+
+const Post = require('./src/models/posts');
+
+const updateExpiredPosts = async () => {
+  const expiredPosts = await Post.find({ isvip: { $ne: 'vip0' }, expired_at: { $lt: new Date() } });
+  expiredPosts.forEach(async (post) => {
+    post.isvip = 'vip0';
+    post.expired_at = null;
+    await post.save();
+  });
+};
+
+// demo
 
 // Middleware
 app.use((req, res, next) => {

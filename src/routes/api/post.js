@@ -7,8 +7,7 @@ const fileUploader = require('../../middlewares/cloudinary');
 
 // get all
 router.get('/currentUser/', verifyToken, async (req, res) => {
-  const ddd = await Post.find({ expired_at: { $ne: null }, expired_at: { $lt: new Date() } });
-  console.log('test ', ddd);
+  // const ddd = await Post.find({ expired_at: { $ne: null }, expired_at: { $lt: new Date() } });
   let searchOptions = {};
 
   const { page = 1, limit = 4 } = req?.query;
@@ -74,7 +73,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
 router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
   let searchOptions = {};
 
-  const { page = 1, limit = 2 } = req?.query;
+  const { page = 1, limit = 4 } = req?.query;
   const skip = (page - 1) * limit;
 
   if (req.query.title != null && req.query.title !== '') {

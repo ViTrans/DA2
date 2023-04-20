@@ -10,51 +10,50 @@
       />
     </div>
     <div class="col-md-8">
-      <a
-        href="/details/<%= post.id %>"
-        class="card-title text-capitalize text-decoration-none fs-5 text-primary mt-2"
-        ><%= post.title %></a
-      >
-      <div class="card-rate">
-        <!-- nếu post.isvip === "vip3" thì hiển thị 5 sao -->
-
-        <% if (post.isvip === "vip3") { %>
-        <div class="text-danger">
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-        </div>
-        <% } %>
-        <!-- nếu post.isvip === "vip2" thì hiển thị 4 sao -->
-        <% if (post.isvip === "vip2") { %>
-        <div style="color: #ff8b13">
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-        </div>
-        <% } %>
-        <!-- nếu post.isvip === "vip1" thì hiển thị 3 sao -->
-        <% if (post.isvip === "vip1") { %>
-        <div class="text-warning">
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-          <i class="fa fas fa-star"></i>
-        </div>
-        <% } %>
-        <!-- nếu post.isvip === "vip0" thì không có sao -->
-        <% if (post.isvip === "vip0") { %>
-        <div></div>
-        <% } %>
+      <div class="multi-line" style="max-width: 600px">
+        <a
+          href="/details/<%= post.id %>"
+          class="card-title text-capitalize text-decoration-none fs-6 fw-bold text-primary mt-2"
+        >
+          <% if (post.isvip === "vip3") { %>
+          <span class="text-danger">
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+          </span>
+          <% } %>
+          <!-- nếu post.isvip === "vip2" thì hiển thị 4 sao -->
+          <% if (post.isvip === "vip2") { %>
+          <span style="color: #ff8b13">
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+          </span>
+          <% } %>
+          <!-- nếu post.isvip === "vip1" thì hiển thị 3 sao -->
+          <% if (post.isvip === "vip1") { %>
+          <span class="text-warning">
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+            <i class="fa fas fa-star"></i>
+          </span>
+          <% } %>
+          <!-- nếu post.isvip === "vip0" thì không có sao -->
+          <% if (post.isvip === "vip0") { %>
+          <span></span>
+          <% } %><%= post.title %></a
+        >
       </div>
       <p class="text-muted m-0"><%= post.address%></p>
-      <p class="card-price text-success m-0">
-        <%= post.price.toLocaleString('vi-VN', { style: 'currency', currency:
-        'VND' }) %><span>/Tháng</span>
+      <p class="card-price text-success m-0 fw-bold">
+        <%= post.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %><span
+          >/Tháng</span
+        >
       </p>
-      <p class="card-text text-muted text-truncate"><%= post.description %></p>
+      <p class="card-text text-muted multi-line"><%= post.description %></p>
       <div>
         <a href="#" class="btn btn-success"><%= post.phone %></a>
         <a href="#" class="btn btn-primary">Zalo</a>
@@ -69,34 +68,23 @@
     <!-- nếu có category_id thì phân trang cho category_id nếu có search thì phân trang cho search nếu không có gì hết thì phân trang post -->
     <% if (category_id) { %>
     <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-      <a
-        class="page-link"
-        href="/category/<%= category_id %>?page=<%= page - 1 %>"
-        >Previous</a
-      >
+      <a class="page-link" href="/category/<%= category_id %>?page=<%= page - 1 %>">Previous</a>
     </li>
     <% } else if (search) { %>
     <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-      <a class="page-link" href="/search?<%= search %>&page=<%= page - 1 %>"
-        >Previous</a
-      >
+      <a class="page-link" href="/search?<%= search %>&page=<%= page - 1 %>">Previous</a>
     </li>
     <% } else { %>
     <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
       <a class="page-link" href="/?page=<%= page - 1 %>">Previous</a>
     </li>
-    <% } %> <% for (let i = 1; i <= totalPage; i++) { %> <% if (category_id) {
-    %>
+    <% } %> <% for (let i = 1; i <= totalPage; i++) { %> <% if (category_id) { %>
     <li class="page-item <%= page === i ? 'active' : '' %>">
-      <a class="page-link" href="/category/<%= category_id %>?page=<%= i %>"
-        ><%= i %></a
-      >
+      <a class="page-link" href="/category/<%= category_id %>?page=<%= i %>"><%= i %></a>
     </li>
     <% } else if (search) { %>
     <li class="page-item <%= page === i ? 'active' : '' %>">
-      <a class="page-link" href="/search?<%= search %>&page=<%= i %>"
-        ><%= i %></a
-      >
+      <a class="page-link" href="/search?<%= search %>&page=<%= i %>"><%= i %></a>
     </li>
     <% } else { %>
     <li class="page-item <%= page === i ? 'active' : '' %>">
@@ -104,17 +92,11 @@
     </li>
     <% } %> <% } %> <% if (category_id) { %>
     <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
-      <a
-        class="page-link"
-        href="/category/<%= category_id %>?page=<%= page + 1 %>"
-        >Next</a
-      >
+      <a class="page-link" href="/category/<%= category_id %>?page=<%= page + 1 %>">Next</a>
     </li>
     <% } else if (search) { %>
     <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
-      <a class="page-link" href="/search?<%= search %>&page=<%= page + 1 %>"
-        >Next</a
-      >
+      <a class="page-link" href="/search?<%= search %>&page=<%= page + 1 %>">Next</a>
     </li>
     <% } else { %>
     <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">

@@ -26,18 +26,18 @@
           name="province"
         >
           <script>
-            const selectProvince = document.getElementById("select-province");
-            const defaultOption = document.createElement("option");
-            defaultOption.text = "Toàn Quốc";
-            defaultOption.value = "";
+            const selectProvince = document.getElementById('select-province');
+            const defaultOption = document.createElement('option');
+            defaultOption.text = 'Toàn Quốc';
+            defaultOption.value = '';
             selectProvince.add(defaultOption);
 
-            let api = "https://provinces.open-api.vn/api/";
+            let api = 'https://provinces.open-api.vn/api/';
             fetch(api)
               .then((response) => response.json())
               .then((data) => {
                 data.forEach((element) => {
-                  let option = document.createElement("option");
+                  let option = document.createElement('option');
                   option.text = element.name;
                   option.value = element.name;
                   selectProvince.add(option);
@@ -75,9 +75,7 @@
       </div>
       <!-- button search -->
       <div class="col-md-2">
-        <button type="submit" class="btn btn-primary btn-lg btn-block fs-6">
-          Tìm Kiếm
-        </button>
+        <button type="submit" class="btn btn-primary btn-lg btn-block fs-6">Tìm Kiếm</button>
       </div>
     </form>
     <script>
@@ -109,39 +107,53 @@
         `);
       }
     </script>
-    <div
-      class="row container text-center d-md-flex justify-content-center d-none"
-    >
+    <div class="row container text-center d-md-flex justify-content-center d-none">
       <div class="col-4 w-25">
         <div class="card m-3 bg-white rounded-4 overflow-hidden">
-          <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
+          <a href="search?category=&province=Thành+phố+Hồ+Chí+Minh">
+            <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
+          </a>
           <div class="card-body">
-            <h5 class="card-title text-primary">Hồ Chí Minh</h5>
+            <a
+              href="search?category=&province=Thành+phố+Hồ+Chí+Minh"
+              class="card-title text-primary text-decoration-none"
+              >Hồ Chí Minh</a
+            >
           </div>
         </div>
       </div>
       <div class="col-4 w-25">
         <div class="card m-3 bg-white rounded-4 overflow-hidden">
-          <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
+          <a href="search?category=&province=Thành+phố+Cần+Thơ">
+            <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
+          </a>
           <div class="card-body">
-            <h5 class="card-title text-primary">Cần Thơ</h5>
+            <a
+              href="search?category=&province=Thành+phố+Cần+Thơ"
+              class="card-title text-primary text-decoration-none"
+              >Cần Thơ</a
+            >
           </div>
         </div>
       </div>
       <div class="col-4 w-25">
         <div class="card m-3 bg-white rounded-4 overflow-hidden">
-          <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
+          <a href="search?category=&province=Thành+phố+Hà+Nội">
+            <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
+          </a>
           <div class="card-body">
-            <h5 class="card-title text-primary">Hà Nội</h5>
+            <a
+              href="search?category=&province=Thành+phố+Hà+Nội"
+              class="card-title text-primary text-decoration-none"
+              >Hà Nội</a
+            >
           </div>
         </div>
       </div>
     </div>
     <section class="row justify-content-center align-items-start">
       <div class="col-md-8 col-12"><%- include("./partials/post"); %></div>
-      <div class="col-md-4 col-12 d-none d-md-block">
-        <%- include("./partials/sidebar"); %>
-      </div>
+      <div class="col-md-4 col-12 d-none d-md-block"><%- include("./partials/sidebar"); %></div>
     </section>
   </main>
 </body>

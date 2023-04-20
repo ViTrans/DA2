@@ -1,7 +1,7 @@
 // Imports
 const express = require('express');
 const app = express();
-const port = 5000;
+const port = 5002;
 require('dotenv').config();
 const createError = require('http-errors');
 const expressLayouts = require('express-ejs-layouts');

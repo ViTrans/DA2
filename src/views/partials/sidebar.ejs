@@ -3,47 +3,40 @@
   <% if (locals.postsNew) { %> <% postsNew.forEach(element => { %>
   <div class="row mb-2 justify-content-center">
     <div class="col-md-4 card-top">
-      <img
-        src="<%- element.images[0]%>"
-        class="img-post"
-        style="object-fit: cover"
-        alt=""
-      />
+      <img src="<%- element.images[0]%>" class="img-post" style="object-fit: cover" alt="" />
     </div>
     <div class="col-md-8">
-      <h5 class="card-title text-primary fs-6 text-truncate">
-        <%- element.title %>
-      </h5>
-      <div class="card-rate">
+      <h5 class="card-title text-primary fs-6 multi-line">
         <% if (element.isvip === "vip3") { %>
-        <div class="text-danger">
+        <span class="text-danger">
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
-        </div>
+        </span>
 
         <% } else if (element.isvip === "vip2") { %>
-        <div style="color: #ff8b13">
+        <span style="color: #ff8b13">
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
-        </div>
+        </span>
 
         <% } else if (element.isvip === "vip1") { %>
-        <div class="text-warning">
+        <span class="text-warning">
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
           <i class="fa fas fa-star"></i>
-        </div>
+        </span>
 
-        <% } %>
-      </div>
-      <p class="card-price text-success fs-6">
-        <%= element.price.toLocaleString('vi-VN', { style: 'currency', currency:
-        'VND' }) %><span>/Tháng</span>
+        <% } %><%- element.title %>
+      </h5>
+      <p class="card-price text-success fs-6 fw-bold m-0">
+        <%= element.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %><span
+          >/Tháng</span
+        >
       </p>
     </div>
   </div>

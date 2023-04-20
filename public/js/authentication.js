@@ -12,7 +12,22 @@ function renderUserInfo({ sidebar, user }) {
   // monney
   // ......
 }
-function renderPermisison({ sidebar, user }) {
+
+function setActiveLink() {
+  const currentUrl = window.location.href;
+
+  const menuLinks = document.querySelectorAll('#sidebar #navbar .nav-item');
+  console.log(menuLinks);
+  menuLinks.forEach((link) => {
+    if (link.firstElementChild.href === currentUrl) {
+      link.firstElementChild.classList.add('fw-bold');
+    } else {
+      link.firstElementChild.classList.remove('fw-bold');
+    }
+  });
+}
+
+function renderPermisisonUserList({ sidebar, user }) {
   const navbarContainer = sidebar.querySelector('#navbar');
   const navbarTemplate = document.querySelector('#navbarTemplate').cloneNode(true).content;
 
@@ -84,11 +99,19 @@ function renderPermisison({ sidebar, user }) {
       sidebar,
       user,
     });
-    renderPermisison({
+    renderPermisisonUserList({
       sidebar,
       user,
     });
+    setActiveLink();
+    const expirationTime = new Date().getTime() + 5 * 60 * 1000; // tính toán thời gian hết hạn
 
+    const timeLeft = expirationTime - new Date().getTime();
+    setTimeout(() => {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('user');
+      window.location.assign('/');
+    }, timeLeft);
     // renderPermisison();
   } catch (error) {
     console.log('ko có token');

@@ -306,6 +306,10 @@ function setFormValues(form, defaultFormValues) {
   const acreage = form.querySelector('[name="acreage"]');
   if (!acreage) return;
   acreage.value = defaultFormValues.acreage;
+
+  const addressElement = form.querySelector('[name="address"]');
+
+  addressElement.value = defaultFormValues.address;
 }
 
 function setFiledLocation(locationValue, form, name, curentValue, codeName) {
@@ -344,10 +348,6 @@ async function setLocation(form, defaultFormValues) {
   const wardValue = await locationApi.getWard(locationValue.districtCode);
   renderOptions(wardValue.wards, 'ward', form);
   setFiledLocation(locationValue, form, 'ward', ward, 'wardCode');
-
-  const addressElement = form.querySelector('[name="address"]');
-
-  addressElement.value = address;
 }
 
 export async function initPostForm({ formId, defaultFormValues, onSubmit }) {

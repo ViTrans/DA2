@@ -203,12 +203,19 @@ input[type='radio']:checked + label {
   color: #0074d9;
 }
 
+/* .modal-body li.active input[type='radio']:checked,
+.modal-body li.active label {
+  color: #0074d9;
+} */
+
 /* checked input radio */
 
 /* filter filter-posts */
 
 #filter-posts ul li {
   border-bottom: 1px solid #ddd;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 #filter-posts ul li:hover label {
@@ -226,32 +233,81 @@ input[type='radio']:checked + label {
 }
 
 /* sider */
+.slider-styled,
+.slider-styled .noUi-handle {
+  box-shadow: none;
+}
 
-#slider-round {
+/* Hide markers on slider handles */
+.noUi-handle::before,
+.noUi-handle::after {
+  display: none;
+}
+
+/* #slider-price #slider-price .noUi-handle {
+  height: 25px;
+  width: 25px;
+  top: 3px;
+  right: -25px;
+  border-radius: 50%;
+} */
+/* smooth-steps-values-acreage */
+.modal-body #slider-price .noUi-connect,
+.modal-body #slider-acreage .noUi-connect {
+  background-color: #0074d9;
+}
+#slider-price,
+#slider-acreage {
   height: 10px;
 }
 
-#slider-round .noUi-connect {
+/* #slider-price .noUi-connect,
+#slider-acreage .noUi-connect {
   background: #c0392b;
-}
+} */
 
-#slider-round .noUi-handle {
-  height: 18px;
-  width: 18px;
-  top: -5px;
-  right: -9px; /* half the width */
-  border-radius: 9px;
+#slider-price .noUi-handle,
+#slider-acreage .noUi-handle {
+  height: 25px;
+  width: 25px;
+  top: 3px;
+  right: -28px;
+  border-radius: 50%;
 }
 /* sider */
 
 #price-buttons button.active {
   background-color: #0074d9;
+  border-color: #0074d9;
 }
 #acreage-buttons button.active {
   background-color: #0074d9;
+  border-color: #0074d9;
+}
+#price-buttons,
+#acreage-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -6px;
+}
+
+#price-buttons button,
+#acreage-buttons button {
+  padding: 8px 4px;
+  width: calc(25% - 6px);
+  margin-left: 6px;
+  margin-bottom: 6px;
 }
 
 /* input ranger */
+/* category filter */
+#category-list li {
+  cursor: pointer;
+  font-weight: 500;
+}
+#category-list li.active {
+  color: #0074d9;
+}
 
 /* .noUi-horizontal .noUi-handle {
   width: 34px;
@@ -259,3 +315,9 @@ input[type='radio']:checked + label {
   right: -37px;
   top: 7px;
 } */
+
+
+/* <i class="fa-solid fa-delete-left"></i>  */
+/* <i class="fa-solid fa-location-dot"></i> */
+/* <i class="fa-regular fa-money-bill-1"></i> */
+/* <i class="fa-solid fa-angle-right"></i> */

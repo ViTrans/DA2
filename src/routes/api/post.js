@@ -10,7 +10,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
   // const ddd = await Post.find({ expired_at: { $ne: null }, expired_at: { $lt: new Date() } });
   let searchOptions = {};
 
-  const { page = 1, limit = 4 } = req?.query;
+  const { page = 1, limit = 2 } = req?.query;
   const skip = (page - 1) * limit;
 
   if (req.query.title != null && req.query.title !== '') {
@@ -20,6 +20,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
     searchOptions.category = req.query.category;
     searchOptions.categoryId = searchOptions.category;
   }
+
   try {
     const userId = req?.user?.id;
 
@@ -73,25 +74,30 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
 router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
   let searchOptions = {};
 
-  const { page = 1, limit = 4 } = req?.query;
+  const { page = 1, limit = 2 } = req?.query;
   const skip = (page - 1) * limit;
 
-  if (req.query.title != null && req.query.title !== '') {
-    searchOptions.title = new RegExp(req.query.title, 'i');
-  }
-  if (req.query.category != null && req.query.category !== '') {
-    console.log(req.query.category);
-    searchOptions.category = req.query.category;
-    searchOptions.categoryId = searchOptions.category;
-  }
-  console.log('req.query ', req.query);
+  let address = '';
 
-  // filter
-  // address
-  // acreage
-  // price
-  if (req.query.minPrice) searchOptions.price = { $gte: 1100000 };
-  if (req.query.maxPrice) searchOptions.price = { ...searchOptions.price, $lte: 1100000 };
+  if (req.query?.province) address += req.query?.province?.replaceAll('-', ' ');
+  if (req.query?.district) address += req.query?.district?.replaceAll('-', ' ') + ', ';
+  if (req.query?.ward) address += req.query?.ward?.replaceAll('-', ' ') + ', ';
+
+  if (address !== '') {
+    searchOptions.address = new RegExp(address, 'i');
+  }
+
+  if (req.query.category != null && req.query.category !== '') {
+    searchOptions.category_id = req.query.category;
+  }
+
+  if (req.query.minPrice) searchOptions.price = { $gte: req.query.minPrice };
+  if (req.query.maxPrice)
+    searchOptions.price = { ...searchOptions.price, $lte: req.query.maxPrice };
+
+  if (req.query.minAcreage) searchOptions.acreage = { $gte: req.query.minAcreage };
+  if (req.query.maxAcreage)
+    searchOptions.acreage = { ...searchOptions.acreage, $lte: req.query.maxAcreage };
 
   try {
     const userId = req?.user?.id;
@@ -116,7 +122,6 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
       .skip(skip)
       .limit(limit)
       .lean();
-    console.log(posts);
     const postNew = posts.map((post) => {
       return {
         ...post,
@@ -265,3 +270,5 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 });
 module.exports = router;
+
+// province=Tỉnh+Tuyên+Quang&district=Huyện+Hàm+Yên&minPrice=200000&maxPrice=300000&minAcreage=70&maxAcreage=90

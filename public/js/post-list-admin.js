@@ -1,4 +1,11 @@
 import postApi from './api/postApi.js';
+import categoryApi from './api/categoryApi.js';
+import locationApi from './api/locationApi.js';
+import { formatDate } from './utils/common.js';
+
+function truncateText(text, length) {
+  return text.length - 1 > length ? text.slice(0, length - 1) + '…' : text;
+}
 
 async function handelFilterChange(filterObjectValues) {
   // code
@@ -7,16 +14,13 @@ async function handelFilterChange(filterObjectValues) {
   const queryPamrams = new URL(window.location);
   for (const [filterName, filterValue] of Object.entries(filterObjectValues)) {
     if (filterName) queryPamrams.searchParams.set(filterName, filterValue);
-    if (filterName === 'title' || filterName === 'category')
-      queryPamrams.searchParams.delete('page');
-    if (filterName === 'title' && filterValue == '') queryPamrams.searchParams.delete('title');
-    if (filterName === 'category' && filterValue == '')
-      queryPamrams.searchParams.delete('category');
+
+    // if (filterName === 'page') queryPamrams.searchParams.delete('page');
+    if (filterName && filterValue == '') queryPamrams.searchParams.delete(filterName);
   }
 
   history.pushState({}, '', queryPamrams);
   const { data, pagination } = await postApi.getAllUserPosts(queryPamrams.searchParams);
-  console.log(data);
 
   renderPostList({
     elemntId: 'postList',
@@ -142,15 +146,6 @@ function renderPagination({ elemntId, pagination }) {
   };
 }
 
-//  <td data-id="title"></td>
-//     <td data-id="category"></td>
-//     <td data-id="user"></td>
-//     <td data-id="status"></td>
-//     <td data-id="package"></td>
-//     <td data-id="price"></td>
-//     <td data-id="date"></td>
-//     <td data-id="action"></td>
-
 function createPostElement(post, index) {
   const postTemplate = document.getElementById('postTemplate').cloneNode(true).content;
   const trElement = postTemplate.firstElementChild;
@@ -191,7 +186,7 @@ function createPostElement(post, index) {
 
   const date = trElement.querySelector('[data-id="date"]');
   if (!date) return;
-  date.textContent = post?.createdAt;
+  date.textContent = formatDate(post.created_at);
 
   const buttons = trElement.querySelector('[data-id="action"]');
   if (!buttons) return;
@@ -264,12 +259,10 @@ function renderPostList({ elemntId, data }) {
 
 // // ==================
 function initPriceChange({ onChange }) {
-  const slider = document.querySelector('#price #smooth-steps');
-  const smoothStepsValues = document.querySelector('#price #smooth-steps-values');
-
+  const slider = document.querySelector('#slider-price');
+  const smoothStepsValues = document.querySelector('#smooth-steps-values-price');
   noUiSlider.create(slider, {
     start: [0, 15],
-    // behaviour: 'smooth-steps',
     step: 0.5,
     connect: true,
     range: {
@@ -278,10 +271,18 @@ function initPriceChange({ onChange }) {
     },
   });
 
+  let count = 0;
   slider.noUiSlider.on('update', function (values) {
+    if (count < 2) {
+      count++;
+      return;
+    }
+
+    console.log('gooo');
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
     smoothStepsValues.textContent = `Từ ${number1} - ${number2} triệu đồng`;
+    onChange?.(slider.noUiSlider.get());
   });
 
   const priceButtonWrapper = document.getElementById('price-buttons');
@@ -304,9 +305,8 @@ function initPriceChange({ onChange }) {
   );
 }
 function initAcreageChange({ onChange }) {
-  const slider = document.querySelector('#acreage #smooth-steps');
-  const smoothStepsValues = document.querySelector('#acreage #smooth-steps-values');
-
+  const slider = document.querySelector('#slider-acreage');
+  const smoothStepsValues = document.querySelector('#smooth-steps-values-acreage');
   noUiSlider.create(slider, {
     start: [0, 90],
     // behaviour: 'smooth-steps',
@@ -317,11 +317,16 @@ function initAcreageChange({ onChange }) {
       max: 90,
     },
   });
-
+  let count = 0;
   slider.noUiSlider.on('update', function (values) {
+    if (count < 2) {
+      count++;
+      return;
+    }
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
     smoothStepsValues.textContent = `Từ ${number1} - ${number2} m2`;
+    onChange?.(slider.noUiSlider.get());
   });
 
   const acreageButtonWrapper = document.getElementById('acreage-buttons');
@@ -332,7 +337,6 @@ function initAcreageChange({ onChange }) {
     'click',
     function (e) {
       if (e.target.tagName === 'BUTTON') {
-        console.log(e.target.tagName);
         const value = e.target.value.split('-');
         slider.noUiSlider.set(value);
         // get value change
@@ -352,54 +356,311 @@ function initAcreageChange({ onChange }) {
 function handelChangeAcreage(defaultValues, values) {
   defaultValues.minAcreage = values[0].split('.')[0];
   defaultValues.maxAcreage = values[1].split('.')[0];
+
+  const button = document.getElementById('areageButton');
+  if (defaultValues.minAcreage === defaultValues.maxAcreage) {
+    defaultValues.maxAcreage = '';
+    button.textContent = 'Trên ' + values[0].split('.')[0] + ' m2';
+  } else {
+    button.textContent = `Từ ${values[0].split('.')[0]} - ${values[1].split('.')[0]} m2`;
+  }
 }
 function handelChangePrice(defaultValues, values) {
-  defaultValues.minPrice = values[0].split('.')[0] + '00000';
-  defaultValues.maxPrice = values[1].split('.')[0] + '00000';
-  if (defaultValues.minPrice === defaultValues.maxPrice) defaultValues.minPrice = '0';
+  // reset price
+
+  const formatMinPrice = values[0].split('.')[0] + '00000';
+  const formatMaxPrice = values[1].split('.')[0] + '00000';
+
+  defaultValues.minPrice = formatMinPrice;
+  defaultValues.maxPrice = formatMaxPrice;
+  console.log(defaultValues);
+
+  const button = document.getElementById('priceButton');
+  if (defaultValues.minPrice === defaultValues.maxPrice) {
+    defaultValues.maxPrice = '';
+    button.textContent = 'Trên ' + values[0].split('.')[0] + ' triệu';
+  } else {
+    button.textContent = `Từ ${values[0].split('.')[0]}-${values[1].split('.')[0]} triệu`;
+  }
 }
-function handelChangeAddress(defaultValues, values) {}
+function handelChangeAddress(defaultValues, address) {
+  console.log('change');
+  console.log('defuat value', defaultValues);
+  const { province, district, ward } = address;
+  console.log('address', address);
+  if (province && province.dataset.code) {
+    defaultValues.province = '';
+    defaultValues.district = '';
+    defaultValues.ward = '';
+    defaultValues.province = province.innerText.trim().replaceAll(' ', '-');
+  }
+
+  if (district) {
+    defaultValues.district = district.innerText.trim().replaceAll(' ', '-');
+    defaultValues.ward = '';
+  }
+  if (ward) defaultValues.ward = ward.innerText.trim().replaceAll(' ', '-');
+
+  if (province?.dataset?.code === '' && !district && !ward) {
+    defaultValues.province = '';
+    defaultValues.district = '';
+    defaultValues.ward = '';
+  }
+  // change text content location button
+  const locationButton = document.getElementById('locationButton');
+  if (!defaultValues.province) {
+    locationButton.textContent = 'Toàn Quốc';
+  } else {
+    let locationText = `${defaultValues.ward.replaceAll(
+      '-',
+      ' '
+    )} ${defaultValues.district.replaceAll('-', ' ')} ${defaultValues.province.replaceAll(
+      '-',
+      ' '
+    )}`;
+
+    locationButton.textContent = truncateText(locationText, 26);
+  }
+}
 
 function initAddressChange({ onChange }) {
-  // handel click categoryButton
+  const ulPronvince = document.getElementById('province-wrapper');
+  renderPronvinceList(ulPronvince);
 
-  const provinceWrapper = document.getElementById('province-wrapper');
-  provinceWrapper.addEventListener('click', (e) => {
-    const liElement = e.target.closest('li');
-    // liElement.data
-    console.log('click me li', liElement);
+  document.addEventListener('provinceItemActive', (e) => {
+    onChange?.({ province: e.detail.province });
+  });
+  document.addEventListener('districtItemActive', (e) => {
+    onChange?.({ district: e.detail.district });
+  });
+  document.addEventListener('wardItemActive', (e) => {
+    onChange?.({ ward: e.detail.ward });
+  });
+}
+function initCategoryChange({ onChange }) {
+  const ulCategory = document.getElementById('category-list');
+  renderCategoryList(ulCategory);
+
+  document.addEventListener('categoryItemActive', (e) => {
+    onChange?.(e.detail.id);
   });
 }
 
+async function renderCategoryList(ulCategory) {
+  const { categories } = await categoryApi.getAll();
 
+  const item = {
+    _id: '',
+    title: 'Tất cả',
+  };
 
-function renderPronvinceList() {
-    
+  categories.unshift(item);
+  categories.forEach((cate, index) => {
+    const liElement = document.createElement('li');
+    liElement.classList.add('p-2');
+    liElement.dataset.id = cate._id;
+    liElement.textContent = cate.title;
+    if (index === 0) liElement.classList.add('active');
+
+    liElement.addEventListener('click', (e) => {
+      const categoryList = ulCategory.querySelectorAll('li');
+      // reset acive
+      [...categoryList].find((li) => li.closest('.active') && li.classList.remove('active'));
+      const categoryButton = document.getElementById('categoryButton');
+      categoryButton.textContent = liElement.textContent;
+      liElement.classList.add('active');
+      const modal = document.getElementById('category');
+      const myModal = bootstrap.Modal.getInstance(modal);
+      myModal.hide();
+
+      // dispath event
+      let event = new CustomEvent('categoryItemActive', {
+        bubbles: true,
+        detail: { id: liElement.dataset.id },
+      });
+      liElement.dispatchEvent(event);
+    });
+    ulCategory.appendChild(liElement);
+  });
 }
+
+function createProvinceElement(data) {
+  const provinceTemplate = document.getElementById('provinceTemplate').cloneNode(true).content;
+
+  const liElement = provinceTemplate.firstElementChild;
+
+  liElement.dataset.code = data.code;
+  const labelElement = liElement.querySelector('label');
+  const inputElement = liElement.querySelector('input');
+  labelElement.textContent = data.name;
+
+  liElement.addEventListener('click', (e) => {
+    inputElement.checked = true;
+    const provinceModal = new bootstrap.Modal('#exampleModalToggle2', {
+      keyboard: false,
+    });
+    const modal = document.getElementById('exampleModalToggle');
+    const myModal = bootstrap.Modal.getInstance(modal);
+    myModal.hide();
+
+    if (liElement.dataset.code) {
+      provinceModal.show();
+      renderDistrictList(liElement.dataset.code);
+    }
+
+    // dispath event
+    let event = new CustomEvent('provinceItemActive', {
+      bubbles: true,
+      detail: { province: liElement },
+    });
+    liElement.dispatchEvent(event);
+  });
+
+  return liElement;
+}
+function createDistrictElement(data) {
+  const districtTemplate = document.getElementById('districtTemplate').cloneNode(true).content;
+
+  const liElement = districtTemplate.firstElementChild;
+  liElement.dataset.code = data.code;
+  const labelElement = liElement.querySelector('label');
+  const inputElement = liElement.querySelector('input');
+  labelElement.textContent = data.name;
+
+  liElement.addEventListener('click', (e) => {
+    inputElement.checked = true;
+
+    const modal = document.getElementById('exampleModalToggle2');
+    const myModal = bootstrap.Modal.getInstance(modal);
+    myModal.hide();
+    if (!liElement.dataset.code) return;
+
+    const wardModal = new bootstrap.Modal('#exampleModalToggle3', {
+      keyboard: false,
+    });
+    // dispath event
+    let event = new CustomEvent('districtItemActive', {
+      bubbles: true,
+      detail: { district: liElement },
+    });
+    liElement.dispatchEvent(event);
+    if (!liElement.dataset.code) return;
+
+    wardModal.show();
+    renderWardList(liElement.dataset.code);
+  });
+  return liElement;
+}
+function createWardElement(data) {
+  const districtTemplate = document.getElementById('wardTemplate').cloneNode(true).content;
+
+  const liElement = districtTemplate.firstElementChild;
+  liElement.dataset.code = data.code;
+  const labelElement = liElement.querySelector('label');
+  const inputElement = liElement.querySelector('input');
+  labelElement.textContent = data.name;
+
+  liElement.addEventListener('click', (e) => {
+    inputElement.checked = true;
+
+    const modal = document.getElementById('exampleModalToggle3');
+    const myModal = bootstrap.Modal.getInstance(modal);
+    myModal.hide();
+    if (!liElement.dataset.code) return;
+
+    // dispath event
+    let event = new CustomEvent('wardItemActive', {
+      bubbles: true,
+      detail: { ward: liElement },
+    });
+    liElement.dispatchEvent(event);
+  });
+  return liElement;
+}
+
+async function renderWardList(code) {
+  const ulWard = document.getElementById('ward-wrapper');
+  ulWard.innerHTML = '';
+  const { wards } = await locationApi.getWard(code);
+  const allwards = { name: 'Tất cả', code: '' };
+  wards.unshift(allwards);
+  wards.forEach((data) => {
+    const liElement = createWardElement(data);
+    ulWard.appendChild(liElement);
+  });
+}
+async function renderDistrictList(code) {
+  const ulDistrict = document.getElementById('district-wrapper');
+  ulDistrict.innerHTML = '';
+  const { districts } = await locationApi.getDistrict(code);
+  const allDistricts = { name: 'Tất cả', code: '' };
+  districts.unshift(allDistricts);
+  districts.forEach((data) => {
+    const liElement = createDistrictElement(data);
+    ulDistrict.appendChild(liElement);
+  });
+}
+async function renderPronvinceList(ulPronvince) {
+  const province = await locationApi.getProvince();
+  // push toàn quốc for pronvince
+  const nationwide = { name: 'Toàn quốc', code: '' };
+  province.unshift(nationwide);
+  province.forEach((data) => {
+    const liElement = createProvinceElement(data);
+    ulPronvince.appendChild(liElement);
+  });
+}
+
+function handelChangeCategory(defaultValues, value) {
+  defaultValues.category = value;
+  console.log(defaultValues);
+}
+
 // // Main
 (async () => {
   try {
-    // code mói
     const defaultValues = {
-      address: '',
+      province: '',
+      district: '',
+      ward: '',
+      category: '',
       minPrice: '',
       maxPrice: '',
       minAcreage: '',
       maxAcreage: '',
     };
+    // filter posts
+    initCategoryChange({
+      onChange: (value) => handelChangeCategory(defaultValues, value),
+    });
     initAddressChange({
-      onChange: (value) => handelChangeAddress(defaultValues, value),
+      onChange: (address) => {
+        const { province = '', district = '', ward = '' } = address;
+
+        handelChangeAddress(defaultValues, { province, district, ward });
+      },
     });
     initAcreageChange({
       onChange: (value) => handelChangeAcreage(defaultValues, value),
     });
     initPriceChange({ onChange: (value) => handelChangePrice(defaultValues, value) });
+    // filter posts
+
     initRemovePost();
+    // call pai
     handelFilterChange({});
 
+    const searchButton = document.getElementById('search-button');
+    searchButton.addEventListener('click', (e) => {
+      Object.entries(defaultValues).forEach(([key, value]) => {
+        // if (!value) delete defaultValues[key];
+        console.log('key', key);
+        console.log('value', value);
+      });
+      handelFilterChange(defaultValues);
+    });
     // input ranger
   } catch (error) {
     console.log(error);
   }
 })();
-// console.log('admin');

@@ -16,6 +16,7 @@ const postRouter = require('./src/routes/post');
 const categoryRouter = require('./src/routes/category');
 const packageRouter = require('./src/routes/package');
 const paymentRouter = require('./src/routes/payment');
+const depositHistoryRouter = require('./src/routes/depositHistory');
 const category = require('./src/models/category');
 const postDetails = require('./src/routes/postDetails');
 const getPostNew = require('./src/middlewares/getPostNew');
@@ -116,8 +117,12 @@ app.use('/api/v1/packages', require('./src/routes/api/package'));
 app.use('/api/v1/posts', require('./src/routes/api/post'));
 app.use('/api/v1/categories', require('./src/routes/api/category'));
 app.use('/api/v1/payment', require('./src/routes/api/payment'));
+
 app.use('/', require('./src/routes/profileRoute'));
 app.use('/api/v1/profile', require('./src/routes/api/profile'));
+
+app.use('/api/v1/depositHistory', require('./src/routes/api/depositHistory'));
+
 
 // Set View's
 app.set('views', './src/views');
@@ -126,6 +131,7 @@ app.use('/posts', postRouter);
 app.use('/categories', categoryRouter);
 app.use('/packages', packageRouter);
 app.use('/payment', paymentRouter);
+app.use('/depositHistory', depositHistoryRouter);
 app.use(expressLayouts);
 app.set('layout', './layouts/layout');
 app.use('/', homePageRouter);

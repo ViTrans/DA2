@@ -24,3 +24,7 @@ export function convertObjectToFormData(data) {
   if (data?.id) formData.append('id', data.id);
   return formData;
 }
+
+export function formatDate(time) {
+  return dayjs(time).format('DD/MM/YYYY HH:mm:ss');
+}

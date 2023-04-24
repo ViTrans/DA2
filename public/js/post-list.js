@@ -1,4 +1,5 @@
 import postApi from './api/postApi.js';
+import { formatDate } from './utils/common.js';
 
 async function handelFilterChange(filterName, filterValue) {
   const queryPamrams = new URL(window.location);
@@ -162,7 +163,7 @@ function createPostElement(post, index) {
 
   const date = trElement.querySelector('[data-id="date"]');
   if (!date) return;
-  date.textContent = post?.createdAt;
+  date.textContent = formatDate(post.created_at);
 
   const buttons = trElement.querySelector('[data-id="action"]');
   if (!buttons) return;

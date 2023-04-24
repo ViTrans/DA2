@@ -1,7 +1,7 @@
 // Imports
 const express = require('express');
 const app = express();
-const port = 5002;
+const port = 5000;
 require('dotenv').config();
 const createError = require('http-errors');
 const expressLayouts = require('express-ejs-layouts');
@@ -117,7 +117,12 @@ app.use('/api/v1/packages', require('./src/routes/api/package'));
 app.use('/api/v1/posts', require('./src/routes/api/post'));
 app.use('/api/v1/categories', require('./src/routes/api/category'));
 app.use('/api/v1/payment', require('./src/routes/api/payment'));
+
+app.use('/', require('./src/routes/profileRoute'));
+app.use('/api/v1/profile', require('./src/routes/api/profile'));
+
 app.use('/api/v1/depositHistory', require('./src/routes/api/depositHistory'));
+
 
 // Set View's
 app.set('views', './src/views');

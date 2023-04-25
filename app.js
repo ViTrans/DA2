@@ -20,13 +20,11 @@ const depositHistoryRouter = require('./src/routes/depositHistory');
 const category = require('./src/models/category');
 const postDetails = require('./src/routes/postDetails');
 const getPostNew = require('./src/middlewares/getPostNew');
-const { show, forgotPassword } = require('./src/controller/forgot-password');
-
+// const cryptoRandomString = require('crypto-random-string');
 const cron = require('node-cron');
 cron.schedule('* * * * *', async () => {
-  console.log('running a task every minute');
+  console.log('running cron 1 minute');
   await updateExpiredPosts();
-  console.log('chay cron');
 });
 // 24 tiếng
 // cron.schedule('0 0 */1 * * *', async () => {
@@ -128,6 +126,7 @@ app.use('/api/v1/depositHistory', require('./src/routes/api/depositHistory'));
 app.set('views', './src/views');
 app.set('view engine', 'ejs');
 app.use('/posts', postRouter);
+app.use('/managePost', require('./src/routes/postAdmin'));
 app.use('/categories', categoryRouter);
 app.use('/packages', packageRouter);
 app.use('/payment', paymentRouter);

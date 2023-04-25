@@ -128,7 +128,6 @@ async function validationPackageForm(form, formValues) {
 
   const isVaild = form.checkValidity();
   form.classList.add('was-validated');
-  console.log('valid ::', isVaild);
   return isVaild;
 }
 
@@ -167,8 +166,6 @@ function initPackageForm({ formId, defaultFormValues, onSubmit }) {
         description: '',
         price: '',
       };
-
-  console.log('packageApi : ', defaultFormValues);
   initPackageForm({
     formId: 'packageForm',
     defaultFormValues,

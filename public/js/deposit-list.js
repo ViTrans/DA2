@@ -18,12 +18,6 @@ function createDepositElement(data, index) {
   const depositTemplate = document.getElementById('depositTemplate').cloneNode(true).content;
   const trElement = depositTemplate.firstElementChild;
   if (!trElement || !data) return;
-  // date;
-  // code;
-  // price;
-  // status;
-  // note;
-
   const name = trElement.querySelector('[data-id="name"]');
   if (!name) return;
   name.textContent = data?.name;

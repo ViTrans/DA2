@@ -1,4 +1,5 @@
 import postApi from './api/postApi.js';
+import categoryApi from './api/categoryApi.js';
 import { formatDate } from './utils/common.js';
 
 async function handelFilterChange(filterName, filterValue) {
@@ -147,7 +148,7 @@ function createPostElement(post, index) {
 
   const price = trElement.querySelector('[data-id="price"]');
   if (!price) return;
-  price.textContent = post?.price;
+  price.textContent = new Intl.NumberFormat('en-DE').format(post?.price);
 
   // đẩy tin
   const push = trElement.querySelector('[data-id="push"]');
@@ -177,11 +178,11 @@ function createPostElement(post, index) {
 
   push.addEventListener('click', (e) => {
     console.log('push tin click', e);
-    window.location.assign(`http://localhost:5000/payment/package?postId=${post._id}`);
+    window.location.assign(`http://localhost:5002/payment/package?postId=${post._id}`);
   });
 
   editButton.addEventListener('click', (e) => {
-    window.location.assign(`http://localhost:5000/posts/add-edit?id=${post._id}`);
+    window.location.assign(`http://localhost:5002/posts/add-edit?id=${post._id}`);
   });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');
@@ -244,9 +245,65 @@ function renderPostList({ elemntId, data }) {
   });
 }
 
+function debounce(fn, delay) {
+  let timer;
+  return (() => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(), delay);
+  })();
+}
+function initSearchInput({ name, onChange }) {
+  const searchInput = document.querySelector(`[name="${name}"]`);
+  if (!searchInput) return;
+
+  searchInput.addEventListener('input', (event) => {
+    debounce(() => onChange?.(event.target.value), 2000);
+  });
+}
+function initOnchageSelectBox({ name, onChange }) {
+  const selectInputElement = document.querySelector(`[name="${name}"]`);
+  console.log(selectInputElement);
+  if (!selectInputElement) return;
+
+  selectInputElement.addEventListener('change', (event) => {
+    const element = event.target;
+    const categoryId = element.options[element.selectedIndex].value;
+    debounce(() => onChange?.(categoryId), 2000);
+  });
+}
+
+function createOptionInput(category) {
+  const inputElement = document.createElement('option');
+  if (!inputElement || !category) return;
+
+  inputElement.value = category._id;
+  inputElement.textContent = category.title;
+  return inputElement;
+}
+async function renderSelectBox({ name }) {
+  const selectBox = document.querySelector(`[name="${name}"]`);
+  const { categories } = await categoryApi.getAll();
+  categories.forEach((category) => {
+    const optionInput = createOptionInput(category);
+    selectBox.appendChild(optionInput);
+  });
+}
 // Main
 (async () => {
   try {
+    renderSelectBox({
+      name: 'category',
+    });
+    initOnchageSelectBox({
+      name: 'category',
+      onChange: async (value) => await handelFilterChange('category', value),
+    });
+    initSearchInput({
+      name: 'title',
+      onChange: (value) => {
+        handelFilterChange('title', value);
+      },
+    });
     initRemovePost();
     handelFilterChange();
 

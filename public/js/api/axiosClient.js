@@ -1,5 +1,9 @@
 const axiosClient = axios.create({
+<<<<<<< Updated upstream
   baseURL: 'http://localhost:5000/api/v1',
+=======
+  baseURL: 'http://localhost:5002/api/v1',
+>>>>>>> Stashed changes
   headers: {
     'Content-Type': 'application/json',
   },

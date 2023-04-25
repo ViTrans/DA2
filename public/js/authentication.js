@@ -1,25 +1,12 @@
 import userApi from './api/userApi.js';
 
-function renderUserInfo({ sidebar, user }) {
-  const userInfo = sidebar.querySelector('.user_info');
-  const avatar = userInfo.querySelector('.user_avatar > img');
-  const phone = userInfo.querySelector('.phone');
-  const username = userInfo.querySelector('.username > b');
-  username.textContent = user.username;
-  phone.textContent = user.phone;
-  avatar.src = user.avatar;
-  // code user
-  // monney
-  // ......
-}
-
 function setActiveLink() {
-  const currentUrl = window.location.href;
-
+  const currentUrl = new URL(window.location).pathname.split('/')[1];
+  // posts
   const menuLinks = document.querySelectorAll('#sidebar #navbar .nav-item');
-  console.log(menuLinks);
   menuLinks.forEach((link) => {
-    if (link.firstElementChild.href === currentUrl) {
+    const currentLink = link.firstElementChild.href.slice(22).split('/')[0];
+    if (currentLink === currentUrl) {
       link.firstElementChild.classList.add('fw-bold');
     } else {
       link.firstElementChild.classList.remove('fw-bold');
@@ -86,36 +73,22 @@ function renderPermisisonUserList({ sidebar, user }) {
 // /api/v1/auth
 (async () => {
   try {
-    console.log('xác thực user with token');
     const token = sessionStorage.getItem('token');
-    if (!token) window.location.assign('http://localhost:5000/404');
+    if (!token) window.location.assign('http://localhost:5002/404');
 
     // check role
     // render sidebar menu theo Role
     const { user } = await userApi.getCurentUser();
 
     const sidebar = document.querySelector('#sidebar');
-    renderUserInfo({
-      sidebar,
-      user,
-    });
+
     renderPermisisonUserList({
       sidebar,
       user,
     });
     setActiveLink();
-    const expirationTime = new Date().getTime() + 5 * 60 * 1000; // tính toán thời gian hết hạn
-
-    const timeLeft = expirationTime - new Date().getTime();
-    setTimeout(() => {
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
-      window.location.assign('/');
-    }, timeLeft);
-    // renderPermisison();
   } catch (error) {
     console.log('ko có token');
-    console.log(error);
-    // window.location.assign('http://localhost:5000/404');
+    // window.location.assign('http://localhost:5002/404');
   }
 })();

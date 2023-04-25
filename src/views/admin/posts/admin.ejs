@@ -4,13 +4,13 @@
 <!-- header -->
 
 <div id="dashboard" class="container-fluid">
-  <div class="row">
+  <div class="row flex-nowrap">
     <!-- sidebar -->
     <%- include('../../partials/sidebarPanel'); %>
     <!-- sidebar -->
 
     <!-- main -->
-    <main id="main" class="ms-sm-auto col-lg-10">
+    <main id="main" class="col-md-10 col-sm">
       <nav aria-label="breadcrumb" class="bg-gray p-3 rounded mb-2">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item"><a href="#">Phongtro123.com </a></li>
@@ -25,7 +25,7 @@
         class="p-3 rounded d-flex gap-3 flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom"
       >
         <!-- Mã -->
-        <div style="width: 130px" class="input-group">
+        <!-- <div style="width: 130px" class="input-group">
           <input
             type="text"
             class="form-control"
@@ -33,7 +33,7 @@
             aria-label="Recipient's username"
             aria-describedby="basic-addon2"
           />
-        </div>
+        </div> -->
 
         <!-- Mã -->
         <!-- category -->
@@ -65,7 +65,7 @@
         <a
           id="categoryButton"
           style="background-color: #fff"
-          class="btn btn-md "
+          class="btn btn-md"
           data-bs-toggle="modal"
           href="#category"
           role="button"
@@ -238,7 +238,7 @@
         </div>
         <a
           style="background-color: #fff"
-          class="btn btn-md "
+          class="btn btn-md"
           data-bs-toggle="modal"
           id="priceButton"
           href="#price"
@@ -299,7 +299,7 @@
         </div>
         <a
           style="background-color: #fff"
-          class="btn btn-md "
+          class="btn btn-md"
           data-bs-toggle="modal"
           id="areageButton"
           href="#acreage"
@@ -312,26 +312,23 @@
         <button type="button" id="search-button" class="btn btn-primary ms-auto">Tìm kiếm</button>
       </div>
       <!--  -->
-      <div class="d-md-block">
-        <div class="table-responsive overflow-auto">
-          <table class="table table_post_listing table-bordered table-hover">
-            <thead>
-              <tr>
-                <th>Mã tin</th>
-                <th>Ảnh đại diện</th>
-                <th>Tiêu đề</th>
-                <th>Tên thành viên</th>
-                <th>Chuyên mục</th>
-                <th>Giá</th>
-                <th style="white-space: nowrap">Ngày đăng</th>
-                <th>Loại tin</th>
-                <th>Trạng thái</th>
-                <th>Chức năng</th>
-              </tr>
-            </thead>
-            <tbody id="postList"></tbody>
-          </table>
-        </div>
+      <div class="table-responsive">
+        <table class="table table_post_listing table-bordered table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Mã tin</th>
+              <th scope="col">Ảnh đại diện</th>
+              <th scope="col">Tiêu đề</th>
+              <th scope="col">Tên thành viên</th>
+              <th scope="col">Chuyên mục</th>
+              <th scope="col">Giá</th>
+              <th scope="col">Ngày đăng</th>
+              <th scope="col">Loại tin</th>
+              <th scope="col">Chức năng</th>
+            </tr>
+          </thead>
+          <tbody id="postList"></tbody>
+        </table>
 
         <!-- end pagination -->
       </div>
@@ -373,7 +370,6 @@
     <td data-id="price"></td>
     <td data-id="date"></td>
     <td data-id="vip"></td>
-    <td data-id="status"></td>
     <td data-id="action">
       <button id="remove-btn" type="button" class="btn btn-sm btn-danger">Remove</button>
     </td>

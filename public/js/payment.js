@@ -1,4 +1,3 @@
-
 import packageApi from './api/packageApi.js';
 import paymentApi from './api/payment.js';
 function createPackageElement(pack) {
@@ -15,7 +14,7 @@ function createPackageElement(pack) {
 
   const price = liElement.querySelector('[data-id="price"]').lastElementChild;
   if (!price) return;
-  price.textContent = pack?.price + ' đồng';
+  price.textContent = new Intl.NumberFormat('en-DE').format(pack?.price) + ' đồng';
 
   const duration = liElement.querySelector('[data-id="duration"]').lastElementChild;
   if (!duration) return;

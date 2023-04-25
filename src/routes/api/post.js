@@ -17,16 +17,16 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
     searchOptions.title = new RegExp(req.query.title, 'i');
   }
   if (req.query.category != null && req.query.category !== '') {
-    searchOptions.category = req.query.category;
-    searchOptions.categoryId = searchOptions.category;
+    searchOptions.category_id = req.query.category;
   }
 
   try {
     const userId = req?.user?.id;
 
     if (!userId) return res.status(401);
+    searchOptions.user_id = userId;
 
-    const posts = await Post.find({ user_id: userId }, { rawResult: false })
+    const posts = await Post.find(searchOptions, { rawResult: false })
       .populate([
         {
           path: 'user_id',
@@ -51,7 +51,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
         category_id: post.category_id._id,
       };
     });
-    const totalRows = await Post.find({ user_id: userId }).countDocuments();
+    const totalRows = await Post.find(searchOptions).countDocuments();
 
     const totalPages = Math.ceil(totalRows / limit);
 
@@ -90,10 +90,10 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
   if (req.query.category != null && req.query.category !== '') {
     searchOptions.category_id = req.query.category;
   }
-
-  if (req.query.minPrice) searchOptions.price = { $gte: req.query.minPrice };
+  console.log(req.query);
+  if (req.query.minPrice) searchOptions.price = { $gte: req.query.minPrice.replace('.', '') };
   if (req.query.maxPrice)
-    searchOptions.price = { ...searchOptions.price, $lte: req.query.maxPrice };
+    searchOptions.price = { ...searchOptions.price, $lte: req.query.maxPrice.replace('.', '') };
 
   if (req.query.minAcreage) searchOptions.acreage = { $gte: req.query.minAcreage };
   if (req.query.maxAcreage)

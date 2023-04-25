@@ -172,13 +172,9 @@ function createPostElement(post, index) {
   if (!vip) return;
   vip.textContent = post?.isvip;
 
-  const status = trElement.querySelector('[data-id="status"]');
-  if (!status) return;
-  status.textContent = post?.status;
-
   const price = trElement.querySelector('[data-id="price"]');
   if (!price) return;
-  price.textContent = post?.price;
+  price.textContent = new Intl.NumberFormat('en-DE').format(post?.price);
 
   const number = trElement.querySelector('[data-id="number"]');
   if (!number) return;
@@ -257,7 +253,6 @@ function renderPostList({ elemntId, data }) {
   });
 }
 
-// // ==================
 function initPriceChange({ onChange }) {
   const slider = document.querySelector('#slider-price');
   const smoothStepsValues = document.querySelector('#smooth-steps-values-price');
@@ -277,10 +272,12 @@ function initPriceChange({ onChange }) {
       count++;
       return;
     }
-
-    console.log('gooo');
+    console.log(values);
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
+    const buttons = priceButtonWrapper.querySelectorAll('button');
+    for (const button of buttons)
+      button.classList.toggle('active', `${number1}-${number2}` == button.value);
     smoothStepsValues.textContent = `Từ ${number1} - ${number2} triệu đồng`;
     onChange?.(slider.noUiSlider.get());
   });
@@ -292,7 +289,6 @@ function initPriceChange({ onChange }) {
     'click',
     function (e) {
       if (e.target.tagName === 'BUTTON') {
-        console.log(e.target.tagName);
         const value = e.target.value.split('-');
         slider.noUiSlider.set(value);
         onChange?.(slider.noUiSlider.get());
@@ -367,9 +363,15 @@ function handelChangeAcreage(defaultValues, values) {
 }
 function handelChangePrice(defaultValues, values) {
   // reset price
-
-  const formatMinPrice = values[0].split('.')[0] + '00000';
-  const formatMaxPrice = values[1].split('.')[0] + '00000';
+  console.log(values[0]);
+  const decimal1 =
+    values[0].split('.')[1] !== '00' ? '.' + values[0].split('.')[1].split('')[0] + '0' : '0';
+  const decimal2 =
+    values[1].split('.')[1] !== '00' ? '.' + values[1].split('.')[1].split('')[0] + '0' : '0';
+  console.log(decimal1);
+  console.log(decimal2);
+  const formatMinPrice = values[0].split('.')[0] + decimal1 + '0000';
+  const formatMaxPrice = values[1].split('.')[0] + decimal2 + '0000';
 
   defaultValues.minPrice = formatMinPrice;
   defaultValues.maxPrice = formatMaxPrice;
@@ -652,11 +654,6 @@ function handelChangeCategory(defaultValues, value) {
 
     const searchButton = document.getElementById('search-button');
     searchButton.addEventListener('click', (e) => {
-      Object.entries(defaultValues).forEach(([key, value]) => {
-        // if (!value) delete defaultValues[key];
-        console.log('key', key);
-        console.log('value', value);
-      });
       handelFilterChange(defaultValues);
     });
     // input ranger

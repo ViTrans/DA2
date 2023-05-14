@@ -249,9 +249,8 @@ export async function renderCategories(form, seletedId) {
 
   const selectBoxElement = form.querySelector('select[name="category"]');
   if (!selectBoxElement) return;
-  const { categories } = await categoryApi.getAll();
-  console.log('categories API', categories);
-  categories.forEach((category) => {
+  const { data } = await categoryApi.getAll();
+  data.forEach((category) => {
     const optionElement = document.createElement('option');
     optionElement.value = category._id;
     optionElement.textContent = category.title;

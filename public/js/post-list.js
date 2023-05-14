@@ -282,8 +282,8 @@ function createOptionInput(category) {
 }
 async function renderSelectBox({ name }) {
   const selectBox = document.querySelector(`[name="${name}"]`);
-  const { categories } = await categoryApi.getAll();
-  categories.forEach((category) => {
+  const { data } = await categoryApi.getAll();
+  data.forEach((category) => {
     const optionInput = createOptionInput(category);
     selectBox.appendChild(optionInput);
   });

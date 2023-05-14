@@ -40,7 +40,7 @@
 }
 #sidebar {
   overflow-y: auto;
-  max-height: 700px;
+  height: 100vh;
 }
 #image-list {
   display: flex;

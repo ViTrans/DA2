@@ -449,15 +449,15 @@ function initCategoryChange({ onChange }) {
 }
 
 async function renderCategoryList(ulCategory) {
-  const { categories } = await categoryApi.getAll();
+  const { data } = await categoryApi.getAll();
 
   const item = {
     _id: '',
     title: 'Tất cả',
   };
 
-  categories.unshift(item);
-  categories.forEach((cate, index) => {
+  data.unshift(item);
+  data.forEach((cate, index) => {
     const liElement = document.createElement('li');
     liElement.classList.add('p-2');
     liElement.dataset.id = cate._id;

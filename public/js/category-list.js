@@ -28,15 +28,15 @@ function createCategoryElement(cate, index) {
   if (!number) return;
   number.textContent = ordinalNumber;
   console.log('title ', title);
-   const date = trElement.querySelector('[data-id="date"]');
-   if (!date) return;
-   date.textContent = formatDate(cate.created_at);
+  const date = trElement.querySelector('[data-id="date"]');
+  if (!date) return;
+  date.textContent = formatDate(cate.created_at);
 
   const editButton = trElement.querySelector('#edit-btn');
   const removeButton = trElement.querySelector('#remove-btn');
 
   editButton.addEventListener('click', (e) => {
-    window.location.assign(`http://localhost:5002/categories/add-edit?id=${cate._id}`);
+    window.location.assign(`http://localhost:5000/categories/add-edit?id=${cate._id}`);
   });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');
@@ -90,7 +90,7 @@ function initRemoveCategory() {
 
 function renderCategoryList({ elemntId, data }) {
   const categoryList = document.getElementById(elemntId);
-  console.log('categorylist',categoryList)
+  console.log('categorylist', categoryList);
   if (!categoryList) return;
   categoryList.textContent = '';
   data.forEach((cate, index) => {

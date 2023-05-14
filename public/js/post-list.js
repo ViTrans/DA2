@@ -178,11 +178,11 @@ function createPostElement(post, index) {
 
   push.addEventListener('click', (e) => {
     console.log('push tin click', e);
-    window.location.assign(`http://localhost:5002/payment/package?postId=${post._id}`);
+    window.location.assign(`http://localhost:5000/payment/package?postId=${post._id}`);
   });
 
   editButton.addEventListener('click', (e) => {
-    window.location.assign(`http://localhost:5002/posts/add-edit?id=${post._id}`);
+    window.location.assign(`http://localhost:5000/posts/add-edit?id=${post._id}`);
   });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');
@@ -282,8 +282,8 @@ function createOptionInput(category) {
 }
 async function renderSelectBox({ name }) {
   const selectBox = document.querySelector(`[name="${name}"]`);
-  const { categories } = await categoryApi.getAll();
-  categories.forEach((category) => {
+  const { data } = await categoryApi.getAll();
+  data.forEach((category) => {
     const optionInput = createOptionInput(category);
     selectBox.appendChild(optionInput);
   });

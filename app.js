@@ -118,9 +118,10 @@ app.use('/api/v1/payment', require('./src/routes/api/payment'));
 
 app.use('/', require('./src/routes/profileRoute'));
 app.use('/api/v1/profile', require('./src/routes/api/profile'));
+app.use('/', require('./src/routes/statisticsRouter'));
+app.use('/api/v1/statistics', require('./src/routes/api/statistics'));
 
 app.use('/api/v1/depositHistory', require('./src/routes/api/depositHistory'));
-
 
 // Set View's
 app.set('views', './src/views');

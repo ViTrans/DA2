@@ -8,7 +8,7 @@ const signIn = async (req, res) => {
 generateAccessToken = (user) => {
   // 1 phút
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: 5 * 60,
+    expiresIn: 30 * 60,
   });
 };
 

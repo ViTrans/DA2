@@ -43,7 +43,7 @@ router.put('/change-password', verifyToken, async (req, res) => {
 
     const isMatch = await user.isValidPassword(oldPassword);
     if (!isMatch) return res.status(400).json({ message: 'Invalid password' });
-    user.password = newPassword;
+    user.password = newPassword;  
     await user.save();
     res.status(200).json({ message: 'Password changed successfully' });
   } catch (error) {

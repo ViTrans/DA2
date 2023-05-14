@@ -8,8 +8,9 @@ router.get('/', verifyToken, isAdmin, async (req, res) => {
     const categories = await Category.find();
 
     res.status(200).json({
-    categories,
+      data: categories,
     });
+    
   } catch (error) {
     res.status(500);
   }

@@ -10,7 +10,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
   // const ddd = await Post.find({ expired_at: { $ne: null }, expired_at: { $lt: new Date() } });
   let searchOptions = {};
 
-  const { page = 1, limit = 2 } = req?.query;
+  const { page = 1, limit = 4 } = req?.query;
   const skip = (page - 1) * limit;
 
   if (req.query.title != null && req.query.title !== '') {
@@ -25,7 +25,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
 
     if (!userId) return res.status(401);
     searchOptions.user_id = userId;
-
+    console.log('searcg  ', searchOptions);
     const posts = await Post.find(searchOptions, { rawResult: false })
       .populate([
         {
@@ -38,7 +38,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
         },
       ])
       .sort({
-        createAt: -1,
+        createdAt: -1,
       })
       .skip(skip)
       .limit(limit)
@@ -51,7 +51,20 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
         category_id: post.category_id._id,
       };
     });
-    const totalRows = await Post.find(searchOptions).countDocuments();
+    console.log('postnew ', postNew);
+    const totalRows = await Post.find(searchOptions)
+      .populate([
+        {
+          path: 'user_id',
+          select: '_id',
+        },
+        {
+          path: 'category_id',
+          select: '_id title',
+        },
+      ])
+      .countDocuments();
+    console.log('totalrow ', totalRows);
 
     const totalPages = Math.ceil(totalRows / limit);
 
@@ -74,7 +87,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
 router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
   let searchOptions = {};
 
-  const { page = 1, limit = 2 } = req?.query;
+  const { page = 1, limit = 4 } = req?.query;
   const skip = (page - 1) * limit;
 
   let address = '';
@@ -117,7 +130,7 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
         },
       ])
       .sort({
-        createAt: -1,
+        createdAt: -1,
       })
       .skip(skip)
       .limit(limit)
@@ -132,8 +145,19 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
       };
     });
 
-    const totalRows = await Post.find(searchOptions).countDocuments();
-
+    const totalRows = await Post.find(searchOptions)
+      .populate([
+        {
+          path: 'user_id',
+          select: '_id username',
+        },
+        {
+          path: 'category_id',
+          select: '_id title',
+        },
+      ])
+      .countDocuments();
+    console.log(totalRows);
     const totalPages = Math.ceil(totalRows / limit);
 
     res.status(200).json({

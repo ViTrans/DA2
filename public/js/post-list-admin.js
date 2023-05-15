@@ -15,7 +15,7 @@ async function handelFilterChange(filterObjectValues) {
   for (const [filterName, filterValue] of Object.entries(filterObjectValues)) {
     if (filterName) queryPamrams.searchParams.set(filterName, filterValue);
 
-    // if (filterName === 'page') queryPamrams.searchParams.delete('page');
+    if (filterName !== 'page') queryPamrams.searchParams.delete('page');
     if (filterName && filterValue == '') queryPamrams.searchParams.delete(filterName);
   }
 
@@ -272,7 +272,6 @@ function initPriceChange({ onChange }) {
       count++;
       return;
     }
-    console.log(values);
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
     const buttons = priceButtonWrapper.querySelectorAll('button');
@@ -303,6 +302,8 @@ function initPriceChange({ onChange }) {
 function initAcreageChange({ onChange }) {
   const slider = document.querySelector('#slider-acreage');
   const smoothStepsValues = document.querySelector('#smooth-steps-values-acreage');
+  const acreageButtonWrapper = document.getElementById('acreage-buttons');
+
   noUiSlider.create(slider, {
     start: [0, 90],
     // behaviour: 'smooth-steps',
@@ -321,11 +322,14 @@ function initAcreageChange({ onChange }) {
     }
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
+    const buttons = acreageButtonWrapper.querySelectorAll('button');
+
+    for (const button of buttons)
+      button.classList.toggle('active', `${number1}-${number2}` == button.value);
     smoothStepsValues.textContent = `Từ ${number1} - ${number2} m2`;
     onChange?.(slider.noUiSlider.get());
   });
 
-  const acreageButtonWrapper = document.getElementById('acreage-buttons');
   const buttons = acreageButtonWrapper.querySelectorAll('button');
 
   // set value and get value
@@ -370,8 +374,8 @@ function handelChangePrice(defaultValues, values) {
     values[1].split('.')[1] !== '00' ? '.' + values[1].split('.')[1].split('')[0] + '0' : '0';
   console.log(decimal1);
   console.log(decimal2);
-  const formatMinPrice = values[0].split('.')[0] + decimal1 + '0000';
-  const formatMaxPrice = values[1].split('.')[0] + decimal2 + '0000';
+  const formatMinPrice = values[0].split('.')[0] + decimal1 + '00000';
+  const formatMaxPrice = values[1].split('.')[0] + decimal2 + '00000';
 
   defaultValues.minPrice = formatMinPrice;
   defaultValues.maxPrice = formatMaxPrice;

@@ -3,13 +3,14 @@
 const { Router } = require('express');
 const router = Router();
 const Payment = require('../../models/payment');
-const { verifyToken, isAdmin } = require('../../middlewares/middlewaresController');
+const { verifyToken } = require('../../middlewares/middlewaresController');
 // get all
-router.get('/', verifyToken, isAdmin, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
-    const { page = 1, limit = 2 } = req?.query;
-    const skip = (page - 1) * limit;
     const payments = await Payment.find({ user_id: req.user.id })
+      .sort({
+        created_at: -1,
+      })
       .populate([
         {
           path: 'user_id',
@@ -20,11 +21,6 @@ router.get('/', verifyToken, isAdmin, async (req, res) => {
           select: '_id name',
         },
       ])
-      .sort({
-        createAt: -1,
-      })
-      .skip(skip)
-      .limit(limit)
       .lean();
 
     const paymentNew = payments.map((item) => {
@@ -35,18 +31,8 @@ router.get('/', verifyToken, isAdmin, async (req, res) => {
       };
     });
 
-    const totalRows = await Payment.find({ user_id: req.user.id }).countDocuments();
-
-    const totalPages = Math.ceil(totalRows / limit);
-
     res.status(200).json({
       data: paymentNew,
-      pagination: {
-        totalRows,
-        totalPages,
-        page: +page,
-        limit: +limit,
-      },
     });
   } catch (error) {
     console.log(error);

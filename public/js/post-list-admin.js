@@ -256,6 +256,8 @@ function renderPostList({ elemntId, data }) {
 function initPriceChange({ onChange }) {
   const slider = document.querySelector('#slider-price');
   const smoothStepsValues = document.querySelector('#smooth-steps-values-price');
+  const priceButtonWrapper = document.getElementById('price-buttons');
+
   noUiSlider.create(slider, {
     start: [0, 15],
     step: 0.5,
@@ -272,17 +274,16 @@ function initPriceChange({ onChange }) {
       count++;
       return;
     }
-    console.log(values);
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
     const buttons = priceButtonWrapper.querySelectorAll('button');
+    console.log('buttons price', buttons);
     for (const button of buttons)
       button.classList.toggle('active', `${number1}-${number2}` == button.value);
     smoothStepsValues.textContent = `Từ ${number1} - ${number2} triệu đồng`;
     onChange?.(slider.noUiSlider.get());
   });
 
-  const priceButtonWrapper = document.getElementById('price-buttons');
   const buttons = priceButtonWrapper.querySelectorAll('button');
   // set value and get value
   priceButtonWrapper.addEventListener(
@@ -303,6 +304,8 @@ function initPriceChange({ onChange }) {
 function initAcreageChange({ onChange }) {
   const slider = document.querySelector('#slider-acreage');
   const smoothStepsValues = document.querySelector('#smooth-steps-values-acreage');
+  const acreageButtonWrapper = document.getElementById('acreage-buttons');
+
   noUiSlider.create(slider, {
     start: [0, 90],
     // behaviour: 'smooth-steps',
@@ -319,13 +322,18 @@ function initAcreageChange({ onChange }) {
       count++;
       return;
     }
+    const buttons = acreageButtonWrapper.querySelectorAll('button');
+
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
+
+    for (const button of buttons)
+      button.classList.toggle('active', `${number1}-${number2}` == button.value);
+
     smoothStepsValues.textContent = `Từ ${number1} - ${number2} m2`;
     onChange?.(slider.noUiSlider.get());
   });
 
-  const acreageButtonWrapper = document.getElementById('acreage-buttons');
   const buttons = acreageButtonWrapper.querySelectorAll('button');
 
   // set value and get value
@@ -363,19 +371,16 @@ function handelChangeAcreage(defaultValues, values) {
 }
 function handelChangePrice(defaultValues, values) {
   // reset price
-  console.log(values[0]);
   const decimal1 =
     values[0].split('.')[1] !== '00' ? '.' + values[0].split('.')[1].split('')[0] + '0' : '0';
   const decimal2 =
     values[1].split('.')[1] !== '00' ? '.' + values[1].split('.')[1].split('')[0] + '0' : '0';
-  console.log(decimal1);
-  console.log(decimal2);
+
   const formatMinPrice = values[0].split('.')[0] + decimal1 + '0000';
   const formatMaxPrice = values[1].split('.')[0] + decimal2 + '0000';
 
   defaultValues.minPrice = formatMinPrice;
   defaultValues.maxPrice = formatMaxPrice;
-  console.log(defaultValues);
 
   const button = document.getElementById('priceButton');
   if (defaultValues.minPrice === defaultValues.maxPrice) {

@@ -24,7 +24,7 @@ function createDepositElement(data, index) {
 
   const price = trElement.querySelector('[data-id="price"]');
   if (!price) return;
-  price.textContent = data?.amount;
+  price.textContent = new Intl.NumberFormat('en-DE').format(data?.amount) + ' đồng';
 
   const date = trElement.querySelector('[data-id="date"]');
   if (!date) return;

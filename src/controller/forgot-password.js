@@ -37,7 +37,7 @@ const forgotPassword = async (req, res, next) => {
       to: user.email, // list of receivers
       subject: 'Khôi phục mật khẩu', // Subject line
       html: `Bạn có thể đặt lại mật khẩu bằng liên kết sau:
-      http://localhost:5002/reset-password?token=${passwordReset}`, // html body
+      http://localhost:5000/reset-password?token=${passwordReset}`, // html body
     };
     await sendMail(mailOptions);
 

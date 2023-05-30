@@ -9,8 +9,10 @@ $(document).ready(function () {
       console.log(result);
       $('#total-user').html(result.countUser);
       $('#total-post').html(result.countPost);
-      $('#total-package').html(result.countPackage);
       $('#total-category').html(result.countCategory);
+      $('#total-vip1').html(result.countVip1);
+      $('#total-vip2').html(result.countVip2);
+      $('#total-vip3').html(result.countVip3);
     },
     error: function (err) {
       console.log(err);

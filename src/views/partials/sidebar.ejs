@@ -6,7 +6,10 @@
       <img src="<%- element.images[0]%>" class="img-post" style="object-fit: cover" alt="" />
     </div>
     <div class="col-md-8">
-      <h5 class="card-title text-primary fs-6 multi-line">
+      <a
+        href="/details/<%= element.id %>"
+        class="card-title text-primary fs-6 multi-line text-decoration-none"
+      >
         <% if (element.isvip === "vip3") { %>
         <span class="text-danger">
           <i class="fa fas fa-star"></i>
@@ -32,7 +35,7 @@
         </span>
 
         <% } %><%- element.title %>
-      </h5>
+      </a>
       <p class="card-price text-success fs-6 fw-bold m-0">
         <%= element.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' }) %><span
           >/Tháng</span

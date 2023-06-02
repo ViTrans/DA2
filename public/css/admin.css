@@ -85,6 +85,12 @@
   transition: all 0.2s;
 } */
 
+/* button  */
+
+.d-flex {
+  display: flex;
+  gap: 4px;
+}
 /* toast */
 .colored-toast.swal2-icon-success {
   background-color: #4caf50 !important;

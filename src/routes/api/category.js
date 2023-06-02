@@ -1,29 +1,28 @@
 const { Router } = require('express');
 const router = Router();
 const Category = require('../../models/category');
-const { verifyToken, isAdmin } = require('../../middlewares/middlewaresController');
+const { verifyToken } = require('../../middlewares/middlewaresController');
 // get all categories
-router.get('/', verifyToken, isAdmin, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     const categories = await Category.find();
 
     res.status(200).json({
       data: categories,
     });
-    
   } catch (error) {
     res.status(500);
   }
 });
 
 // get  category by id
-router.get('/:id', verifyToken, isAdmin, async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
   const id = req.params.id;
   const categories = await Category.findById(id);
   res.status(200).json(categories);
 });
 
-router.delete('/:id', verifyToken, isAdmin, async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   try {
     const id = req?.params?.id;
     if (!id) return res.status(400);
@@ -40,7 +39,7 @@ router.delete('/:id', verifyToken, isAdmin, async (req, res) => {
 
 // add
 
-router.post('/', verifyToken, isAdmin, async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const data = {
       title: req.body.title,
@@ -58,7 +57,7 @@ router.post('/', verifyToken, isAdmin, async (req, res) => {
 
 // updated
 
-router.put('/:id', verifyToken, isAdmin, async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   try {
     const { id } = req.params;
     const data = {

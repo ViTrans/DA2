@@ -18,7 +18,7 @@ router.get('/', verifyToken, async (req, res) => {
         },
         {
           path: 'package_id',
-          select: '_id name',
+          select: '_id name price',
         },
       ])
       .lean();
@@ -27,6 +27,7 @@ router.get('/', verifyToken, async (req, res) => {
       return {
         ...item,
         name: item.package_id?.name,
+        price: item.package_id?.price,
         username: item.user_id.username,
       };
     });

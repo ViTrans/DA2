@@ -56,19 +56,21 @@ function handelClickPage({
   const prevPage = prevLiPagination.firstElementChild;
   const nextPage = nextLiPagination.firstElementChild;
 
-  if (page < 2) prevPage.classList.add('disabled');
+  if (page <= 1) prevPage.classList.add('disabled');
   if (page >= totalPages) nextPage.classList.add('disabled');
 
   prevPage.addEventListener('click', (e) => {
     e.preventDefault();
-
+    console.log('prev click');
     const pageIndex = +page - 1;
     onChange?.(pageIndex);
   });
   nextPage.addEventListener('click', (e) => {
     e.preventDefault();
+    console.log('next click');
 
     const pageIndex = +page + 1;
+    console.log('page index prev', pageIndex);
     onChange?.(pageIndex);
   });
 
@@ -81,7 +83,6 @@ function handelClickPage({
 
       pageActive.classList.remove('active');
       const pageIndex = +page.firstElementChild.textContent;
-      console.log(pageIndex);
       page.classList.add('active');
       onChange?.(pageIndex);
     });
@@ -91,7 +92,7 @@ function handelClickPage({
 function renderPagination({ elemntId, pagination }) {
   const ulPagination = document.getElementById(elemntId);
   if (!ulPagination) return;
-
+  console.log('page pagination ', pagination);
   // reset page
   ulPagination.textContent = '';
   const prevLiPagination = document.createElement('li');
@@ -132,6 +133,8 @@ function renderPagination({ elemntId, pagination }) {
     liPagination.appendChild(pageNumber);
 
     // active page
+    console.log('cureeent page ', currentPage);
+    console.log(' page ', page);
     if (currentPage == page) {
       pageActive = liPagination;
       pageActive.classList.add('active');
@@ -156,9 +159,9 @@ function createPostElement(post, index) {
   if (!title) return;
   title.textContent = post?.title;
 
-  const pack = trElement.querySelector('[data-id="pack"]');
-  if (!pack) return;
-  pack.textContent = post?.pack;
+  // const pack = trElement.querySelector('[data-id="pack"]');
+  // if (!pack) return;
+  // pack.textContent = post?.pack;
 
   const user = trElement.querySelector('[data-id="user"]');
   if (!user) return;
@@ -373,8 +376,8 @@ function handelChangePrice(defaultValues, values) {
     values[1].split('.')[1] !== '00' ? '.' + values[1].split('.')[1].split('')[0] + '0' : '0';
   console.log(decimal1);
   console.log(decimal2);
-  const formatMinPrice = values[0].split('.')[0] + decimal1 + '0000';
-  const formatMaxPrice = values[1].split('.')[0] + decimal2 + '0000';
+  const formatMinPrice = values[0].split('.')[0] + decimal1 + '00000';
+  const formatMaxPrice = values[1].split('.')[0] + decimal2 + '00000';
 
   defaultValues.minPrice = formatMinPrice;
   defaultValues.maxPrice = formatMaxPrice;

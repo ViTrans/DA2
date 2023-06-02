@@ -1,9 +1,9 @@
 const { Router } = require('express');
 const router = Router();
 const Package = require('../../models/package');
-const { verifyToken, isAdmin } = require('../../middlewares/middlewaresController');
+const { verifyToken } = require('../../middlewares/middlewaresController');
 
-router.post('/', verifyToken, isAdmin, async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const formatPrice = req?.body?.price.replace(/\D/g, '');
     const price = +formatPrice || 0;
@@ -25,7 +25,7 @@ router.post('/', verifyToken, isAdmin, async (req, res) => {
     res.status(500);
   }
 });
-router.get('/', verifyToken, isAdmin, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     const packages = await Package.find();
     res.status(200).json({
@@ -40,7 +40,7 @@ router.get('/', verifyToken, isAdmin, async (req, res) => {
   }
 });
 
-router.get('/:id', verifyToken, isAdmin, async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
   try {
     const id = req.params.id;
     const pack = await Package.findById(id);
@@ -49,7 +49,7 @@ router.get('/:id', verifyToken, isAdmin, async (req, res) => {
     res.status(500);
   }
 });
-router.put('/:id', verifyToken, isAdmin, async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   try {
     const formatPrice = req?.body?.price.replace(/\D/g, '');
     const price = +formatPrice || 0;

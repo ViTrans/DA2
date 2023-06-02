@@ -89,6 +89,9 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
 
   const { page = 1, limit = 4 } = req?.query;
   const skip = (page - 1) * limit;
+  console.log('page ', page);
+  console.log('skip ', skip);
+  console.log('limit ', limit);
 
   let address = '';
 
@@ -103,7 +106,6 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
   if (req.query.category != null && req.query.category !== '') {
     searchOptions.category_id = req.query.category;
   }
-  console.log(req.query);
   if (req.query.minPrice) searchOptions.price = { $gte: req.query.minPrice.replace('.', '') };
   if (req.query.maxPrice)
     searchOptions.price = { ...searchOptions.price, $lte: req.query.maxPrice.replace('.', '') };
@@ -129,12 +131,15 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
           select: '_id title',
         },
       ])
+      .skip(skip)
+      .limit(limit)
       .sort({
         createdAt: -1,
       })
-      .skip(skip)
-      .limit(limit)
       .lean();
+
+    console.log('search opitons ', searchOptions);
+    console.log('post ::', posts);
     const postNew = posts.map((post) => {
       return {
         ...post,
@@ -157,7 +162,8 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
         },
       ])
       .countDocuments();
-    console.log(totalRows);
+
+    console.log('totalRows :::', totalRows);
     const totalPages = Math.ceil(totalRows / limit);
 
     res.status(200).json({
@@ -170,6 +176,7 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
       },
     });
   } catch (error) {
+    console.log('err ', error);
     res.status(500);
   }
 });

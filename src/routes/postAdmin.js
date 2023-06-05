@@ -6,4 +6,3 @@ const contronllers = require('../controller/postAdmin');
 router.get('/', contronllers.listAll);
 
 module.exports = router;
-    

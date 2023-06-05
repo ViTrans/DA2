@@ -3,7 +3,7 @@ const router = Router();
 const Package = require('../../models/package');
 const { verifyToken, isAdmin } = require('../../middlewares/middlewaresController');
 
-router.post('/', verifyToken, isAdmin, async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const formatPrice = req?.body?.price.replace(/\D/g, '');
     const price = +formatPrice || 0;
@@ -25,7 +25,7 @@ router.post('/', verifyToken, isAdmin, async (req, res) => {
     res.status(500);
   }
 });
-router.get('/', verifyToken, isAdmin, async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
   try {
     const packages = await Package.find();
     res.status(200).json({

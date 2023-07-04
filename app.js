@@ -10,7 +10,6 @@ const homePageRouter = require('./src/routes/homePage');
 const signupRouter = require('./src/routes/signupRouter');
 const signinRouter = require('./src/routes/signinRouter');
 const session = require('express-session');
-const RedisStore = require('connect-redis');
 // const flash = require('connect-flash');
 const moment = require('moment');
 const postRouter = require('./src/routes/post');
@@ -81,16 +80,9 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session
 app.use(
   session({
-    store: new RedisStore({
-      // Redis configuration options
-      host: 'localhost',
-      port: 6379,
-      // add any additional options you need
-    }),
-    secret: 'your-secret-key',
+    secret: 'secret key',
     resave: false,
     saveUninitialized: true,
   })

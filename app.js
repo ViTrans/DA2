@@ -27,10 +27,10 @@ const getPostNew = require('./src/middlewares/getPostNew');
 //   await updateExpiredPosts();
 // });
 // 24 tiếng
-cron.schedule('0 0 */1 * * *', async () => {
-  await updateExpiredPosts();
-  console.log('chay cron');
-});
+// cron.schedule('0 0 */1 * * *', async () => {
+//   await updateExpiredPosts();
+//   console.log('chay cron');
+// });
 // 5 p
 // cron.schedule('*/5 * * * *', async () => {
 //   await updateExpiredPosts();

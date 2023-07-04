@@ -5,7 +5,7 @@
 $(document).ready(function () {
   // get profile
   $.ajax({
-    url: 'http://localhost:5000/api/v1/profile',
+    url: 'https://puce-determined-raven.cyclic.app/api/v1/profile',
     type: 'GET',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);

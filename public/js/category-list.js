@@ -36,7 +36,9 @@ function createCategoryElement(cate, index) {
   const removeButton = trElement.querySelector('#remove-btn');
 
   editButton.addEventListener('click', (e) => {
-    window.location.assign(`http://localhost:5000/categories/add-edit?id=${cate._id}`);
+    window.location.assign(
+      `https://puce-determined-raven.cyclic.app/categories/add-edit?id=${cate._id}`
+    );
   });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');

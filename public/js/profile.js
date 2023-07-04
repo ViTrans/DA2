@@ -39,7 +39,7 @@ $('#btn-update-profile').click(function (e) {
   formData.append('file', file);
 
   $.ajax({
-    url: 'http://localhost:5000/api/v1/profile',
+    url: 'https://puce-determined-raven.cyclic.app/api/v1/profile',
     type: 'PUT',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
@@ -63,7 +63,7 @@ $('#btn-change-password').click(function (e) {
   const oldPassword = $('#old-password').val();
   const newPassword = $('#new-password').val();
   $.ajax({
-    url: 'http://localhost:5000/api/v1/profile/change-password',
+    url: 'https://puce-determined-raven.cyclic.app/api/v1/profile/change-password',
     type: 'PUT',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);

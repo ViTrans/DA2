@@ -49,7 +49,9 @@ function createPackageElement(pack, index) {
   const removeButton = trElement.querySelector('#remove-btn');
 
   editButton.addEventListener('click', (e) => {
-    window.location.assign(`http://localhost:5000/packages/add-edit?id=${pack._id}`);
+    window.location.assign(
+      `https://puce-determined-raven.cyclic.app/packages/add-edit?id=${pack._id}`
+    );
   });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');

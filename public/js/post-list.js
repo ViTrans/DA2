@@ -178,11 +178,15 @@ function createPostElement(post, index) {
 
   push.addEventListener('click', (e) => {
     console.log('push tin click', e);
-    window.location.assign(`http://localhost:5000/payment/package?postId=${post._id}`);
+    window.location.assign(
+      `https://puce-determined-raven.cyclic.app/payment/package?postId=${post._id}`
+    );
   });
 
   editButton.addEventListener('click', (e) => {
-    window.location.assign(`http://localhost:5000/posts/add-edit?id=${post._id}`);
+    window.location.assign(
+      `https://puce-determined-raven.cyclic.app/posts/add-edit?id=${post._id}`
+    );
   });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');

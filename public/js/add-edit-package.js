@@ -4,7 +4,7 @@ import {
   getFormValues,
   hideLoading,
   setFieldError,
-  showLoading,  
+  showLoading,
   toast,
 } from './utils/index.js';
 
@@ -19,7 +19,7 @@ async function handlePackageFormSubmit(formValues) {
       title: 'save package successfully',
     });
     setTimeout(() => {
-      window.location.assign('http://localhost:5000/packages');
+      window.location.assign('https://puce-determined-raven.cyclic.app/packages');
     }, undefined);
   } catch (error) {
     await toast.fire({

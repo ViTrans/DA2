@@ -85,15 +85,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     store: new RedisStore({
-      url: process.env.REDIS_URL,
+      // Redis configuration options
+      host: 'localhost',
+      port: 6379,
+      // add any additional options you need
     }),
-    secret: process.env.SESSION_SECRET,
+    secret: 'your-secret-key',
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-    },
+    saveUninitialized: true,
   })
 );
 

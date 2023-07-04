@@ -21,16 +21,16 @@ const category = require('./src/models/category');
 const postDetails = require('./src/routes/postDetails');
 const getPostNew = require('./src/middlewares/getPostNew');
 // const cryptoRandomString = require('crypto-random-string');
-const cron = require('node-cron');
-cron.schedule('* * * * *', async () => {
-  console.log('running cron 1 minute');
-  await updateExpiredPosts();
-});
-// 24 tiếng
-// cron.schedule('0 0 */1 * * *', async () => {
+// const cron = require('node-cron');
+// cron.schedule('* * * * *', async () => {
+//   console.log('running cron 1 minute');
 //   await updateExpiredPosts();
-//   console.log('chay cron');
 // });
+// 24 tiếng
+cron.schedule('0 0 */1 * * *', async () => {
+  await updateExpiredPosts();
+  console.log('chay cron');
+});
 // 5 p
 // cron.schedule('*/5 * * * *', async () => {
 //   await updateExpiredPosts();

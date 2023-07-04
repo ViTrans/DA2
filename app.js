@@ -10,7 +10,7 @@ const homePageRouter = require('./src/routes/homePage');
 const signupRouter = require('./src/routes/signupRouter');
 const signinRouter = require('./src/routes/signinRouter');
 // const session = require('express-session');
-const flash = require('connect-flash');
+// const flash = require('connect-flash');
 const moment = require('moment');
 const postRouter = require('./src/routes/post');
 const categoryRouter = require('./src/routes/category');
@@ -87,14 +87,14 @@ app.use(express.urlencoded({ extended: true }));
 //     saveUninitialized: true,
 //   })
 // );
-app.use(flash());
+// app.use(flash());
 // middleawre for flash message
-app.use((req, res, next) => {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.locals.success_msg = req.flash('success_msg');
+//   res.locals.error_msg = req.flash('error_msg');
+//   res.locals.error = req.flash('error');
+//   next();
+// });
 
 app.use(getPostNew);
 

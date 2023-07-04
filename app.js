@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const homePageRouter = require('./src/routes/homePage');
 const signupRouter = require('./src/routes/signupRouter');
 const signinRouter = require('./src/routes/signinRouter');
-const session = require('express-session');
+// const session = require('express-session');
 const flash = require('connect-flash');
 const moment = require('moment');
 const postRouter = require('./src/routes/post');
@@ -80,13 +80,13 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: 'secret key',
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+// app.use(
+//   session({
+//     secret: 'secret key',
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
 app.use(flash());
 // middleawre for flash message
 app.use((req, res, next) => {

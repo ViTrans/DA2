@@ -13,6 +13,7 @@ const vnpay_return = async (req, res, next) => {
   console.log('vnpay_renturn 2 ', req.session.payment_info);
 
   if (vnp_Params['vnp_ResponseCode'] != '00') {
+     delete req.session.payment_info;
     return res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: -1 });
   }
   let secureHash = vnp_Params['vnp_SecureHash'];

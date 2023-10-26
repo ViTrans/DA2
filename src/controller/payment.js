@@ -82,10 +82,10 @@ const vnpay_return = async (req, res, next) => {
       });
     } catch (error) {
       console.log('error', error);
-      res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: 97 });
+      res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: -1 });
     }
   } else {
-    res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: 97 });
+    res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: -1 });
   }
 };
 

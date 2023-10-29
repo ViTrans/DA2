@@ -62,46 +62,23 @@
   </div>
   <% }); %>
 </div>
-<!-- pagi -->
-<nav aria-label="Page navigation example">
-  <ul class="pagination mt-5">
-    <!-- nếu có category_id thì phân trang cho category_id nếu có search thì phân trang cho search nếu không có gì hết thì phân trang post -->
-    <% if (category_id) { %>
-    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-      <a class="page-link" href="/category/<%= category_id %>?page=<%= page - 1 %>">Trước</a>
-    </li>
-    <% } else if (search) { %>
-    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-      <a class="page-link" href="/search?<%= search %>&page=<%= page - 1 %>">Trước</a>
-    </li>
-    <% } else { %>
-    <li class="page-item <%= page === 1 ? 'disabled' : '' %>">
-      <a class="page-link" href="/?page=<%= page - 1 %>">Trước</a>
-    </li>
-    <% } %> <% for (let i = 1; i <= totalPage; i++) { %> <% if (category_id) { %>
-    <li class="page-item <%= page === i ? 'active' : '' %>">
-      <a class="page-link" href="/category/<%= category_id %>?page=<%= i %>"><%= i %></a>
-    </li>
-    <% } else if (search) { %>
-    <li class="page-item <%= page === i ? 'active' : '' %>">
-      <a class="page-link" href="/search?<%= search %>&page=<%= i %>"><%= i %></a>
-    </li>
-    <% } else { %>
-    <li class="page-item <%= page === i ? 'active' : '' %>">
-      <a class="page-link" href="/?page=<%= i %>"><%= i %></a>
-    </li>
-    <% } %> <% } %> <% if (category_id) { %>
-    <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
-      <a class="page-link" href="/category/<%= category_id %>?page=<%= page + 1 %>">Sau</a>
-    </li>
-    <% } else if (search) { %>
-    <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
-      <a class="page-link" href="/search?<%= search %>&page=<%= page + 1 %>">Sau</a>
-    </li>
-    <% } else { %>
-    <li class="page-item <%= page === totalPage ? 'disabled' : '' %>">
-      <a class="page-link" href="/?page=<%= page + 1 %>">Sau</a>
-    </li>
-    <% } %>
-  </ul>
-</nav>
+
+<ul class="pagination">
+  <!-- Loop qua danh sách bài viết -->
+  <% for (let i = 1; i <= totalPage; i++) { %>
+  <li class="page-item"><a class="page-link" href="?page=<%= i %>"><%= i %></a></li>
+  <% } %>
+</ul>
+
+<script>
+  // pagination xử lý phần ? và & trong url
+  const pageLinks = document.querySelectorAll('.page-link');
+  pageLinks.forEach((pageLink) => {
+    pageLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set('page', pageLink.textContent);
+      window.location.search = urlParams;
+    });
+  });
+</script>

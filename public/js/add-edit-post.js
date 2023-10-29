@@ -16,7 +16,7 @@ async function handlePostFormSubmit(formValues) {
       title: 'save post successfully',
     });
     setTimeout(() => {
-      window.location.assign('https://puce-determined-raven.cyclic.app/posts');
+      window.location.assign('http://localhost:5000/posts');
     }, undefined);
   } catch (error) {
     await toast.fire({

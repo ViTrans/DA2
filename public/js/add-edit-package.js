@@ -19,7 +19,7 @@ async function handlePackageFormSubmit(formValues) {
       title: 'save package successfully',
     });
     setTimeout(() => {
-      window.location.assign('https://puce-determined-raven.cyclic.app/packages');
+      window.location.assign('http://localhost:5000/packages');
     }, undefined);
   } catch (error) {
     await toast.fire({

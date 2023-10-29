@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: 'https://puce-determined-raven.cyclic.app/api/v1/statistics',
+    url: 'http://localhost:5000/api/v1/statistics',
     type: 'GET',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);

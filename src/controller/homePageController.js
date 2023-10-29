@@ -1,131 +1,69 @@
 const Post = require('../models/posts');
-const querystring = require('querystring');
-
-const ITEMS_PER_PAGE = 4;
-
-const getPaginatedPosts = async (query, currentPage = 1) => {
-  const page = parseInt(currentPage) || 1;
-  const skip = (currentPage - 1) * ITEMS_PER_PAGE;
-  const totalPost = await Post.countDocuments(query);
-  const totalPage = Math.ceil(totalPost / ITEMS_PER_PAGE);
-
-  const posts = await Post.find(query)
-    .sort({ isvip: -1, createdAt: -1 })
-    .skip(skip)
-    .limit(ITEMS_PER_PAGE)
-    .populate('category_id');
-
-  return {
-    posts,
-    totalPage,
-    currentPage,
-    totalPost,
-    itemsPerPage: ITEMS_PER_PAGE,
-    category_id: query.category_id,
-    page,
-    search: query.search,
-  };
-};
-
-const showHomePage = async (req, res) => {
+const getPosts = async (req, res) => {
+  const queries = { ...req.query };
+  if (queries.address) {
+    queries.address = { $regex: queries.address, $options: 'i' };
+  }
+  const excludeFields = ['page', 'sort', 'limit', 'fields'];
+  excludeFields.forEach((el) => delete queries[el]);
+  const queryStr = JSON.stringify(queries).replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+  console.log(queryStr);
   const page = parseInt(req.query.page) || 1;
-  const query = {
-    $or: [{ isvip: { $gte: 3 } }, { isvip: { $exists: false } }],
-  };
+  const limit = parseInt(req.query.limit) || 4;
+  const skip = (page - 1) * limit;
+  const query = Post.find(JSON.parse(queryStr)).skip(skip).limit(limit).sort({
+    isvip: -1,
+  });
+  // sorting
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(',').join(' ');
+    query.sort(sortBy);
+  }
+  // pagination
+  const totalPost = await Post.countDocuments(JSON.parse(queryStr));
+  const totalPage = Math.ceil(totalPost / limit);
 
-  const { posts, ...pagination } = await getPaginatedPosts(query, page);
-
+  const posts = await query;
   res.render('index', {
     title: 'Trang Chủ',
     posts,
-    ...pagination,
+    totalPost,
+    totalPage,
   });
 };
 
-const getPostsByCategory = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
+const getPostByCategory = async (req, res) => {
   const categoryId = req.params.category_id;
   const query = { category_id: categoryId };
-
-  const { posts, ...pagination } = await getPaginatedPosts(query, page);
-
-  res.render('index', {
-    title: 'Trang Chủ',
-    posts,
-    ...pagination,
-  });
-};
-
-// search post by category and address and price and acreage
-const searchPost = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const category = req.query.category;
-  const province = req.query.province;
-  const price = req.query.price;
-  const acreage = req.query.acreage;
-  const query = {};
-  if (category) {
-    query.category_id = category;
-  }
-  if (province) {
-    query.address = { $regex: province, $options: 'i' };
-  }
-  if (price == 1) {
-    query.price = { $gte: 0, $lte: 1000000 };
-  }
-  if (price == 2) {
-    query.price = { $gte: 1000000, $lte: 5000000 };
-  }
-  if (price == 3) {
-    query.price = { $gte: 5000000, $lte: 10000000 };
-  }
-  if (price == 4) {
-    query.price = { $gte: 10000000 };
-  }
-  if (acreage == 1) {
-    query.acreage = { $gte: 0, $lte: 20 };
-  }
-  if (acreage == 2) {
-    query.acreage = { $gte: 20, $lte: 50 };
-  }
-  if (acreage == 3) {
-    query.acreage = { $gte: 50, $lte: 100 };
-  }
-  if (acreage == 4) {
-    query.acreage = { $gte: 100 };
-  }
+  const limit = parseInt(req.query.limit) || 4;
+  const skip = (page - 1) * limit;
 
-  if (category == '') {
-    delete query.category_id;
-  }
-  if (province == '') {
-    delete query.address;
-  }
-  if (price == '') {
-    delete query.price;
-  }
-  if (acreage == '') {
-    delete query.acreage;
-  }
+  const posts = await Post.find(query)
+    .sort({
+      isvip: -1,
+    })
+    .skip(skip)
+    .limit(limit);
 
-  const queryString = querystring.stringify(req.query);
-  const decodedQueryString = decodeURIComponent(queryString);
-  const search = decodedQueryString;
-  searchParams = search.replace(/&page=\d+/, '');
-  if (searchParams) {
-    query.search = searchParams;
-  }
-  const { posts, ...pagination } = await getPaginatedPosts(query, page);
+  // pagination
+  const totalPost = await Post.countDocuments(query);
+  const totalPage = Math.ceil(totalPost / 4);
+
+  console.log(totalPost);
+  console.log(totalPage);
 
   res.render('index', {
     title: 'Trang Chủ',
     posts,
-    ...pagination,
+    totalPost,
+    totalPage,
   });
 };
+
+const filterPosts = async (req, res) => {};
 
 module.exports = {
-  showHomePage,
-  getPostsByCategory,
-  searchPost,
+  getPosts,
+  getPostByCategory,
 };

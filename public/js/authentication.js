@@ -74,7 +74,7 @@ function renderPermisisonUserList({ sidebar, user }) {
 (async () => {
   try {
     const token = sessionStorage.getItem('token');
-    if (!token) window.location.assign('https://puce-determined-raven.cyclic.app/404');
+    if (!token) window.location.assign('http://localhost:5000/404');
 
     // check role
     // render sidebar menu theo Role
@@ -89,6 +89,6 @@ function renderPermisisonUserList({ sidebar, user }) {
     setActiveLink();
   } catch (error) {
     console.log('ko có token');
-    window.location.assign('https://puce-determined-raven.cyclic.app/404');
+    window.location.assign('http://localhost:5000/404');
   }
 })();

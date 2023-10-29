@@ -11,7 +11,7 @@ async function handleCategoryFormSubmit(formValues) {
       title: 'save category successfully',
     });
     setTimeout(() => {
-      window.location.assign('https://puce-determined-raven.cyclic.app/categories');
+      window.location.assign('http://localhost:5000/categories');
     }, undefined);
   } catch (error) {
     await toast.fire({

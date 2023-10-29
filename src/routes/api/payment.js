@@ -22,7 +22,7 @@ router.post('/createPayment', verifyToken, function (req, res, next) {
     let secretKey = 'NNFFYZKDXVIGLFRGDNHLWBBVPTZRNMYX';
     let vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
     // trả về router mình lấy link xử lí
-    let returnUrl = 'https://puce-determined-raven.cyclic.app/payment/vnpay_return';
+    let returnUrl = 'http://localhost:5000/payment/vnpay_return';
     let orderId = moment(date).format('DDHHmmss');
     let amount = req.body.amount;
     let bankCode = 'NCB';

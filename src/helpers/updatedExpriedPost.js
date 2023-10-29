@@ -18,7 +18,7 @@
 //         $out: 'posts', // lưu các documents đã được cập nhật vào collection mới
 //       },
 //     ]).exec();
-//     console.log('Update expired posts successfully ahihii .....!');
+//
 //   } catch (error) {
 //     console.error(error);
 //   }
@@ -46,11 +46,10 @@
 //         },
 //       },
 //     ]).exec();
-//     console.log('Update expired posts successfully ahihii .....!');
+//
 //   } catch (error) {
 //     console.error(error);
 //   }
 // }
-
 
 // module.exports = updateExpiredPost;

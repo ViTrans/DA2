@@ -88,7 +88,6 @@ function renderPermisisonUserList({ sidebar, user }) {
     });
     setActiveLink();
   } catch (error) {
-    console.log('ko có token');
     window.location.assign('http://localhost:5000/404');
   }
 })();

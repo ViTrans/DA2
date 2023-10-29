@@ -23,18 +23,17 @@ const getPostNew = require('./src/middlewares/getPostNew');
 // const cryptoRandomString = require('crypto-random-string');
 const cron = require('node-cron');
 // cron.schedule('* * * * *', async () => {
-//   console.log('running cron 1 minute');
+//
 //   await updateExpiredPosts();
 // });
 // 24 tiếng
 cron.schedule('0 0 */1 * * *', async () => {
   await updateExpiredPosts();
-  console.log('chay cron');
 });
 // 5 p
 // cron.schedule('*/5 * * * *', async () => {
 //   await updateExpiredPosts();
-//   console.log('chay cron');
+//
 // });
 
 // conect DB
@@ -47,15 +46,11 @@ const conectDB = async () => {
       useUnifiedTopology: true,
       dbName: 'doan2',
     });
-  } catch (error) {
-    console.log('mongoconet faild : ', error);
-  }
+  } catch (error) {}
 };
 conectDB();
 
-mongoose.connection.once('open', () => {
-  console.log('connection open');
-});
+mongoose.connection.once('open', () => {});
 
 // demo
 

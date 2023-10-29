@@ -24,7 +24,7 @@ const postApi = {
   },
   removeById(id) {
     const url = `/posts/${id}`;
-    console.log('url:' + url);
+
     return axiosClient.delete(url);
   },
   updatedFormData(data) {

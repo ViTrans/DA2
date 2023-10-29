@@ -61,16 +61,15 @@ function handelClickPage({
 
   prevPage.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('prev click');
+
     const pageIndex = +page - 1;
     onChange?.(pageIndex);
   });
   nextPage.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('next click');
 
     const pageIndex = +page + 1;
-    console.log('page index prev', pageIndex);
+
     onChange?.(pageIndex);
   });
 
@@ -92,7 +91,7 @@ function handelClickPage({
 function renderPagination({ elemntId, pagination }) {
   const ulPagination = document.getElementById(elemntId);
   if (!ulPagination) return;
-  console.log('page pagination ', pagination);
+
   // reset page
   ulPagination.textContent = '';
   const prevLiPagination = document.createElement('li');
@@ -133,8 +132,7 @@ function renderPagination({ elemntId, pagination }) {
     liPagination.appendChild(pageNumber);
 
     // active page
-    console.log('cureeent page ', currentPage);
-    console.log(' page ', page);
+
     if (currentPage == page) {
       pageActive = liPagination;
       pageActive.classList.add('active');
@@ -225,7 +223,6 @@ function initRemovePost() {
         cancelButtonColor: '#d33',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log('id ', e.target.id);
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           trElement.remove();
           await postApi.removeById(e.detail.id);
@@ -237,7 +234,6 @@ function initRemovePost() {
         }
       });
     } catch (error) {
-      console.log(error);
       await toast.fire({
         icon: 'error',
         title: 'delete post failed',
@@ -280,7 +276,7 @@ function initPriceChange({ onChange }) {
     const number1 = parseFloat(values[0]);
     const number2 = parseFloat(values[1]);
     const buttons = priceButtonWrapper.querySelectorAll('button');
-    console.log('buttons price', buttons);
+
     for (const button of buttons)
       button.classList.toggle('active', `${number1}-${number2}` == button.value);
     smoothStepsValues.textContent = `Từ ${number1} - ${number2} triệu đồng`;
@@ -374,8 +370,7 @@ function handelChangePrice(defaultValues, values) {
     values[0].split('.')[1] !== '00' ? '.' + values[0].split('.')[1].split('')[0] + '0' : '0';
   const decimal2 =
     values[1].split('.')[1] !== '00' ? '.' + values[1].split('.')[1].split('')[0] + '0' : '0';
-  console.log(decimal1);
-  console.log(decimal2);
+
   const formatMinPrice = values[0].split('.')[0] + decimal1 + '00000';
   const formatMaxPrice = values[1].split('.')[0] + decimal2 + '00000';
 
@@ -391,10 +386,8 @@ function handelChangePrice(defaultValues, values) {
   }
 }
 function handelChangeAddress(defaultValues, address) {
-  console.log('change');
-  console.log('defuat value', defaultValues);
   const { province, district, ward } = address;
-  console.log('address', address);
+
   if (province && province.dataset.code) {
     defaultValues.province = '';
     defaultValues.district = '';
@@ -620,7 +613,6 @@ async function renderPronvinceList(ulPronvince) {
 
 function handelChangeCategory(defaultValues, value) {
   defaultValues.category = value;
-  console.log(defaultValues);
 }
 
 // // Main
@@ -662,7 +654,5 @@ function handelChangeCategory(defaultValues, value) {
       handelFilterChange(defaultValues);
     });
     // input ranger
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

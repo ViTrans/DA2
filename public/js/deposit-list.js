@@ -62,7 +62,5 @@ function renderDepositList({ elemntId, data }) {
   try {
     handelFilterChange();
     //
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

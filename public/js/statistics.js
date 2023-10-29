@@ -6,7 +6,6 @@ $(document).ready(function () {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
     },
     success: function (result) {
-      console.log(result);
       $('#total-user').html(result.countUser);
       $('#total-post').html(result.countPost);
       $('#total-category').html(result.countCategory);
@@ -14,8 +13,6 @@ $(document).ready(function () {
       $('#total-vip2').html(result.countVip2);
       $('#total-vip3').html(result.countVip3);
     },
-    error: function (err) {
-      console.log(err);
-    },
+    error: function (err) {},
   });
 });

@@ -31,15 +31,13 @@ export async function validationPostForm(form, formValues) {
     // await postSchema.validateAsync(formValues);
   } catch (error) {
     for (const field of error.details) {
-      console.log('message error ::', field.message);
       setFieldError(form, field.path, field.message);
     }
-    console.log(error);
   }
 
   const isVaild = form.checkValidity();
   form.classList.add('was-validated');
-  console.log('valid ::', isVaild);
+
   return isVaild;
 }
 export function getPostSchema() {
@@ -147,7 +145,6 @@ export function initUploadImage(form) {
       // convert to array
       const uploadFiles = [...fileList];
       const index = parseInt(imgElement.dataset.index);
-      console.log('index: ' + index);
 
       uploadFiles.splice(index, 1);
 
@@ -189,7 +186,7 @@ export async function validateFormField(form, formValues, name) {
   formGroup.classList.add('was-validated');
 }
 
-export function initFieldOnchange(form) {
+export function initFieldOnchange(form, L, map) {
   // reset error empty
   const fields = [
     'province',
@@ -207,7 +204,7 @@ export function initFieldOnchange(form) {
     setFieldError(form, name, '');
   });
 
-  initOnchangeLocation(form);
+  initOnchangeLocation(form, L, map);
 
   ['acreage', 'price', 'houseNumber', 'category', 'title', 'description'].forEach((name) => {
     const field = form.querySelector(`[name="${name}"]`);
@@ -230,7 +227,7 @@ export function initFieldOnchange(form) {
           field.value = formartPriceNumber(data);
         }
         if (name === 'houseNumber') {
-          setAddressValue(form, data);
+          setAddressValue(form, data, L, map);
         }
         validateFormField(
           form,
@@ -349,16 +346,21 @@ async function setLocation(form, defaultFormValues) {
   setFiledLocation(locationValue, form, 'ward', ward, 'wardCode');
 }
 
-export async function initPostForm({ formId, defaultFormValues, onSubmit }) {
+export async function initPostForm({ formId, defaultFormValues, L, map, onSubmit }) {
   const form = document.getElementById(formId);
   let submit = false;
+
+  // const address = form.querySelector(`[name="address"]`);
+  // address.addEventListener('change', (e) => {
+  //   console.log(e.target.value);
+  // });
 
   const province = await locationApi.getProvince();
   renderOptions(province, 'province', form);
   setFormValues(form, defaultFormValues);
   const user = await getUserInfo(form);
   initUploadImage(form);
-  initFieldOnchange(form);
+  initFieldOnchange(form, L, map);
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (submit) return;
@@ -391,9 +393,7 @@ export async function getUserInfo(form) {
     userName.value = user.username;
     phone.value = user.phone;
     return user;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
 
 export function renderOptions(data, name, form) {
@@ -433,7 +433,5 @@ export function clearOptions(name) {
   const options = select.getElementsByTagName('option');
 
   // Duyệt qua từng option, bắt đầu từ index 1 (tức là từ option thứ 2 trở đi)
-  for (let i = 1; i < options.length; i++) {
-    console.log(select.removeChild(options[i]));
-  }
+  for (let i = 1; i < options.length; i++) {}
 }

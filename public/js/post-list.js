@@ -73,7 +73,7 @@ function handelClickPage({
 
       pageActive.classList.remove('active');
       const pageIndex = +page.firstElementChild.textContent;
-      console.log(pageIndex);
+
       page.classList.add('active');
       onChange?.(pageIndex);
     });
@@ -177,7 +177,6 @@ function createPostElement(post, index) {
   const removeButton = trElement.querySelector('#remove-btn');
 
   push.addEventListener('click', (e) => {
-    console.log('push tin click', e);
     window.location.assign(`http://localhost:5000/payment/package?postId=${post._id}`);
   });
 
@@ -188,7 +187,7 @@ function createPostElement(post, index) {
     const trElement = removeButton.closest('tr');
 
     if (!trElement) return;
-    console.log('okkk');
+
     let event = new CustomEvent('removePost', {
       bubbles: true,
       detail: { elemntId: trElement, id: post._id },
@@ -214,7 +213,6 @@ function initRemovePost() {
         cancelButtonColor: '#d33',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log('id ', e.target.id);
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           trElement.remove();
           await postApi.removeById(e.detail.id);
@@ -226,7 +224,6 @@ function initRemovePost() {
         }
       });
     } catch (error) {
-      console.log(error);
       await toast.fire({
         icon: 'error',
         title: 'delete post failed',
@@ -262,7 +259,7 @@ function initSearchInput({ name, onChange }) {
 }
 function initOnchageSelectBox({ name, onChange }) {
   const selectInputElement = document.querySelector(`[name="${name}"]`);
-  console.log(selectInputElement);
+
   if (!selectInputElement) return;
 
   selectInputElement.addEventListener('change', (event) => {
@@ -308,7 +305,5 @@ async function renderSelectBox({ name }) {
     handelFilterChange();
 
     // input ranger
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

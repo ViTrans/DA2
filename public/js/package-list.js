@@ -80,7 +80,6 @@ function initRemovePackage() {
         cancelButtonColor: '#d33',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log('id ', e.target.id);
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           trElement.remove();
           await packageApi.removeById(e.detail.id);
@@ -92,7 +91,6 @@ function initRemovePackage() {
         }
       });
     } catch (error) {
-      console.log(error);
       await toast.fire({
         icon: 'error',
         title: 'delete package failed',
@@ -116,7 +114,5 @@ function renderPackageList({ elemntId, data }) {
     initRemovePackage();
     handelFilterChange();
     //
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

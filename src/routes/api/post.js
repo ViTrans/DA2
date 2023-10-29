@@ -25,7 +25,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
 
     if (!userId) return res.status(401);
     searchOptions.user_id = userId;
-    console.log('searcg  ', searchOptions);
+
     const posts = await Post.find(searchOptions, { rawResult: false })
       .populate([
         {
@@ -51,7 +51,7 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
         category_id: post.category_id._id,
       };
     });
-    console.log('postnew ', postNew);
+
     const totalRows = await Post.find(searchOptions)
       .populate([
         {
@@ -64,7 +64,6 @@ router.get('/currentUser/', verifyToken, async (req, res) => {
         },
       ])
       .countDocuments();
-    console.log('totalrow ', totalRows);
 
     const totalPages = Math.ceil(totalRows / limit);
 
@@ -89,9 +88,6 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
 
   const { page = 1, limit = 4 } = req?.query;
   const skip = (page - 1) * limit;
-  console.log('page ', page);
-  console.log('skip ', skip);
-  console.log('limit ', limit);
 
   let address = '';
 
@@ -138,8 +134,6 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
       })
       .lean();
 
-    console.log('search opitons ', searchOptions);
-    console.log('post ::', posts);
     const postNew = posts.map((post) => {
       return {
         ...post,
@@ -163,7 +157,6 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
       ])
       .countDocuments();
 
-    console.log('totalRows :::', totalRows);
     const totalPages = Math.ceil(totalRows / limit);
 
     res.status(200).json({
@@ -176,7 +169,6 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
       },
     });
   } catch (error) {
-    console.log('err ', error);
     res.status(500);
   }
 });
@@ -221,13 +213,10 @@ router.post('/', verifyToken, fileUploader.array('file'), async (req, res) => {
       data: post,
     });
   } catch (error) {
-    console.log('create error post', error);
     if (req?.file) {
       req?.file.forEach(async (f) => {
         await cloudinary.uploader.destroy(f?.filename, (err, result) => {
           if (err) return res.status(500);
-          console.log('đã xóa file cũ khi up ảnh mới', res);
-          console.log('delete image cloudinary');
         });
       });
     }
@@ -261,7 +250,7 @@ router.put('/:id', verifyToken, fileUploader.array('file'), async (req, res) => 
     }
 
     const post = await Post.findByIdAndUpdate(postId, newPost, { new: true });
-    console.log('updated post');
+
     res.status(200).json({
       code: 200,
       data: post,
@@ -271,8 +260,6 @@ router.put('/:id', verifyToken, fileUploader.array('file'), async (req, res) => 
       req?.file.forEach(async (f) => {
         await cloudinary.uploader.destroy(f?.filename, (err, result) => {
           if (err) return res.status(500);
-          console.log('đã xóa file cũ khi up ảnh mới', result);
-          console.log('delete image cloudinary');
         });
       });
     }
@@ -288,9 +275,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
     const post = await Post.findByIdAndDelete(req.params.id, { new: true });
     await cloudinary.uploader.destroy(post.filenameList, (err, result) => {
       if (err) return res.status(500);
-      console.log('đã xóa file cũ khi up ảnh mới', result);
     });
-    console.log('xóa');
 
     res.status(200).json({
       code: 200,

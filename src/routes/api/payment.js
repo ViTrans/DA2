@@ -55,15 +55,12 @@ router.post('/createPayment', verifyToken, function (req, res, next) {
     vnp_Params['vnp_SecureHash'] = signed;
     vnpUrl += '?' + querystring.stringify(vnp_Params, { encode: false });
 
-    console.log('vnpUrl', vnpUrl);
     res.json({
       success: true,
       vnpUrl,
     });
     // res.redirect(vnpUrl);
-  } catch (error) {
-    console.log('có lỗi : ', error);
-  }
+  } catch (error) {}
 });
 
 module.exports = router;

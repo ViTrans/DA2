@@ -26,8 +26,7 @@ const verifyPasswordToken = async (req, res, next) => {
       (user.resetPasswordExpires = undefined),
       (user.password = password);
     await user.save();
-    console.log('cập nhật thành công');
-    
+
     return res.render('reset-password', {
       title: 'reset-password',
       message: 'Cập nhật mật khẩu mới thành công quay lại login',

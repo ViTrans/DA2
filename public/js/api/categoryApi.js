@@ -11,7 +11,7 @@ const categoryApi = {
   },
   removeById(id) {
     const url = `/categories/${id}`;
-    console.log('url:' + url);
+
     return axiosClient.delete(url);
   },
   update(data) {

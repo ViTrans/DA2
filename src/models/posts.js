@@ -9,6 +9,15 @@ const postSchema = new mongoose.Schema(
     address: {
       type: String,
     },
+    location: {
+      type: {
+        type: String,
+        enum: ['Point'], // Chỉ cho phép kiểu 'Point' cho trường location
+      },
+      coordinates: {
+        type: [Number], // Mảng chứa tọa độ [longitude, latitude]
+      },
+    },
     description: {
       type: String,
     },

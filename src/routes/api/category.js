@@ -50,7 +50,6 @@ router.post('/', verifyToken, async (req, res) => {
       data: category,
     });
   } catch (error) {
-    console.log('create error Category', error);
     res.status(500);
   }
 });
@@ -64,13 +63,12 @@ router.put('/:id', verifyToken, async (req, res) => {
       title: req.body.title,
     };
     const category = await Category.findByIdAndUpdate(id, data);
-    console.log('success edit category');
+
     res.status(200).json({
       code: 200,
       data: category,
     });
   } catch (error) {
-    console.log('create error Category', error);
     res.status(500);
   }
 });

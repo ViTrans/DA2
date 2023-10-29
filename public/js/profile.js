@@ -17,9 +17,7 @@ $(document).ready(function () {
 
       $('#img-avatar').attr('src', result.avatar);
     },
-    error: function (err) {
-      console.log(err);
-    },
+    error: function (err) {},
   });
 });
 
@@ -51,9 +49,7 @@ $('#btn-update-profile').click(function (e) {
       $('#img-avatar').attr('src', result.avatar);
       alert(result.message);
     },
-    error: function (err) {
-      console.log(err);
-    },
+    error: function (err) {},
   });
 });
 
@@ -73,7 +69,6 @@ $('#btn-change-password').click(function (e) {
       newPassword,
     },
     success: function (result) {
-      console.log(result);
       if (result.message) {
         alert(result.message);
         // clear input
@@ -82,7 +77,6 @@ $('#btn-change-password').click(function (e) {
       }
     },
     error: function (err) {
-      console.log(err);
       alert(err.responseJSON.message);
     },
   });

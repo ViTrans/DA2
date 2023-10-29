@@ -24,7 +24,6 @@ $(document).ready(function () {
         }
       },
       error: function (err) {
-        console.log(err);
         // hiển thị thông báo toast
         $('.toast-body').text(err.responseJSON.message);
         $('.toast').addClass('bg-danger');
@@ -55,9 +54,7 @@ $(document).ready(function () {
           alert(result.message);
         }
       },
-      error: function (err) {
-        console.log(err);
-      },
+      error: function (err) {},
     });
   });
 });

@@ -16,7 +16,7 @@ const userApi = {
   },
   removeById(id) {
     const url = `/users/${id}`;
-    console.log('url:' + url);
+
     return axiosClient.delete(url);
   },
 };

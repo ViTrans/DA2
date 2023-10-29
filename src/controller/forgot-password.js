@@ -3,9 +3,7 @@ const sendMail = require('../helpers/sendMail');
 const show = async (req, res, next) => {
   try {
     res.render('forgot-password', { title: 'forgot-password' });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 const forgotPassword = async (req, res, next) => {
@@ -45,7 +43,6 @@ const forgotPassword = async (req, res, next) => {
       title: 'Forgot-password',
     });
   } catch (error) {
-    console.log(error);
     res.render('forgot-password', {
       title: 'Forgot-password',
     });

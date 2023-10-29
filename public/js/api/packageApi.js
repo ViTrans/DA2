@@ -12,7 +12,7 @@ const packageApi = {
   },
   removeById(id) {
     const url = `/packages/${id}`;
-    console.log('url:' + url);
+
     return axiosClient.delete(url);
   },
   update(data) {

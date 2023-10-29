@@ -24,15 +24,13 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       // req.flash('message', 'Tài khoản không tồn tại');
-      console.log('Tài khoản không tồn tại');
+
       res.status(404).json({ message: 'Tài khoản không tồn tại' });
       res.redirect('/signin');
     } else if (!(await user.isValidPassword(password))) {
-      console.log('Sai mật khẩu');
       // req.flash('message', 'Sai mật khẩu');
       res.status(404).json({ message: 'Sai mật khẩu' });
       res.redirect('/signin');
-      console.log('Sai mật khẩu');
     } else {
       // Create a JWT token for the user
       const token = generateAccessToken({
@@ -43,13 +41,11 @@ const loginUser = async (req, res) => {
       // Set the JWT token as a cookie and redirect to a protected page
       res.cookie('refreshToken', refreshToken, { httpOnly: true });
       // req.flash('message', 'Đăng nhập thành công');
-      console.log('Đăng nhập thành công');
+
       const { password, ...others } = user._doc;
       res.status(200).json({ others, token, message: 'Đăng nhập thành công' });
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // viết api logout để client gọi đến

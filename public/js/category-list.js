@@ -8,7 +8,7 @@ async function handelFilterChange(filterName, filterValue) {
 
   // call api
   const { data } = await categoryApi.getAll(queryPamrams.searchParams);
-  console.log('data ', data);
+
   renderCategoryList({
     elemntId: 'categoryList',
     data,
@@ -27,7 +27,7 @@ function createCategoryElement(cate, index) {
   const number = trElement.querySelector('[data-id="number"]');
   if (!number) return;
   number.textContent = ordinalNumber;
-  console.log('title ', title);
+
   const date = trElement.querySelector('[data-id="date"]');
   if (!date) return;
   date.textContent = formatDate(cate.created_at);
@@ -67,7 +67,6 @@ function initRemoveCategory() {
         cancelButtonColor: '#d33',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log('id ', e.target.id);
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           trElement.remove();
           await categoryApi.removeById(e.detail.id);
@@ -79,7 +78,6 @@ function initRemoveCategory() {
         }
       });
     } catch (error) {
-      console.log(error);
       await toast.fire({
         icon: 'error',
         title: 'delete category failed',
@@ -90,7 +88,7 @@ function initRemoveCategory() {
 
 function renderCategoryList({ elemntId, data }) {
   const categoryList = document.getElementById(elemntId);
-  console.log('categorylist', categoryList);
+
   if (!categoryList) return;
   categoryList.textContent = '';
   data.forEach((cate, index) => {
@@ -104,7 +102,5 @@ function renderCategoryList({ elemntId, data }) {
     initRemoveCategory();
     handelFilterChange();
     //
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

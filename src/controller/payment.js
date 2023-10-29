@@ -85,6 +85,7 @@ const vnpay_return = async (req, res, next) => {
         code: 1,
       });
     } catch (error) {
+      console.log('sae k othanh cong', error);
       res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: -1 });
     }
   } else {

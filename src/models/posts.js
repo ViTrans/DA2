@@ -13,11 +13,9 @@ const postSchema = new mongoose.Schema(
       type: {
         type: String,
         enum: ['Point'], // Chỉ cho phép kiểu 'Point' cho trường location
-        required: true,
       },
       coordinates: {
         type: [Number], // Mảng chứa tọa độ [longitude, latitude]
-        required: true,
       },
     },
     description: {

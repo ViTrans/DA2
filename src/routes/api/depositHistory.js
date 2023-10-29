@@ -36,7 +36,6 @@ router.get('/', verifyToken, async (req, res) => {
       data: paymentNew,
     });
   } catch (error) {
-    console.log(error);
     res.status(500);
   }
 });

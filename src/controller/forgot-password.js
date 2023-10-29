@@ -3,9 +3,7 @@ const sendMail = require('../helpers/sendMail');
 const show = async (req, res, next) => {
   try {
     res.render('forgot-password', { title: 'forgot-password' });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 const forgotPassword = async (req, res, next) => {
@@ -37,7 +35,7 @@ const forgotPassword = async (req, res, next) => {
       to: user.email, // list of receivers
       subject: 'Khôi phục mật khẩu', // Subject line
       html: `Bạn có thể đặt lại mật khẩu bằng liên kết sau:
-      https://puce-determined-raven.cyclic.app/reset-password?token=${passwordReset}`, // html body
+      http://localhost:5000/reset-password?token=${passwordReset}`, // html body
     };
     await sendMail(mailOptions);
 
@@ -45,7 +43,6 @@ const forgotPassword = async (req, res, next) => {
       title: 'Forgot-password',
     });
   } catch (error) {
-    console.log(error);
     res.render('forgot-password', {
       title: 'Forgot-password',
     });

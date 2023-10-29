@@ -21,7 +21,6 @@ router.post('/', verifyToken, async (req, res) => {
       data: package,
     });
   } catch (error) {
-    console.log('create error package', error);
     res.status(500);
   }
 });
@@ -54,7 +53,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     const formatPrice = req?.body?.price.replace(/\D/g, '');
     const price = +formatPrice || 0;
     const { id } = req.params;
-    console.log(id);
+
     const data = {
       name: req.body.name,
       description: req?.body?.description,
@@ -62,13 +61,12 @@ router.put('/:id', verifyToken, async (req, res) => {
       duration: +req?.body?.duration,
     };
     const package = await Package.findByIdAndUpdate(id, data);
-    console.log('success edit');
+
     res.status(200).json({
       code: 200,
       data: package,
     });
   } catch (error) {
-    console.log('create error package', error);
     res.status(500);
   }
 });

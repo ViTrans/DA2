@@ -19,14 +19,14 @@ router.get('/', verifyToken, async (req, res) => {
 // router.get('/:id', async (req, res) => {
 //   try {
 //     const id = req.params.id;
-//     console.log('router user by id nè ', id);
+//
 //     const user = await User.findById(id);
 //     res.status(200).json({
 //       code: 200,
 //       data: user,
 //     });
 //   } catch (error) {
-//     console.log('router user by id ', error);
+//
 //   }
 // });
 
@@ -38,9 +38,7 @@ router.get('/curent', verifyToken, async (req, res) => {
       code: 200,
       user,
     });
-  } catch (error) {
-    console.log('router user by id ', error);
-  }
+  } catch (error) {}
 });
 
 module.exports = router;

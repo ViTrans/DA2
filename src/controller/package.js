@@ -5,10 +5,10 @@
 // const createPackage = async (req, res, next) => {
 //   try {
 //     const package = await Package.create(req.body);
-//     console.log('create package', package);
+//
 //     res.redirect('/package');
 //   } catch (error) {
-//     console.log(error);
+//
 //     res.render('/create-package', { package });
 //   }
 // };

@@ -5,15 +5,9 @@ const conn = mongoose.createConnection(process.env.DB_URI, {
   useUnifiedTopology: true,
   dbName: 'doan2',
 });
-conn.on('connected', function () {
-  console.log('mongodb connection DATABASE:: ' + this.name);
-});
-conn.on('disconnected', function () {
-  console.log('mongodb disconnected :: ' + this.name);
-});
-conn.on('error', function (error) {
-  console.log('mongodb error :: ' + error);
-});
+conn.on('connected', function () {});
+conn.on('disconnected', function () {});
+conn.on('error', function (error) {});
 
 process.on('SIGINT', async function () {
   await conn.close();

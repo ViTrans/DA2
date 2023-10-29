@@ -3,7 +3,6 @@ import { getFormValues, hideLoading, setFieldError, showLoading, toast } from '.
 
 async function handleCategoryFormSubmit(formValues) {
   try {
-    console.log('form values', formValues);
     const id = formValues?.id;
     const response = id ? await categoryApi.update(formValues) : await categoryApi.add(formValues);
     await toast.fire({
@@ -11,7 +10,7 @@ async function handleCategoryFormSubmit(formValues) {
       title: 'save category successfully',
     });
     setTimeout(() => {
-      window.location.assign('https://puce-determined-raven.cyclic.app/categories');
+      window.location.assign('http://localhost:5000/categories');
     }, undefined);
   } catch (error) {
     await toast.fire({
@@ -86,7 +85,6 @@ async function validationCategoryForm(form, formValues) {
     await packageSchema.validateAsync(formValues);
   } catch (error) {
     for (const field of error.details) {
-      console.log('message error ::', field.message);
       setFieldError(form, field.path, field.message);
     }
   }

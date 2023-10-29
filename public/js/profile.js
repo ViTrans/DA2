@@ -5,7 +5,7 @@
 $(document).ready(function () {
   // get profile
   $.ajax({
-    url: 'https://puce-determined-raven.cyclic.app/api/v1/profile',
+    url: 'http://localhost:5000/api/v1/profile',
     type: 'GET',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
@@ -17,9 +17,7 @@ $(document).ready(function () {
 
       $('#img-avatar').attr('src', result.avatar);
     },
-    error: function (err) {
-      console.log(err);
-    },
+    error: function (err) {},
   });
 });
 
@@ -39,7 +37,7 @@ $('#btn-update-profile').click(function (e) {
   formData.append('file', file);
 
   $.ajax({
-    url: 'https://puce-determined-raven.cyclic.app/api/v1/profile',
+    url: 'http://localhost:5000/api/v1/profile',
     type: 'PUT',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
@@ -51,9 +49,7 @@ $('#btn-update-profile').click(function (e) {
       $('#img-avatar').attr('src', result.avatar);
       alert(result.message);
     },
-    error: function (err) {
-      console.log(err);
-    },
+    error: function (err) {},
   });
 });
 
@@ -63,7 +59,7 @@ $('#btn-change-password').click(function (e) {
   const oldPassword = $('#old-password').val();
   const newPassword = $('#new-password').val();
   $.ajax({
-    url: 'https://puce-determined-raven.cyclic.app/api/v1/profile/change-password',
+    url: 'http://localhost:5000/api/v1/profile/change-password',
     type: 'PUT',
     beforeSend: function (xhr) {
       xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
@@ -73,7 +69,6 @@ $('#btn-change-password').click(function (e) {
       newPassword,
     },
     success: function (result) {
-      console.log(result);
       if (result.message) {
         alert(result.message);
         // clear input
@@ -82,7 +77,6 @@ $('#btn-change-password').click(function (e) {
       }
     },
     error: function (err) {
-      console.log(err);
       alert(err.responseJSON.message);
     },
   });

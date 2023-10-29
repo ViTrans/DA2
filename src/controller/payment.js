@@ -10,10 +10,9 @@ const list = async (req, res, next) => {
 
 const vnpay_return = async (req, res, next) => {
   let vnp_Params = req.query;
-  console.log('vnpay_renturn 2 ', req.session.payment_info);
-
+  console.log('vnp code ', vnp_Params['vnp_ResponseCode']);
   if (vnp_Params['vnp_ResponseCode'] != '00') {
-     delete req.session.payment_info;
+    console.log('ma khac 00');
     return res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: -1 });
   }
   let secureHash = vnp_Params['vnp_SecureHash'];
@@ -82,10 +81,9 @@ const vnpay_return = async (req, res, next) => {
 
       res.render('./admin/payment/vnpay-return', {
         title: 'VNPAY RETURN',
-        code: vnp_Params['vnp_ResponseCode'],
+        code: 1,
       });
     } catch (error) {
-      console.log('error', error);
       res.render('./admin/payment/vnpay-return', { title: 'VNPAY RETURN', code: -1 });
     }
   } else {

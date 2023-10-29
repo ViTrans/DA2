@@ -1,5 +1,5 @@
 const axiosClient = axios.create({
-  baseURL: 'https://puce-determined-raven.cyclic.app/api/v1',
+  baseURL: 'http://localhost:5000/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },

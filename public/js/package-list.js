@@ -49,9 +49,7 @@ function createPackageElement(pack, index) {
   const removeButton = trElement.querySelector('#remove-btn');
 
   editButton.addEventListener('click', (e) => {
-    window.location.assign(
-      `https://puce-determined-raven.cyclic.app/packages/add-edit?id=${pack._id}`
-    );
+    window.location.assign(`http://localhost:5000/packages/add-edit?id=${pack._id}`);
   });
   removeButton.addEventListener('click', () => {
     const trElement = removeButton.closest('tr');
@@ -82,7 +80,6 @@ function initRemovePackage() {
         cancelButtonColor: '#d33',
       }).then(async (result) => {
         if (result.isConfirmed) {
-          console.log('id ', e.target.id);
           Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
           trElement.remove();
           await packageApi.removeById(e.detail.id);
@@ -94,7 +91,6 @@ function initRemovePackage() {
         }
       });
     } catch (error) {
-      console.log(error);
       await toast.fire({
         icon: 'error',
         title: 'delete package failed',
@@ -118,7 +114,5 @@ function renderPackageList({ elemntId, data }) {
     initRemovePackage();
     handelFilterChange();
     //
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

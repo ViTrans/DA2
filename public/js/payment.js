@@ -6,7 +6,7 @@ function createPackageElement(pack) {
   if (!postId) return;
   const packageTemplate = document.getElementById('packageTemplate').cloneNode(true).content;
   const liElement = packageTemplate.firstElementChild;
-  console.log(liElement);
+
   if (!liElement || !pack) return;
   const name = liElement.querySelector('[data-id="name"]');
   if (!name) return;
@@ -28,7 +28,6 @@ function createPackageElement(pack) {
 
   button.addEventListener('click', async (e) => {
     try {
-      console.log('click me');
       const newData = {
         amount: pack.price,
         postId: postId,
@@ -37,11 +36,9 @@ function createPackageElement(pack) {
 
       // create_payment_url;
       const { vnpUrl } = await paymentApi.add(newData);
-      console.log(vnpUrl);
+
       window.location.assign(vnpUrl);
-    } catch (error) {
-      console.log('error :: ', error);
-    }
+    } catch (error) {}
   });
   return liElement;
 }
@@ -64,7 +61,5 @@ function renderPackageList({ elemntId, data }) {
       data,
     });
     //
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

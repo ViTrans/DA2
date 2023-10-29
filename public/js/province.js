@@ -1,4 +1,4 @@
-import { renderOptions, clearOptions, validateFormField } from './utils/index.js';
+import { renderOptions, clearOptions, validateFormField, setFieldError } from './utils/index.js';
 import locationApi from './api/locationApi.js';
 
 async function fetchLocationInfo(data, location, form) {
@@ -20,7 +20,7 @@ async function fetchLocationInfo(data, location, form) {
   }
 }
 
-export function setAddressValue(form, housnumber = false) {
+export function setAddressValue(form, housnumber = '', L, map) {
   const address = form.querySelector(`[name="address"]`);
 
   let str = '';
@@ -44,9 +44,53 @@ export function setAddressValue(form, housnumber = false) {
     .replace(/Xã/g, ', Xã');
   str = str.substring(0, str.length);
   address.value = str.trim();
+
+  // xu li map
+  const addressMap = str.trim();
+
+  // Gửi yêu cầu đến OpenStreetMap Nominatim API
+  findAddress(form, addressMap, L, map);
+  const formGroup = address.closest('.form-group');
+  formGroup.classList.add('was-validated');
+}
+var marker;
+export function findAddress(form, addressMap, L, map) {
+  console.log('address map ', addressMap);
+  fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressMap)}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.length > 0) {
+        // let marker = undefined;
+        // Lấy tọa độ từ kết quả
+        var latitude = parseFloat(data[0].lat);
+        var longitude = parseFloat(data[0].lon);
+
+        // Xóa đánh dấu hiện tại (nếu có)
+        // if (typeof marker !== 'undefined') {
+        map.removeLayer(marker);
+        // }
+        console.log('data ', data);
+        // Đặt lại đánh dấu mới
+        console.log(latitude);
+        console.log(longitude);
+
+        marker = L.marker([latitude, longitude]).addTo(map);
+        map.setView([latitude, longitude], 10);
+        setFieldError(form, 'address', '');
+      } else {
+        console.log('Không tìm thấy địa chỉ');
+        setFieldError(form, 'address', 'Không tìm thấy địa chỉ');
+      }
+    })
+    .catch((error) => {
+      console.error('Lỗi khi tìm kiếm địa chỉ:', error);
+      setFieldError(form, 'address', 'Không tìm thấy địa chỉ');
+    });
 }
 
-export function initOnchangeLocation(form) {
+export function initOnchangeLocation(form, L, map) {
   const filedSelectOptions = ['province', 'ward', 'district'];
 
   filedSelectOptions.forEach((name) => {
@@ -57,7 +101,7 @@ export function initOnchangeLocation(form) {
       const selectedValue = target.options[target.selectedIndex].value;
       const filedName = target.name;
       fetchLocationInfo(selectedValue, filedName, form);
-      setAddressValue(form);
+      setAddressValue(form, false, L, map);
       validateFormField(
         form,
         {

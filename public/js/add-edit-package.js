@@ -10,16 +10,15 @@ import {
 
 async function handlePackageFormSubmit(formValues) {
   try {
-    console.log('form values', formValues);
     const id = formValues?.id;
     const response = id ? await packageApi.update(formValues) : await packageApi.add(formValues);
-    console.log(response);
+
     await toast.fire({
       icon: 'success',
       title: 'save package successfully',
     });
     setTimeout(() => {
-      window.location.assign('https://puce-determined-raven.cyclic.app/packages');
+      window.location.assign('http://localhost:5000/packages');
     }, undefined);
   } catch (error) {
     await toast.fire({
@@ -120,10 +119,8 @@ async function validationPackageForm(form, formValues) {
     await packageSchema.validateAsync(formValues);
   } catch (error) {
     for (const field of error.details) {
-      console.log('message error ::', field.message);
       setFieldError(form, field.path, field.message);
     }
-    console.log(error);
   }
 
   const isVaild = form.checkValidity();

@@ -26,7 +26,6 @@ router.get('/', verifyToken, async (req, res) => {
 
     res.status(200).json({ countUser, countPost, countCategory, countVip1, countVip2, countVip3 });
   } catch (error) {
-    console.log(error);
     res.status(500);
   }
 });

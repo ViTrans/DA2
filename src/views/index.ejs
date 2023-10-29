@@ -1,9 +1,8 @@
 <body class="bg-light">
   <main class="container mt-2">
-    <form
+    <div
       class="row bg-yellow rounded-3 p-3 justify-content-center container mx-auto"
       style="gap: 10px"
-      action="/search"
     >
       <div class="col-md-2 col-12">
         <select
@@ -23,7 +22,7 @@
           class="form-select form-select-lg fs-6 w-100"
           aria-label=".form-select-lg example"
           id="select-province"
-          name="province"
+          name="address"
         >
           <script>
             const selectProvince = document.getElementById('select-province');
@@ -54,10 +53,10 @@
           name="price"
         >
           <option selected value="">Chọn Giá</option>
-          <option value="1">Dưới 1 triệu</option>
-          <option value="2">1 - 5 triệu</option>
-          <option value="3">5 - 10 triệu</option>
-          <option value="4">Hơn 10 triệu</option>
+          <option value="price[gte]=0&price[lte]=1000000">Dưới 1 triệu</option>
+          <option value="price[gte]=1000000&price[lte]=5000000">Từ 1 - 5 triệu</option>
+          <option value="price[gte]=5000000&price[lte]=10000000">Từ 5 - 10 triệu</option>
+          <option value="price[gte]=10000000">Trên 10 triệu</option>
         </select>
       </div>
       <div class="col-md-2 col-12">
@@ -66,18 +65,18 @@
           aria-label=".form-select-lg example"
           name="acreage"
         >
-          <option selected>Chọn Diện Tích</option>
-          <option value="1">Dưới 20m2</option>
-          <option value="2">Từ 20 - 50m2</option>
-          <option value="3">Từ 50 - 100m2</option>
-          <option value="3">Trên 100m2</option>
+          <option selected value="">Chọn Diện Tích</option>
+          <option value="acreage[gte]=0&acreage[lte]=30">Dưới 30m2</option>
+          <option value="acreage[gte]=30&acreage[lte]=50">Từ 30 - 50m2</option>
+          <option value="acreage[gte]=50&acreage[lte]=80">Từ 50 - 80m2</option>
+          <option value="acreage[gte]=80">Trên 80m2</option>
         </select>
       </div>
       <!-- button search -->
       <div class="col-md-2">
-        <button type="submit" class="btn btn-primary btn-lg btn-block fs-6">Tìm Kiếm</button>
+        <button class="btn-search btn btn-primary btn-lg btn-block fs-6">Tìm Kiếm</button>
       </div>
-    </form>
+    </div>
     <script>
       if (user) {
         document.write(`
@@ -110,12 +109,12 @@
     <div class="row container text-center d-md-flex justify-content-center d-none">
       <div class="col-4 w-25">
         <div class="card m-3 bg-white rounded-4 overflow-hidden">
-          <a href="search?category=&province=Thành+phố+Hồ+Chí+Minh">
+          <a href="/?address=Thành+phố+Hồ+Chí+Minh">
             <img src="../../img/thanhpho.jpeg" class="card-img-top" alt="..." />
           </a>
           <div class="card-body">
             <a
-              href="https://puce-determined-raven.cyclic.app/search?category=&province=Thành+phố+Hồ+Chí+Minh"
+              href="/?address=Thành+phố+Hồ+Chí+Minh"
               class="card-title text-primary text-decoration-none"
               >Hồ Chí Minh</a
             >
@@ -124,12 +123,12 @@
       </div>
       <div class="col-4 w-25">
         <div class="card m-3 bg-white rounded-4 overflow-hidden">
-          <a href="https://puce-determined-raven.cyclic.app/search?category=&province=Thành+phố+Cần+Thơ">
+          <a href="/?address=Thành+phố+Cần+Thơ">
             <img src="../../img/cantho.jpeg" class="card-img-top" alt="..." />
           </a>
           <div class="card-body">
             <a
-              href="search?category=&province=Thành+phố+Cần+Thơ"
+              href="/?address=Thành+phố+Cần+Thơ"
               class="card-title text-primary text-decoration-none"
               >Cần Thơ</a
             >
@@ -138,12 +137,12 @@
       </div>
       <div class="col-4 w-25">
         <div class="card m-3 bg-white rounded-4 overflow-hidden">
-          <a href="https://puce-determined-raven.cyclic.app/search?category=&province=Thành+phố+Hà+Nội">
+          <a href="/?address=Thành+phố+Hà+Nội">
             <img src="../../img/hanoi.jpeg" class="card-img-top" alt="..." />
           </a>
           <div class="card-body">
             <a
-              href="search?category=&province=Thành+phố+Hà+Nội"
+              href="/?address=Thành+phố+Hà+Nội"
               class="card-title text-primary text-decoration-none"
               >Hà Nội</a
             >
@@ -157,3 +156,41 @@
     </section>
   </main>
 </body>
+
+<script>
+  const form = document.querySelector('form');
+  const category_id = document.querySelector('select[name="category"]');
+  const address = document.querySelector('select[name="address"]');
+  const price = document.querySelector('select[name="price"]');
+  const acreage = document.querySelector('select[name="acreage"]');
+  const search = document.querySelector('.btn-search');
+  search.addEventListener('click', (e) => {
+    let url = '';
+    // nếu chỉ chọn duy nhất 1 trường thì không cần dấu & trước trường tiếp theo nữa nên phải xử lý thêm
+    if (address.value !== '') {
+      url += `/?address=${address.value}`;
+    }
+    if (category_id.value !== '') {
+      if (url === '') {
+        url += `/?category_id=${category_id.value}`;
+      } else {
+        url += `&category_id=${category_id.value}`;
+      }
+    }
+    if (price.value !== '') {
+      if (url === '') {
+        url += `/?${price.value}`;
+      } else {
+        url += `&${price.value}`;
+      }
+    }
+    if (acreage.value !== '') {
+      if (url === '') {
+        url += `/?${acreage.value}`;
+      } else {
+        url += `&${acreage.value}`;
+      }
+    }
+    window.location.href = url;
+  });
+</script>

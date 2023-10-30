@@ -91,9 +91,9 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
 
   let address = '';
 
-  if (req.query?.province) address += req.query?.province?.replaceAll('-', ' ');
-  if (req.query?.district) address += req.query?.district?.replaceAll('-', ' ') + ', ';
   if (req.query?.ward) address += req.query?.ward?.replaceAll('-', ' ') + ', ';
+  if (req.query?.district) address += req.query?.district?.replaceAll('-', ' ') + ', ';
+  if (req.query?.province) address += req.query?.province?.replaceAll('-', ' ');
 
   if (address !== '') {
     searchOptions.address = new RegExp(address, 'i');

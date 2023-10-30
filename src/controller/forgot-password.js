@@ -2,7 +2,7 @@ const User = require('../models/user');
 const sendMail = require('../helpers/sendMail');
 const show = async (req, res, next) => {
   try {
-    res.render('forgot-password', { title: 'forgot-password' });
+    res.render('forgot-password', { title: 'forgot-password', error: '' });
   } catch (error) {}
 };
 
@@ -41,10 +41,13 @@ const forgotPassword = async (req, res, next) => {
 
     return res.render('forgot-password', {
       title: 'Forgot-password',
+      error: '',
+      message: 'vui long check mail',
     });
   } catch (error) {
     res.render('forgot-password', {
       title: 'Forgot-password',
+      error: '',
     });
   }
 };

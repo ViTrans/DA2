@@ -31,6 +31,7 @@ const verifyPasswordToken = async (req, res, next) => {
       title: 'reset-password',
       message: 'Cập nhật mật khẩu mới thành công quay lại login',
       token: '',
+      error: '',
     });
   } catch (error) {
     res.render('reset-password', {

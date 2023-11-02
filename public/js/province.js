@@ -6,13 +6,13 @@ async function fetchLocationInfo(data, location, form) {
 
   switch (location) {
     case 'province':
-      const district = await locationApi.getDistrict(data);
       ['district', 'ward'].forEach((name) => clearOptions(name));
+      const district = await locationApi.getDistrict(data);
       renderOptions(district.districts, 'district', form);
       break;
     case 'district':
-      const ward = await locationApi.getWard(data);
       clearOptions('ward');
+      const ward = await locationApi.getWard(data);
       renderOptions(ward.wards, 'ward', form);
       break;
     default:
@@ -20,12 +20,13 @@ async function fetchLocationInfo(data, location, form) {
   }
 }
 
-export function setAddressValue(form, housnumber = '', L, map) {
+export function setAddressValue(form, L, map) {
   const address = form.querySelector(`[name="address"]`);
+  const houseNumber = form.querySelector(`[name="houseNumber"]`);
 
   let str = '';
   const filedSelectOptions = ['ward', 'district', 'province'];
-  if (housnumber) str += housnumber;
+  str += houseNumber.value;
 
   filedSelectOptions.forEach((name) => {
     const filed = form.querySelector(`[name="${name}"]`);
@@ -38,6 +39,8 @@ export function setAddressValue(form, housnumber = '', L, map) {
   str = str
     .replace(/Thành/g, ', Thành')
     .replace(/Huyện/g, ', Huyện')
+    .replace(/Thị xã/g, ', Huyện')
+    .replace(/Thị trấn/g, ', Thị trấn')
     .replace(/Phường/g, ', Phường')
     .replace(/Quận/g, ', Quận')
     .replace(/Tỉnh/g, ', Tỉnh')
@@ -55,41 +58,73 @@ export function setAddressValue(form, housnumber = '', L, map) {
 }
 var marker;
 export function findAddress(form, addressMap, L, map) {
-  console.log('address map ', addressMap);
+  const apiKey = 'LLdcdVjZhgjmo3jl7opmh0fh3w4wGI4W';
   fetch(
-    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(addressMap)}`
+    `https://www.mapquestapi.com/geocoding/v1/address?key=${apiKey}&inFormat=kvp&outFormat=json&location=${encodeURIComponent(
+      addressMap
+    )}&thumbMaps=false&maxResults=1`
   )
     .then((response) => response.json())
     .then((data) => {
-      if (data.length > 0) {
-        // let marker = undefined;
-        // Lấy tọa độ từ kết quả
-        var latitude = parseFloat(data[0].lat);
-        var longitude = parseFloat(data[0].lon);
-
-        // Xóa đánh dấu hiện tại (nếu có)
-        // if (typeof marker !== 'undefined') {
+      console.log('data', data);
+      if (typeof marker !== 'undefined') {
         map.removeLayer(marker);
-        // }
-        console.log('data ', data);
-        // Đặt lại đánh dấu mới
-        console.log(latitude);
-        console.log(longitude);
-
-        marker = L.marker([latitude, longitude]).addTo(map);
-        map.setView([latitude, longitude], 10);
-        setFieldError(form, 'address', '');
-      } else {
-        console.log('Không tìm thấy địa chỉ');
-        setFieldError(form, 'address', 'Không tìm thấy địa chỉ');
       }
+      const result = data.results[0];
+
+      if (result.locations && result.locations.length > 0) {
+        const location = result.locations[0];
+
+        if (location.geocodeQualityCode === 'A1XAX') {
+          return setFieldError(form, 'address', 'Không tìm thấy địa chỉ trên');
+        }
+
+        // xu lí data
+        const latitude = location.latLng.lat;
+        const longitude = location.latLng.lng;
+        marker = L.marker([latitude, longitude]).addTo(map);
+        map.setView([latitude, longitude], 80);
+        const markerPopupContent = addressMap;
+        const popup = L.popup().setContent(markerPopupContent);
+        marker.bindPopup(popup).openPopup();
+        setFieldError(form, 'address', '');
+
+        // bắn event
+
+        let event = new CustomEvent('savePosition', {
+          bubbles: true,
+          detail: { latitude: latitude, longitude: longitude },
+        });
+        const addressInput = form.querySelector(`[name="address"]`);
+        addressInput.dispatchEvent(event);
+      }
+      // if (data.length > 0) {
+      //   // let marker = undefined;
+      //   // Lấy tọa độ từ kết quả
+      //   // var latitude = parseFloat(data[0].lat);
+      //   // var longitude = parseFloat(data[0].lon);
+
+      //   // Xóa đánh dấu hiện tại (nếu có)
+      //   if (typeof marker !== 'undefined') {
+      //     map.removeLayer(marker);
+      //   }
+      //   console.log('data ', data);
+      //   console.log('maker ', marker);
+
+      //   marker = L.marker([latitude, longitude]).addTo(map);
+      //   map.setView([latitude, longitude], 10);
+      //   setFieldError(form, 'address', '');
+      // } else {
+      //   console.log('Không tìm thấy địa chỉ');
+      //   setFieldError(form, 'address', 'Không tìm thấy địa chỉ');
+      // }
     })
     .catch((error) => {
-      console.error('Lỗi khi tìm kiếm địa chỉ:', error);
+      map.removeLayer(marker);
       setFieldError(form, 'address', 'Không tìm thấy địa chỉ');
     });
 }
-
+// "adminArea1": "VN",
 export function initOnchangeLocation(form, L, map) {
   const filedSelectOptions = ['province', 'ward', 'district'];
 
@@ -101,7 +136,7 @@ export function initOnchangeLocation(form, L, map) {
       const selectedValue = target.options[target.selectedIndex].value;
       const filedName = target.name;
       fetchLocationInfo(selectedValue, filedName, form);
-      setAddressValue(form, false, L, map);
+      setAddressValue(form, L, map);
       validateFormField(
         form,
         {

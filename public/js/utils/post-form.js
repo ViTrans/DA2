@@ -52,7 +52,7 @@ export function getPostSchema() {
       district: joi.string().min(1),
       acreage: joi.string().min(2).max(3),
       price: joi.string().min(4),
-      houseNumber: joi.string().min(4),
+      houseNumber: joi.string().min(2),
       category: joi.string().min(10),
       title: joi.string().min(7),
       description: joi.string().min(100),
@@ -227,7 +227,7 @@ export function initFieldOnchange(form, L, map) {
           field.value = formartPriceNumber(data);
         }
         if (name === 'houseNumber') {
-          setAddressValue(form, data, L, map);
+          setAddressValue(form, L, map);
         }
         validateFormField(
           form,
@@ -329,7 +329,10 @@ async function setLocation(form, defaultFormValues) {
   const province = format[3];
 
   let locationValue = {};
-
+  console.log('defaultFormValues 1', defaultFormValues);
+  console.log('province 1', province);
+  console.log('district 1', district);
+  console.log('ward 1', ward);
   const houseNumberElement = form.querySelector('[name="houseNumber"]');
   houseNumberElement.value = houseNumber;
   // active province
@@ -361,6 +364,12 @@ export async function initPostForm({ formId, defaultFormValues, L, map, onSubmit
   const user = await getUserInfo(form);
   initUploadImage(form);
   initFieldOnchange(form, L, map);
+
+  document.addEventListener('savePosition', (e) => {
+    defaultFormValues.longitude = e.detail.longitude;
+    defaultFormValues.latitude = e.detail.latitude;
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (submit) return;
@@ -371,6 +380,8 @@ export async function initPostForm({ formId, defaultFormValues, L, map, onSubmit
     if (defaultFormValues?._id) formValues.id = defaultFormValues?._id;
 
     formValues.images = defaultFormValues?.images;
+    formValues.longitude = defaultFormValues?.longitude;
+    formValues.latitude = defaultFormValues?.latitude;
     const isVaild = await validationPostForm(form, formValues);
     if (isVaild) {
       formValues.phone = user.phone;
@@ -428,10 +439,13 @@ export function renderOptions(data, name, form) {
 
 export function clearOptions(name) {
   const select = document.querySelector(`[name="${name}"]`);
-
+  console.log('name ', name);
   // Lấy ra danh sách tất cả các options trong selectbox
   const options = select.getElementsByTagName('option');
 
   // Duyệt qua từng option, bắt đầu từ index 1 (tức là từ option thứ 2 trở đi)
-  for (let i = 1; i < options.length; i++) {}
+  for (let i = 1; i < options.length; i++) {
+    options[i].remove();
+  }
+  console.log('select', select);
 }

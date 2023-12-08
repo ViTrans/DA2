@@ -43,11 +43,14 @@ const forgotPassword = async (req, res, next) => {
 
     return res.render('forgot-password', {
       title: 'Forgot-password',
+      error: '',
+      message: 'vui long check mail',
     });
   } catch (error) {
     console.log(error);
     res.render('forgot-password', {
       title: 'Forgot-password',
+      error: '',
     });
   }
 };

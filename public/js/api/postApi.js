@@ -6,6 +6,12 @@ const postApi = {
       params: searchParams,
     });
   },
+  suggest(data) {
+    const url = `/posts/suggest`;
+    return axiosClient.post(url, data, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+  },
   getAllUserPosts(searchParams) {
     const url = `/posts/getAll`;
     return axiosClient.get(url, {

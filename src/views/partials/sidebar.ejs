@@ -1,11 +1,11 @@
-<div class="bg-white p-3 rounded-3">
+<div class="bg-white p-3 rounded-3 mb-3">
   <h3 class="fs-5">Bài Đăng Mới</h3>
   <% if (locals.postsNew) { %> <% postsNew.forEach(element => { %>
   <div class="row mb-2 justify-content-center">
     <div class="col-md-4 card-top">
       <img src="<%- element.images[0]%>" class="img-post" style="object-fit: cover" alt="" />
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8 mb-3">
       <a
         href="/details/<%= element.id %>"
         class="card-title text-primary fs-6 multi-line text-decoration-none"
@@ -46,3 +46,4 @@
 
   <% }) %> <% } %>
 </div>
+<div id="post-suggest" class="bg-white p-3 rounded-3 mb-2"></div>

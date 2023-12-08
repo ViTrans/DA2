@@ -4,7 +4,7 @@ const Post = require('../../models/posts');
 const User = require('../../models/user');
 const { verifyToken, isAdmin } = require('../../middlewares/middlewaresController');
 const fileUploader = require('../../middlewares/cloudinary');
-
+const geolib = require('geolib');
 // get all
 router.get('/currentUser/', verifyToken, async (req, res) => {
   // const ddd = await Post.find({ expired_at: { $ne: null }, expired_at: { $lt: new Date() } });
@@ -91,9 +91,9 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
 
   let address = '';
 
-  if (req.query?.province) address += req.query?.province?.replaceAll('-', ' ');
-  if (req.query?.district) address += req.query?.district?.replaceAll('-', ' ') + ', ';
   if (req.query?.ward) address += req.query?.ward?.replaceAll('-', ' ') + ', ';
+  if (req.query?.district) address += req.query?.district?.replaceAll('-', ' ') + ', ';
+  if (req.query?.province) address += req.query?.province?.replaceAll('-', ' ');
 
   if (address !== '') {
     searchOptions.address = new RegExp(address, 'i');
@@ -177,10 +177,49 @@ router.get('/getAll/', verifyToken, isAdmin, async (req, res) => {
 router.get('/:id', verifyToken, async (req, res) => {
   try {
     const id = req.params.id;
-    const post = await Post.findById(id).select('-filenameList -isvip  -user_id');
+    let post = await Post.findById(id).select('-filenameList -isvip  -user_id').lean();
+    post = {
+      ...post,
+      longitude: post.location.coordinates[0],
+      latitude: post.location.coordinates[1],
+    };
     res.status(200).json(post);
+    // .json({ ...post, longitude: post.location.longitude, latitude: post.location.latitude });
   } catch (error) {
     res.status(500);
+  }
+});
+router.post('/suggest', async (req, res) => {
+  try {
+    const currentLocation = {
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
+    };
+
+    let post = await Post.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [req.body.longitude, req.body.latitude],
+          },
+          $maxDistance: 20000, //  10km = 10000 mét
+        },
+      },
+    }).lean();
+    console.log('pooo ', post[0].location.coordinates[0]);
+    post = post.map((p) => {
+      return {
+        ...p,
+        distance: geolib.getDistance(currentLocation, {
+          latitude: p.location.coordinates[1],
+          longitude: p.location.coordinates[0],
+        }),
+      };
+    });
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json({ message: 'khong co bai viet gan dia chi cua ban' });
   }
 });
 
@@ -203,7 +242,12 @@ router.post('/', verifyToken, fileUploader.array('file'), async (req, res) => {
       category_id: req.body.category,
       acreage: req.body.acreage,
       user_id: req?.user?.id,
+      location: {
+        type: 'Point',
+        coordinates: [req.body.longitude, req.body.latitude],
+      },
     };
+
     const post = await Post.create(data);
     const user = await User.findById(req?.user?.id);
     user.posts.push(post._id);
@@ -242,6 +286,10 @@ router.put('/:id', verifyToken, fileUploader.array('file'), async (req, res) => 
       category_id: req.body.category,
       acreage: req.body.acreage,
       user_id: req?.user?.id,
+      location: {
+        type: 'Point',
+        coordinates: [req.body.longitude, req.body.latitude],
+      },
     };
 
     if (req?.file) {
@@ -250,10 +298,15 @@ router.put('/:id', verifyToken, fileUploader.array('file'), async (req, res) => 
     }
 
     const post = await Post.findByIdAndUpdate(postId, newPost, { new: true });
+    console.log('post ediut ', post);
 
     res.status(200).json({
       code: 200,
-      data: post,
+      data: {
+        ...post,
+        longitude: post.location.longitude,
+        latitude: post.location.latitude,
+      },
     });
   } catch (error) {
     if (req?.file) {
@@ -276,7 +329,6 @@ router.delete('/:id', verifyToken, async (req, res) => {
     await cloudinary.uploader.destroy(post.filenameList, (err, result) => {
       if (err) return res.status(500);
     });
-
     res.status(200).json({
       code: 200,
       data: post,

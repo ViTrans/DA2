@@ -8,7 +8,14 @@ const show = async (req, res, next) => {
 const verifyPasswordToken = async (req, res, next) => {
   try {
     const { token, password } = req.body;
-
+    if (password && password.length < 6) {
+      return res.render('reset-password', {
+        title: 'reset-password',
+        error: 'vui lòng nhập lớn hơn 6 kí tự',
+        message: '',
+        token: req.body.token,
+      });
+    }
     const user = await User.findOne({
       resetPasswordToken: token,
       resetPasswordExpires: { $gt: Date.now() },
@@ -31,6 +38,7 @@ const verifyPasswordToken = async (req, res, next) => {
       title: 'reset-password',
       message: 'Cập nhật mật khẩu mới thành công quay lại login',
       token: '',
+      error: '',
     });
   } catch (error) {
     res.render('reset-password', {

@@ -101,6 +101,48 @@
           <h4 class="fw-bold fs-4 mt-2">Thông tin mô tả</h4>
           <p><%= post.description %></p>
         </div>
+        <div>
+          <table class="table table-striped table-hover">
+            <tbody>
+              <tr>
+                <td>Khu vực :</td>
+                <td><%= post.address %></td>
+              </tr>
+              <tr>
+                <td>Loại phòng :</td>
+                <td><%= post.category_id.title %></td>
+              </tr>
+              <tr>
+                <td>Diện tích :</td>
+                <td><%= post.acreage %>m2</td>
+              </tr>
+              <tr>
+                <td>Gói tin</td>
+                <td><%= post.isvip %></td>
+              </tr>
+              <tr>
+                <td>Ngày đăng :</td>
+                <td><%= moment(post.createdAt).format('DD/MM/YYYY') %></td>
+              </tr>
+              <tr>
+                <td>Ngày hết hạn :</td>
+                <td><%= moment(post.createdAt).add(30, 'days').format('DD/MM/YYYY') %></td>
+              </tr>
+              <tr>
+                <td>Người đăng :</td>
+                <td><%= post.user_id.username %></td>
+              </tr>
+              <tr>
+                <td>Số điện thoại :</td>
+                <td><%= post.user_id.phone %></td>
+              </tr>
+              <tr>
+                <td>Zalo</td>
+                <td><%= post.user_id.phone %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="col-md-4 mt-2 mt-md-0">
         <div class="card text-center p-2 bg-yellow">

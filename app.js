@@ -82,16 +82,6 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-// app.use(flash());
-// middleawre for flash message
-// app.use((req, res, next) => {
-//   res.locals.success_msg = req.flash('success_msg');
-//   res.locals.error_msg = req.flash('error_msg');
-//   res.locals.error = req.flash('error');
-//   next();
-// });
-
 app.use(getPostNew);
 
 const getCategories = async (req, res, next) => {
@@ -131,8 +121,9 @@ app.use('/depositHistory', depositHistoryRouter);
 app.use(expressLayouts);
 app.set('layout', './layouts/layout');
 app.use('/', homePageRouter);
-app.use('/', postDetails);
-app.use('/', signupRouter);
+app.use('/details', postDetails);
+app.use('/signup', signupRouter);
+app.use('/signin', signinRouter);
 app.use('/', signinRouter);
 app.use('/forgot-password', require('./src/routes/forgot-password'));
 app.use('/reset-password', require('./src/routes/reset-password'));

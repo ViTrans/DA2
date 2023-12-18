@@ -98,8 +98,16 @@
             <div class="col-md-2 text-muted"><%= post.acreage %><span>m2</span></div>
             <div class="col-md-3 text-muted time"><%= moment(post.createdAt).fromNow() %></div>
           </div>
+
           <h4 class="fw-bold fs-4 mt-2">Thông tin mô tả</h4>
           <p><%= post.description %></p>
+        </div>
+        <div class="row mt-2">
+          <h4 class="fw-bold fs-4 mt-2">Bản đồ</h4>
+          <p>Đĩa chỉ : <span id="address"><%= post.address %></span></p>
+          <div>
+            <div id="map" class="mb-5" style="height: 400px"></div>
+          </div>
         </div>
       </div>
       <div class="col-md-4 mt-2 mt-md-0">
@@ -126,6 +134,7 @@
       </div>
     </div>
   </main>
+  <script type="module" src="../../js/suggestPost.js"></script>
   <script>
     var time = document.querySelectorAll('.time');
     time.forEach(function (item) {
@@ -141,5 +150,38 @@
       item.innerHTML = item.innerHTML.replace('a year ago', 'một năm trước');
       item.innerHTML = item.innerHTML.replace('years ago', 'năm trước');
     });
+
+    const addressMap = document.getElementById('address').innerHTML;
+    const apiKey = 'LLdcdVjZhgjmo3jl7opmh0fh3w4wGI4W';
+    var map = L.map('map').setView([0, 0], 10);
+
+    // Thêm tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:
+        'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+      maxZoom: 18,
+    }).addTo(map);
+
+    // Add routing control
+
+    fetch(
+      `https://www.mapquestapi.com/geocoding/v1/address?key=${apiKey}&inFormat=kvp&outFormat=json&location=${encodeURIComponent(
+        addressMap
+      )}&thumbMaps=false&maxResults=1`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const result = data.results[0];
+        const location = result.locations[0];
+
+        const latitude = location.latLng.lat;
+        const longitude = location.latLng.lng;
+        marker = L.marker([latitude, longitude]).addTo(map);
+        map.setView([latitude, longitude], 80);
+        const markerPopupContent = addressMap;
+        const popup = L.popup().setContent(markerPopupContent);
+        marker.bindPopup(popup).openPopup();
+        console.log('data', data);
+      });
   </script>
 </body>

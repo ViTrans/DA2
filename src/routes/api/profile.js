@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../../models/user');
 const { verifyToken } = require('../../middlewares/middlewaresController');
-const fileUploader = require('../../middlewares/cloudinary');
+const { uploadCloud } = require('../../middlewares/cloudinary');
 
 const router = express.Router();
 router.get('/', verifyToken, async (req, res) => {
@@ -12,7 +12,7 @@ router.get('/', verifyToken, async (req, res) => {
 });
 
 // update profile
-router.put('/', verifyToken, fileUploader.single('file'), async (req, res) => {
+router.put('/', verifyToken, uploadCloud.single('file'), async (req, res) => {
   try {
     const userId = req?.user?.id;
     if (!userId) return res.status(401);

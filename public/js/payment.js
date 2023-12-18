@@ -27,6 +27,7 @@ function createPackageElement(pack) {
   const button = liElement.querySelector('[data-id="buy"]');
 
   button.addEventListener('click', async (e) => {
+    console.log('byuu');
     try {
       const newData = {
         amount: pack.price,

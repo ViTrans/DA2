@@ -9,7 +9,6 @@ const mongoose = require('mongoose');
 const homePageRouter = require('./src/routes/homePage');
 const signupRouter = require('./src/routes/signupRouter');
 const signinRouter = require('./src/routes/signinRouter');
-const session = require('express-session');
 // const flash = require('connect-flash');
 const moment = require('moment');
 const postRouter = require('./src/routes/post');
@@ -18,18 +17,21 @@ const packageRouter = require('./src/routes/package');
 const paymentRouter = require('./src/routes/payment');
 const depositHistoryRouter = require('./src/routes/depositHistory');
 const category = require('./src/models/category');
+const Post = require('./src/models/posts');
+
 const postDetails = require('./src/routes/postDetails');
-const getPostNew = require('./src/middlewares/getPostNew');
+const session = require('express-session');
+// const getPostNew = require('./src/middlewares/getPostNew');
 // const cryptoRandomString = require('crypto-random-string');
-const cron = require('node-cron');
+// const cron = require('node-cron');
 // cron.schedule('* * * * *', async () => {
 //
 //   await updateExpiredPosts();
 // });
 // 24 tiếng
-cron.schedule('0 0 */1 * * *', async () => {
-  await updateExpiredPosts();
-});
+// cron.schedule('0 0 */1 * * *', async () => {
+//   await updateExpiredPosts();
+// });
 // 5 p
 // cron.schedule('*/5 * * * *', async () => {
 //   await updateExpiredPosts();
@@ -54,8 +56,6 @@ mongoose.connection.once('open', () => {});
 
 // demo
 
-const Post = require('./src/models/posts');
-
 const updateExpiredPosts = async () => {
   const expiredPosts = await Post.find({ isvip: { $ne: 'vip0' }, expired_at: { $lt: new Date() } });
   expiredPosts.forEach(async (post) => {
@@ -67,14 +67,7 @@ const updateExpiredPosts = async () => {
 
 // demo
 
-// Middleware
-app.use((req, res, next) => {
-  res.locals.moment = moment;
-  next();
-});
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+// api
 app.use(
   session({
     secret: 'secret key',
@@ -82,30 +75,8 @@ app.use(
     saveUninitialized: true,
   })
 );
-
-// app.use(flash());
-// middleawre for flash message
-// app.use((req, res, next) => {
-//   res.locals.success_msg = req.flash('success_msg');
-//   res.locals.error_msg = req.flash('error_msg');
-//   res.locals.error = req.flash('error');
-//   next();
-// });
-
-app.use(getPostNew);
-
-const getCategories = async (req, res, next) => {
-  const categories = await category.find();
-  res.locals.categories = categories;
-  next();
-};
-app.use(getCategories);
-
-// Static Files
-app.use(express.static('public'));
-
-// api
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/users', require('./src/routes/api/user'));
 app.use('/api/v1/packages', require('./src/routes/api/package'));
 app.use('/api/v1/posts', require('./src/routes/api/post'));
@@ -118,6 +89,36 @@ app.use('/', require('./src/routes/statisticsRouter'));
 app.use('/api/v1/statistics', require('./src/routes/api/statistics'));
 
 app.use('/api/v1/depositHistory', require('./src/routes/api/depositHistory'));
+
+// Middleware
+let categories = [];
+let postsNew = [];
+let isRunMiddleware = false;
+app.use(async (req, res, next) => {
+  if (isRunMiddleware == false) {
+    console.log('chay 1 lần');
+    categories = await category.find();
+    postsNew = await Post.find().sort({ createdAt: -1 }).limit(5);
+    await updateExpiredPosts();
+    isRunMiddleware = true;
+  }
+  res.locals.moment = moment;
+  res.locals.postsNew = postsNew;
+  res.locals.categories = categories;
+
+  console.log('chay n 2');
+  next();
+});
+
+// const getCategories = async (req, res, next) => {
+//   const categories = await category.find();
+//   res.locals.categories = categories;
+//   console.log('cate gories');
+//   next();
+// };
+
+// Static Files
+app.use(express.static('public'));
 
 // Set View's
 app.set('views', './src/views');

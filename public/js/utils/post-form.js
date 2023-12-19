@@ -327,7 +327,7 @@ async function setLocation(form, defaultFormValues) {
   const ward = format[1];
   const district = format[2];
   const province = format[3];
-
+  console.log('format ', format);
   let locationValue = {};
   console.log('defaultFormValues 1', defaultFormValues);
   console.log('province 1', province);

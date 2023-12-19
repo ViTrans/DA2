@@ -60,7 +60,9 @@ router.post('/createPayment', verifyToken, function (req, res, next) {
       vnpUrl,
     });
     // res.redirect(vnpUrl);
-  } catch (error) {}
+  } catch (error) {
+    console.log('err ', error);
+  }
 });
 
 module.exports = router;

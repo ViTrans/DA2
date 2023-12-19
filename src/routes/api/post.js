@@ -3,8 +3,9 @@ const router = Router();
 const Post = require('../../models/posts');
 const User = require('../../models/user');
 const { verifyToken, isAdmin } = require('../../middlewares/middlewaresController');
-const fileUploader = require('../../middlewares/cloudinary');
+
 const geolib = require('geolib');
+const { uploadCloud, cloudinary } = require('../../middlewares/cloudinary');
 // get all
 router.get('/currentUser/', verifyToken, async (req, res) => {
   // const ddd = await Post.find({ expired_at: { $ne: null }, expired_at: { $lt: new Date() } });
@@ -224,7 +225,7 @@ router.post('/suggest', async (req, res) => {
 });
 
 // create
-router.post('/', verifyToken, fileUploader.array('file'), async (req, res) => {
+router.post('/', verifyToken, uploadCloud.array('file'), async (req, res) => {
   try {
     const path = req.files.map((link) => link.path);
     const filenameArr = req.files.map((link) => link.filename);
@@ -268,7 +269,7 @@ router.post('/', verifyToken, fileUploader.array('file'), async (req, res) => {
   }
 });
 
-router.put('/:id', verifyToken, fileUploader.array('file'), async (req, res) => {
+router.put('/:id', verifyToken, uploadCloud.array('file'), async (req, res) => {
   try {
     const postId = req.params.id;
     if (!postId)
@@ -326,14 +327,20 @@ router.delete('/:id', verifyToken, async (req, res) => {
     const id = req?.params?.id;
     if (!id) return res.status(400);
     const post = await Post.findByIdAndDelete(req.params.id, { new: true });
-    await cloudinary.uploader.destroy(post.filenameList, (err, result) => {
-      if (err) return res.status(500);
-    });
+    for (const public_id of post.filenameList) {
+      await cloudinary.uploader.destroy(public_id, (err, result) => {
+        if (err) {
+          console.log('err clound ', err);
+          return res.status(500);
+        }
+      });
+    }
     res.status(200).json({
       code: 200,
       data: post,
     });
   } catch (error) {
+    console.log('err ', error);
     res.status(500);
   }
 });

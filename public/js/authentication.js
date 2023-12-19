@@ -73,12 +73,8 @@ function renderPermisisonUserList({ sidebar, user }) {
 // /api/v1/auth
 (async () => {
   try {
-    const token = sessionStorage.getItem('token');
-    if (!token) window.location.assign('http://localhost:5000/404');
-
-    // check role
-    // render sidebar menu theo Role
-    const { user } = await userApi.getCurentUser();
+    const user = sessionStorage.getItem('user');
+    if (!user) window.location.assign('http://localhost:5000/404');
 
     const sidebar = document.querySelector('#sidebar');
 

@@ -15,13 +15,14 @@ function convertMeterToKilometer(meter, decimalDigits = 2) {
 }
 
 async function showPosition(position) {
+  console.log(position);
   var latitude = position.coords.latitude;
   var longitude = position.coords.longitude;
 
   const data = await postApi.suggest({ latitude, longitude });
   const postSuggestElement = document.getElementById('post-suggest');
+  let postHtml = '<div class="bg-white p-3"><h3 class="fs-5 mb-2">Gần khu vựa bạn</h3>';
   data.map((post) => {
-    let postHtml = '';
     let postVip = '';
 
     if (post.isvip === 'vip3') {
@@ -54,9 +55,8 @@ async function showPosition(position) {
     }
 
     postHtml += `
-    <h3 class="fs-5 mb-2">Bài Đăng gan ban</h3>
     <div  class="row justify-content-center">
-<div class="col-md-4 card-top">
+    <div class="col-md-4 card-top">
       <img src="${post.images[0]}" class="img-post" style="object-fit: cover" alt="">
     </div>
 
@@ -73,9 +73,8 @@ async function showPosition(position) {
     </a>
    </div>
   `;
-
-    postSuggestElement.innerHTML += postHtml;
   });
+  postSuggestElement.innerHTML += postHtml;
 }
 
 // Main

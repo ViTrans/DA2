@@ -4,11 +4,16 @@ import { formatDate } from './utils/common.js';
 
 async function handelFilterChange(filterName, filterValue) {
   const queryPamrams = new URL(window.location);
+  // if (filterName) queryPamrams.searchParams.set(filterName, filterValue);
+
+  // if (filterName === 'title' || filterName === 'category') queryPamrams.searchParams.delete('page');
+  // if (filterName === 'title' && filterValue == '') queryPamrams.searchParams.delete('title');
+  // if (filterName === 'category' && filterValue == '') queryPamrams.searchParams.delete('category');
+
   if (filterName) queryPamrams.searchParams.set(filterName, filterValue);
 
-  if (filterName === 'title' || filterName === 'category') queryPamrams.searchParams.delete('page');
-  if (filterName === 'title' && filterValue == '') queryPamrams.searchParams.delete('title');
-  if (filterName === 'category' && filterValue == '') queryPamrams.searchParams.delete('category');
+  if (filterName !== 'page') queryPamrams.searchParams.delete('page');
+  if (filterName && filterValue == '') queryPamrams.searchParams.delete(filterName);
   history.pushState({}, '', queryPamrams);
 
   // call api

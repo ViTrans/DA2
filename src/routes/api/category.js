@@ -3,7 +3,7 @@ const router = Router();
 const Category = require('../../models/category');
 const { verifyToken } = require('../../middlewares/middlewaresController');
 // get all categories
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const categories = await Category.find();
 

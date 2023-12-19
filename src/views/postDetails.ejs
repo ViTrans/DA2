@@ -99,7 +99,7 @@
             <div class="col-md-3 text-muted time"><%= moment(post.createdAt).fromNow() %></div>
           </div>
           <h4 class="fw-bold fs-4 mt-2">Thông tin mô tả</h4>
-          <p><%= post.description %></p>
+          <p class="w-100" style="word-wrap: break-word"><%= post.description %></p>
         </div>
         <div>
           <table class="table table-striped table-hover">

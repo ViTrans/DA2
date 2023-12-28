@@ -7,7 +7,6 @@ const getPosts = async (req, res) => {
   const excludeFields = ['page', 'sort', 'limit', 'fields'];
   excludeFields.forEach((el) => delete queries[el]);
   const queryStr = JSON.stringify(queries).replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-  console.log(queryStr);
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 4;
   const skip = (page - 1) * limit;
@@ -49,9 +48,6 @@ const getPostByCategory = async (req, res) => {
   // pagination
   const totalPost = await Post.countDocuments(query);
   const totalPage = Math.ceil(totalPost / 4);
-
-  console.log(totalPost);
-  console.log(totalPage);
 
   res.render('index', {
     title: 'Trang Chủ',

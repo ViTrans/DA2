@@ -75,6 +75,21 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.use(getPostNew);
+
+const getCategories = async (req, res, next) => {
+  const categories = await category.find();
+  res.locals.categories = categories;
+  next();
+};
+app.use(getCategories);
+
+// Static Files
+app.use(express.static('public'));
+
+// api
+
+=======
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/users', require('./src/routes/api/user'));
@@ -132,8 +147,9 @@ app.use('/depositHistory', depositHistoryRouter);
 app.use(expressLayouts);
 app.set('layout', './layouts/layout');
 app.use('/', homePageRouter);
-app.use('/', postDetails);
-app.use('/', signupRouter);
+app.use('/details', postDetails);
+app.use('/signup', signupRouter);
+app.use('/signin', signinRouter);
 app.use('/', signinRouter);
 app.use('/forgot-password', require('./src/routes/forgot-password'));
 app.use('/reset-password', require('./src/routes/reset-password'));

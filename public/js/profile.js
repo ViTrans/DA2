@@ -46,6 +46,7 @@ $('#btn-update-profile').click(function (e) {
     contentType: false,
     success: function (result) {
       // $('#img-avatar').attr('src', result.avatar);
+      console.log('rres ', result);
       alert(result.message);
       sessionStorage.setItem('user', JSON.stringify(result.data));
     },

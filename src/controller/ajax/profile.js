@@ -22,7 +22,7 @@ const update = async (req, res) => {
     }
 
     await user.save();
-    res.status(200).json({ message: 'Profile updated successfully' });
+    res.status(200).json({ message: 'Profile updated successfully', data: user });
   } catch (error) {
     res.status(500);
   }

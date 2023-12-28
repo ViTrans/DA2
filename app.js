@@ -89,7 +89,6 @@ app.use(express.static('public'));
 
 // api
 
-=======
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/users', require('./src/routes/api/user'));

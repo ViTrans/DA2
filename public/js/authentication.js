@@ -53,7 +53,7 @@ function renderPermisisonUserList({ sidebar, user }) {
     if (!element) return;
     navbarContainer.appendChild(element);
   });
-
+  console.log(user);
   if (user.role === 'admin') {
     roleAdmin.forEach((elmentId) => {
       const element = navbarTemplate.querySelector(`#${elmentId}`);
@@ -80,7 +80,7 @@ function renderPermisisonUserList({ sidebar, user }) {
 
     renderPermisisonUserList({
       sidebar,
-      user,
+      user: JSON.parse(user),
     });
     setActiveLink();
   } catch (error) {

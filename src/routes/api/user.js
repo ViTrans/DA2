@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
-const User = require('../../models/user');
 const { verifyToken } = require('../../middlewares/middlewaresController');
+const { curent } = require('../../controller/ajax/user');
 // get all users
 router.get('/', verifyToken, async (req, res) => {
   try {
@@ -30,15 +30,6 @@ router.get('/', verifyToken, async (req, res) => {
 //   }
 // });
 
-router.get('/curent', verifyToken, async (req, res) => {
-  try {
-    const id = req?.user?.id;
-    const user = await User.findById(id).select('username phone role');
-    res.status(200).json({
-      code: 200,
-      user,
-    });
-  } catch (error) {}
-});
+router.get('/curent', verifyToken, curent);
 
 module.exports = router;

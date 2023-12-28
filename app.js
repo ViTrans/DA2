@@ -77,12 +77,12 @@ app.use(
 );
 // app.use(getPostNew);
 
-const getCategories = async (req, res, next) => {
-  const categories = await category.find();
-  res.locals.categories = categories;
-  next();
-};
-app.use(getCategories);
+// const getCategories = async (req, res, next) => {
+//   const categories = await category.find();
+//   res.locals.categories = categories;
+//   next();
+// };
+// app.use(getCategories);
 
 // Static Files
 app.use(express.static('public'));

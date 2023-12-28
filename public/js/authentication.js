@@ -36,7 +36,6 @@ function renderPermisisonUserList({ sidebar, user }) {
     'navItemTopUpHistory',
     'navItemPaymentHistory',
     'navItemPriceList',
-    'navItemLogout',
     'navItemContact',
   ];
 
@@ -83,6 +82,26 @@ function renderPermisisonUserList({ sidebar, user }) {
       user: JSON.parse(user),
     });
     setActiveLink();
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      console.log('DOM fully loaded and parsed');
+      const logoutBtn = document.getElementById('logout');
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        const response = await fetch('logout', {
+          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if (response.status === 200) {
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('user');
+          window.location.href = '/';
+        }
+      });
+    });
   } catch (error) {
     window.location.assign('http://localhost:5000/404');
   }

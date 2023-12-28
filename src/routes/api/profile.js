@@ -16,17 +16,32 @@ router.put('/', verifyToken, uploadCloud.single('file'), async (req, res) => {
   try {
     const userId = req?.user?.id;
     if (!userId) return res.status(401);
-    const user = await User.findById(userId).select('-password');
+    // const user = await User.findById(userId).select('-password');
     const { name, email, phone } = req.body;
-    user.username = name;
-    user.email = email;
-    user.phone = phone;
-    if (req.file) {
-      user.avatar = req.file.path;
-    }
+    // user.username = name;
+    // user.email = email;
+    // user.phone = phone;
+    // if (req.file) {
+    //   user.avatar = req.file.path;
+    // }
 
-    await user.save();
-    res.status(200).json({ message: 'Profile updated successfully' });
+    // await user.save();
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        username: name,
+        email,
+        phone,
+        avatar: req.file?.path || req.user.avatar,
+      },
+      {
+        new: true,
+      }
+    ).select('-password');
+    res.status(200).json({
+      message: 'Profile updated successfully',
+      data: user,
+    });
   } catch (error) {
     res.status(500);
   }

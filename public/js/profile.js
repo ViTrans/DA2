@@ -1,5 +1,4 @@
 // get profile localhost:5000/api/v1/profile
-
 // jquery
 
 $(document).ready(function () {
@@ -46,8 +45,9 @@ $('#btn-update-profile').click(function (e) {
     processData: false,
     contentType: false,
     success: function (result) {
-      $('#img-avatar').attr('src', result.avatar);
+      // $('#img-avatar').attr('src', result.avatar);
       alert(result.message);
+      sessionStorage.setItem('user', JSON.stringify(result.data));
     },
     error: function (err) {},
   });

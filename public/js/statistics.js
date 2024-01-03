@@ -3,7 +3,7 @@ $(document).ready(function () {
     url: 'http://localhost:5000/api/v1/statistics',
     type: 'GET',
     beforeSend: function (xhr) {
-      xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
+      xhr.setRequestHeader('token', `Bearer ${localStorage.getItem('token')}`);
     },
     success: function (result) {
       $('#total-user').html(result.countUser);

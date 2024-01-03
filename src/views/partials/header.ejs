@@ -28,7 +28,7 @@
       <div class="d-flex align-items-center" style="gap: 10px">
         <script>
           // get user from local storage
-          const user = JSON.parse(sessionStorage.getItem('user'));
+          const user = JSON.parse(localStorage.getItem('user'));
           if (user) {
             document.write(
               `<a
@@ -102,7 +102,7 @@ https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js
     }
   });
 
-  const token = sessionStorage.getItem('token');
+  const token = localStorage.getItem('token');
   
   if (token) {
     const expirationTime = jwt_decode(token).exp; //  thời gian token
@@ -112,8 +112,8 @@ https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js
     const timeLeft = (expirationTime - now) * 1000;
 
     setTimeout(() => {
-      sessionStorage.removeItem('token');
-      sessionStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
 
         const modal = new bootstrap.Modal('#staticBackdrop', {
       keyboard: false,

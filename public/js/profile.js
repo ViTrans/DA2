@@ -7,7 +7,7 @@ $(document).ready(function () {
     url: 'http://localhost:5000/api/v1/profile',
     type: 'GET',
     beforeSend: function (xhr) {
-      xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
+      xhr.setRequestHeader('token', `Bearer ${localStorage.getItem('token')}`);
     },
     success: function (result) {
       $('#name').val(result.username);
@@ -39,7 +39,7 @@ $('#btn-update-profile').click(function (e) {
     url: 'http://localhost:5000/api/v1/profile',
     type: 'PUT',
     beforeSend: function (xhr) {
-      xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
+      xhr.setRequestHeader('token', `Bearer ${localStorage.getItem('token')}`);
     },
     data: formData, // Sử dụng đối tượng FormData
     processData: false,
@@ -48,7 +48,7 @@ $('#btn-update-profile').click(function (e) {
       // $('#img-avatar').attr('src', result.avatar);
       console.log('rres ', result);
       alert(result.message);
-      sessionStorage.setItem('user', JSON.stringify(result.data));
+      localStorage.setItem('user', JSON.stringify(result.data));
     },
     error: function (err) {},
   });
@@ -63,7 +63,7 @@ $('#btn-change-password').click(function (e) {
     url: 'http://localhost:5000/api/v1/profile/change-password',
     type: 'PUT',
     beforeSend: function (xhr) {
-      xhr.setRequestHeader('token', `Bearer ${sessionStorage.getItem('token')}`);
+      xhr.setRequestHeader('token', `Bearer ${localStorage.getItem('token')}`);
     },
     data: {
       oldPassword,

@@ -15,8 +15,8 @@ $(document).ready(function () {
       success: function (result) {
         if (result) {
           // tôi sẽ lưu token và user vào session storage
-          sessionStorage.setItem('token', result.token);
-          sessionStorage.setItem('user', JSON.stringify(result.others));
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.others));
           window.location.href = '/';
           $('.toast-body').text(result.message);
           $('.toast').addClass('bg-success');
@@ -47,8 +47,8 @@ $(document).ready(function () {
       type: 'POST',
       success: function (result) {
         if (result) {
-          sessionStorage.removeItem('token');
-          sessionStorage.removeItem('user');
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
           window.location.href = '/';
         } else {
           alert(result.message);

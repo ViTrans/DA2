@@ -72,7 +72,7 @@ function renderPermisisonUserList({ sidebar, user }) {
 // /api/v1/auth
 (async () => {
   try {
-    const user = sessionStorage.getItem('user');
+    const user = localStorage.getItem('user');
     if (!user) window.location.assign('http://localhost:5000/404');
 
     const sidebar = document.querySelector('#sidebar');
@@ -96,8 +96,8 @@ function renderPermisisonUserList({ sidebar, user }) {
           },
         });
         if (response.status === 200) {
-          sessionStorage.removeItem('token');
-          sessionStorage.removeItem('user');
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
           window.location.href = '/';
         }
       });

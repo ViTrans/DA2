@@ -31,11 +31,12 @@
             defaultOption.value = '';
             selectProvince.add(defaultOption);
 
-            let api = 'https://provinces.open-api.vn/api/';
+            let api = 'https://api.mysupership.vn/v1/partner/areas/province';
             fetch(api)
               .then((response) => response.json())
               .then((data) => {
-                data.forEach((element) => {
+                console.log(data);
+                data.results.forEach((element) => {
                   let option = document.createElement('option');
                   option.text = element.name;
                   option.value = element.name;

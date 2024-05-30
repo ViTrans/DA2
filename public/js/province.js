@@ -8,12 +8,12 @@ async function fetchLocationInfo(data, location, form) {
     case 'province':
       ['district', 'ward'].forEach((name) => clearOptions(name));
       const district = await locationApi.getDistrict(data);
-      renderOptions(district.districts, 'district', form);
+      renderOptions(district.results, 'district', form);
       break;
     case 'district':
       clearOptions('ward');
       const ward = await locationApi.getWard(data);
-      renderOptions(ward.wards, 'ward', form);
+      renderOptions(ward.results, 'ward', form);
       break;
     default:
       break;
@@ -58,30 +58,38 @@ export function setAddressValue(form, L, map) {
 }
 var marker;
 export function findAddress(form, addressMap, L, map) {
-  const apiKey = 'LLdcdVjZhgjmo3jl7opmh0fh3w4wGI4W';
+  const apiKey = 'pk.d05369ff4143de5ef0440060e309c711';
+  // fetch(
+  //   `https://www.mapquestapi.com/geocoding/v1/address?key=${apiKey}&inFormat=kvp&outFormat=json&location=${encodeURIComponent(
+  //     addressMap
+  //   )}&thumbMaps=false&maxResults=1`
+  // )
+  // https://us1.locationiq.com/v1/search?key=pk.d05369ff4143de5ef0440060e309c711&
   fetch(
-    `https://www.mapquestapi.com/geocoding/v1/address?key=${apiKey}&inFormat=kvp&outFormat=json&location=${encodeURIComponent(
-      addressMap
-    )}&thumbMaps=false&maxResults=1`
+    `https://us1.locationiq.com/v1/search?key=${apiKey}&q=${encodeURIComponent(addressMap)}&format=json&`
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log('data', data);
+      console.log('data map :::;', data);
       if (typeof marker !== 'undefined') {
         map.removeLayer(marker);
       }
-      const result = data.results[0];
+      // if (data?.error) {
+      //   return setFieldError(form, 'address', 'Không tìm thấy địa chỉ trên');
+      // }
+      const result = data[0];
+      console.log('result ', result);
+      if (result && result.boundingbox.length > 0) {
+        const location = result;
 
-      if (result.locations && result.locations.length > 0) {
-        const location = result.locations[0];
-
-        if (location.geocodeQualityCode === 'A1XAX') {
-          return setFieldError(form, 'address', 'Không tìm thấy địa chỉ trên');
-        }
+       
 
         // xu lí data
-        const latitude = location.latLng.lat;
-        const longitude = location.latLng.lng;
+        const latitude = location.lat;
+        const longitude = location.lon;
+      console.log('latitude ', latitude);
+      console.log('longitude ', longitude);
+
         marker = L.marker([latitude, longitude]).addTo(map);
         map.setView([latitude, longitude], 80);
         const markerPopupContent = addressMap;

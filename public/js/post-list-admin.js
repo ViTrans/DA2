@@ -581,10 +581,11 @@ function createWardElement(data) {
 async function renderWardList(code) {
   const ulWard = document.getElementById('ward-wrapper');
   ulWard.innerHTML = '';
-  const { wards } = await locationApi.getWard(code);
+  const  wards  = await locationApi.getWard(code);
+  const data = wards.results;
   const allwards = { name: 'Tất cả', code: '' };
-  wards.unshift(allwards);
-  wards.forEach((data) => {
+  data.unshift(allwards);
+  data.forEach((data) => {
     const liElement = createWardElement(data);
     ulWard.appendChild(liElement);
   });
@@ -592,20 +593,22 @@ async function renderWardList(code) {
 async function renderDistrictList(code) {
   const ulDistrict = document.getElementById('district-wrapper');
   ulDistrict.innerHTML = '';
-  const { districts } = await locationApi.getDistrict(code);
+  const districts  = await locationApi.getDistrict(code);
+ const data= districts.results;
   const allDistricts = { name: 'Tất cả', code: '' };
-  districts.unshift(allDistricts);
-  districts.forEach((data) => {
+  data.unshift(allDistricts);
+  data.forEach((data) => {
     const liElement = createDistrictElement(data);
     ulDistrict.appendChild(liElement);
   });
 }
 async function renderPronvinceList(ulPronvince) {
   const province = await locationApi.getProvince();
+ const data =  province.results;
   // push toàn quốc for pronvince
   const nationwide = { name: 'Toàn quốc', code: '' };
-  province.unshift(nationwide);
-  province.forEach((data) => {
+  data.unshift(nationwide);
+  data.forEach((data) => {
     const liElement = createProvinceElement(data);
     ulPronvince.appendChild(liElement);
   });

@@ -340,12 +340,12 @@ async function setLocation(form, defaultFormValues) {
 
   // active district
   const districtValue = await locationApi.getDistrict(locationValue.provinceCode);
-  renderOptions(districtValue.districts, 'district', form);
+  renderOptions(districtValue.results, 'district', form);
   setFiledLocation(locationValue, form, 'district', district, 'districtCode');
 
   // active ward
   const wardValue = await locationApi.getWard(locationValue.districtCode);
-  renderOptions(wardValue.wards, 'ward', form);
+  renderOptions(wardValue.results, 'ward', form);
   setFiledLocation(locationValue, form, 'ward', ward, 'wardCode');
 }
 
@@ -359,7 +359,8 @@ export async function initPostForm({ formId, defaultFormValues, L, map, onSubmit
   // });
 
   const province = await locationApi.getProvince();
-  renderOptions(province, 'province', form);
+  console.log('province', province);
+  renderOptions(province.results, 'province', form);
   setFormValues(form, defaultFormValues);
   const user = await getUserInfo(form);
   initUploadImage(form);

@@ -1,5 +1,11 @@
+// const axiosLocation = axios.create({
+//   baseURL: 'https://provinces.open-api.vn/api',
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+// });
 const axiosLocation = axios.create({
-  baseURL: 'https://provinces.open-api.vn/api',
+  baseURL: 'https://api.mysupership.vn/v1/partner/areas',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,15 +28,15 @@ axiosLocation.interceptors.response.use(
 
 const locationApi = {
   getProvince() {
-    const url = `/`;
+    const url = `/province`;
     return axiosLocation.get(url);
   },
   getDistrict(provinceValue) {
-    const url = `/p/${provinceValue}?depth=2`;
+    const url = `/district?province=${provinceValue}`;
     return axiosLocation.get(url);
   },
   getWard(districtValue) {
-    const url = `/d/${districtValue}?depth=2`;
+    const url = `/commune?district=${districtValue}`;
     return axiosLocation.get(url);
   },
 };
